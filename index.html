@@ -4,474 +4,324 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yuna — Hi, I'm Yuna</title>
+<meta name="description" content="Yuna 的小角落：阅读、摄影、随笔，和一切让心安静下来的小事。">
 <style>
-  :root {
-    --bg: #faf7f2;
-    --bg-alt: #f2eee7;
-    --card: #ffffff;
-    --text-main: #4a453f;
-    --text-soft: #8a8378;
-    --accent: #b8a99a;
-    --accent-dark: #9c8c7c;
-    --border: #e8e1d6;
-    --morandi-1: #cbb8a3;
-    --morandi-2: #b7c2b0;
-    --morandi-3: #d9c1bd;
-    --morandi-4: #c7ccd1;
-    --morandi-5: #e0d3c2;
-    --morandi-6: #a9b3ad;
-  }
+:root{
+  --bg:#faf6f0; --paper:#fffdf9; --ink:#3b3230; --soft:#8a7d76; --line:#ece3d8;
+  --rose:#e8b4b0; --rose-d:#c98b86; --sage:#b9c8b0; --sky:#bcd0de; --butter:#f1dca7;
+  --shadow:0 10px 30px rgba(120,90,70,.08);
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1f1b1a; --paper:#2a2422; --ink:#efe6df; --soft:#a8998f; --line:#3a322f;
+  --rose:#b98580; --rose-d:#e3aaa4; --shadow:0 10px 30px rgba(0,0,0,.3);}}
+:root[data-theme="dark"]{
+  --bg:#1f1b1a; --paper:#2a2422; --ink:#efe6df; --soft:#a8998f; --line:#3a322f;
+  --rose:#b98580; --rose-d:#e3aaa4; --shadow:0 10px 30px rgba(0,0,0,.3);}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.8;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+a{color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+/* nav */
+nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{font-family:var(--serif);font-size:20px;text-decoration:none;letter-spacing:.5px}
+.logo span{color:var(--rose-d)}
+.links{display:flex;gap:18px;align-items:center;font-size:14px}
+.links a{text-decoration:none;color:var(--soft);transition:color .2s}
+.links a:hover{color:var(--rose-d)}
+#theme{background:none;border:1px solid var(--line);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px;color:var(--ink)}
+@media(max-width:620px){.links a.hide-m{display:none}}
 
-  html {
-    scroll-behavior: smooth;
-  }
+/* hero */
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:float 14s ease-in-out infinite}
+.b1{width:340px;height:340px;background:var(--rose);top:8%;right:-60px}
+.b2{width:280px;height:280px;background:var(--sage);bottom:6%;left:-80px;animation-delay:-5s}
+.b3{width:200px;height:200px;background:var(--butter);top:45%;right:28%;animation-delay:-9s}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px) scale(1.06)}}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--soft)}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,9vw,88px);line-height:1.15;margin:14px 0 22px}
+.hero h1 em{font-style:italic;color:var(--rose-d)}
+.motto{font-family:var(--serif);font-size:clamp(17px,2.6vw,21px);color:var(--soft);max-width:520px}
+.cta{display:inline-flex;gap:8px;align-items:center;margin-top:36px;padding:12px 26px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:14px;transition:transform .2s}
+.cta:hover{transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--soft);letter-spacing:2px;animation:bob 2.4s infinite}
+@keyframes bob{50%{transform:translate(-50%,6px)}}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC",
-      "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background: var(--bg);
-    color: var(--text-main);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
+/* sections */
+section.block{padding:96px 0}
+.head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px}
+.num{font-family:var(--serif);font-style:italic;color:var(--rose-d);font-size:15px}
+.head h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,5vw,38px)}
+.head .en{color:var(--soft);font-size:13px;letter-spacing:2px;margin-left:auto}
 
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+/* about */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
+.about p{font-size:16.5px;margin-bottom:18px}
+.about p.dim{color:var(--soft)}
+.loves{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:8px 16px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:14px;box-shadow:var(--shadow)}
+@media(max-width:720px){.about{grid-template-columns:1fr;gap:28px}}
 
-  /* Nav */
-  header.nav {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: rgba(250, 247, 242, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
+/* now */
+.now{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.now-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.now-card .k{font-size:12px;letter-spacing:2px;color:var(--soft)}
+.now-card .v{font-family:var(--serif);font-size:18px;margin-top:8px}
+.now-card .v.todo{color:var(--soft);font-style:italic;font-size:15px}
+.updated{margin-top:14px;font-size:13px;color:var(--soft)}
+@media(max-width:720px){.now{grid-template-columns:1fr}}
 
-  .nav-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 18px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+/* books */
+.books{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.book{display:flex;gap:20px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);transition:transform .3s}
+.book:hover{transform:translateY(-4px) rotate(-.3deg)}
+.cover{flex:none;width:72px;height:104px;border-radius:4px 8px 8px 4px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:var(--serif);font-size:14px;letter-spacing:3px;color:#4a3d38;position:relative;box-shadow:3px 4px 10px rgba(0,0,0,.12)}
+.cover::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:2px;background:rgba(0,0,0,.08)}
+.book h3{font-family:var(--serif);font-weight:400;font-size:19px}
+.book .au{font-size:13px;color:var(--soft);margin:2px 0 8px}
+.book p{font-size:14.5px}
+@media(max-width:720px){.books{grid-template-columns:1fr}}
 
-  .logo {
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    font-size: 15px;
-    color: var(--text-main);
-  }
+/* gallery */
+.gallery{columns:3 220px;column-gap:14px}
+.ph{break-inside:avoid;margin-bottom:14px;border-radius:14px;overflow:hidden;cursor:zoom-in;position:relative;background:var(--line)}
+.ph img{width:100%;display:block;transition:transform .6s}
+.ph:hover img{transform:scale(1.04)}
+.ph.empty{cursor:default;aspect-ratio:var(--r,4/5);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;color:var(--soft);background:linear-gradient(135deg,var(--c1),var(--c2))}
+.ph.empty img{display:none}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(20,15,14,.88);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:90vh;border-radius:10px}
 
-  .nav-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-  }
+/* films: 电影票样式 */
+.films{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.film{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;position:relative;transition:transform .3s}
+.film:hover{transform:translateY(-4px) rotate(.3deg)}
+.stub{flex:none;width:76px;background:var(--fc);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:16px 0;color:#4a3d38;position:relative;border-right:2px dashed var(--paper)}
+.stub::before,.stub::after{content:"";position:absolute;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--bg)}
+.stub::before{top:-8px}.stub::after{bottom:-8px}
+.stub .yr{font-family:var(--serif);font-size:18px;writing-mode:vertical-rl;letter-spacing:2px}
+.stub .no{font-size:11px;letter-spacing:1px;opacity:.7}
+.fbody{padding:20px 22px}
+.film h3{font-family:var(--serif);font-weight:400;font-size:20px}
+.fen{font-size:12.5px;color:var(--soft);margin:2px 0 10px;letter-spacing:.5px}
+.film p{font-size:14.5px}
+.film p.line{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink);border-left:2px solid var(--fc);padding-left:12px;margin-top:4px}
+@media(max-width:720px){.films{grid-template-columns:1fr}}
 
-  .nav-links a {
-    text-decoration: none;
-    color: var(--text-soft);
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    transition: color 0.25s ease;
-  }
+/* journal */
+.posts{display:flex;flex-direction:column;gap:14px}
+.post{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.post summary{list-style:none;cursor:pointer;padding:22px 24px;display:flex;align-items:baseline;gap:16px}
+.post summary::-webkit-details-marker{display:none}
+.post .d{font-size:13px;color:var(--soft);flex:none;width:78px}
+.post .t{font-family:var(--serif);font-size:19px;flex:1}
+.post .plus{color:var(--rose-d);transition:transform .3s;font-size:20px}
+.post[open] .plus{transform:rotate(45deg)}
+.post .body{padding:0 24px 24px 118px;color:var(--ink)}
+.post .body p{margin-bottom:12px;font-size:15.5px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;background:color-mix(in srgb,var(--rose) 30%,transparent);color:var(--rose-d);margin-right:6px}
+@media(max-width:620px){.post summary{flex-wrap:wrap;gap:4px 12px}.post .d{width:auto}.post .body{padding:0 24px 22px}}
 
-  .nav-links a:hover {
-    color: var(--accent-dark);
-  }
+/* quote + footer */
+.quote{text-align:center;padding:110px 20px;font-family:var(--serif);font-style:italic;font-size:clamp(24px,5vw,40px);position:relative}
+.quote::before,.quote::after{content:"✿";display:block;font-style:normal;font-size:16px;color:var(--rose-d);margin:18px 0}
+footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;color:var(--soft);font-size:13px}
+.social{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
+.social a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s;background:var(--paper)}
+.social a:hover{background:var(--rose);border-color:var(--rose);transform:translateY(-3px)}
+.social svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.6}
 
-  /* Hero */
-  .hero {
-    min-height: 88vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 60px 0;
-  }
-
-  .hero-eyebrow {
-    font-size: 13px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--accent-dark);
-    margin-bottom: 22px;
-  }
-
-  .hero h1 {
-    font-size: clamp(2.6rem, 7vw, 5rem);
-    font-weight: 600;
-    letter-spacing: -1px;
-    color: var(--text-main);
-    line-height: 1.1;
-  }
-
-  .hero p.tagline {
-    margin-top: 26px;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--text-soft);
-    max-width: 480px;
-    font-style: italic;
-  }
-
-  .hero-line {
-    width: 48px;
-    height: 2px;
-    background: var(--accent);
-    margin-top: 34px;
-  }
-
-  /* Section headings */
-  section {
-    padding: 90px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 44px;
-  }
-
-  .section-num {
-    font-size: 13px;
-    color: var(--accent-dark);
-    letter-spacing: 1px;
-  }
-
-  .section-head h2 {
-    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
-    font-weight: 600;
-    letter-spacing: -0.5px;
-  }
-
-  /* About */
-  .about-text {
-    max-width: 620px;
-    font-size: 1.05rem;
-    color: var(--text-main);
-  }
-
-  .about-text p + p {
-    margin-top: 18px;
-  }
-
-  /* Books */
-  .books-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 22px;
-  }
-
-  .book-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 28px 24px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .book-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 32px -18px rgba(80, 70, 60, 0.25);
-  }
-
-  .book-cover {
-    width: 100%;
-    height: 150px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-  }
-
-  .book-cover.c1 { background: var(--morandi-1); }
-  .book-cover.c2 { background: var(--morandi-2); }
-  .book-cover.c3 { background: var(--morandi-3); }
-  .book-cover.c4 { background: var(--morandi-4); }
-
-  .book-title {
-    font-size: 1.02rem;
-    font-weight: 600;
-    color: var(--text-main);
-    margin-bottom: 6px;
-  }
-
-  .book-author {
-    font-size: 0.85rem;
-    color: var(--text-soft);
-    margin-bottom: 12px;
-  }
-
-  .book-note {
-    font-size: 0.88rem;
-    color: var(--text-soft);
-    line-height: 1.6;
-  }
-
-  /* Gallery */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-
-  .gallery-item {
-    aspect-ratio: 1 / 1;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    transition: opacity 0.3s ease;
-  }
-
-  .gallery-item:hover {
-    opacity: 0.85;
-  }
-
-  .gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 14px;
-    display: block;
-  }
-
-  .gallery-item.g1 { background: var(--morandi-1); }
-  .gallery-item.g2 { background: var(--morandi-2); }
-  .gallery-item.g3 { background: var(--morandi-3); }
-  .gallery-item.g4 { background: var(--morandi-4); }
-  .gallery-item.g5 { background: var(--morandi-5); }
-  .gallery-item.g6 { background: var(--morandi-6); }
-  .gallery-item.g7 { background: var(--morandi-3); }
-  .gallery-item.g8 { background: var(--morandi-1); }
-  .gallery-item.g9 { background: var(--morandi-2); }
-
-  /* Footer */
-  footer {
-    padding: 70px 0 50px;
-    border-top: 1px solid var(--border);
-    text-align: center;
-  }
-
-  .footer-signature {
-    font-size: 1.1rem;
-    color: var(--text-main);
-    margin-bottom: 28px;
-    font-style: italic;
-  }
-
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 26px;
-  }
-
-  .social-links a {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--card);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-soft);
-    text-decoration: none;
-    transition: all 0.25s ease;
-  }
-
-  .social-links a:hover {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-    transform: translateY(-3px);
-  }
-
-  .social-links svg {
-    width: 19px;
-    height: 19px;
-    fill: currentColor;
-  }
-
-  .footer-copy {
-    font-size: 0.8rem;
-    color: var(--text-soft);
-    letter-spacing: 0.5px;
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    .nav-inner {
-      padding: 14px 20px;
-    }
-    .nav-links {
-      gap: 16px;
-    }
-    .nav-links a {
-      font-size: 12px;
-    }
-    .hero {
-      min-height: 78vh;
-      padding: 40px 0;
-    }
-    section {
-      padding: 60px 0;
-    }
-    .gallery-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .gallery-item {
-      border-radius: 10px;
-      font-size: 0.65rem;
-    }
-    .books-grid {
-      grid-template-columns: 1fr;
-    }
-    .social-links a {
-      width: 40px;
-      height: 40px;
-    }
-  }
-
-  @media (max-width: 400px) {
-    .nav-links {
-      display: none;
-    }
-  }
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.blob,.scroll-hint{animation:none}}
 </style>
 </head>
 <body>
 
-  <header class="nav">
-    <div class="nav-inner">
-      <div class="logo">Yuna ✿</div>
-      <ul class="nav-links">
-        <li><a href="#about">关于我</a></li>
-        <li><a href="#books">书单</a></li>
-        <li><a href="#gallery">光影记录</a></li>
-      </ul>
+<nav>
+  <div class="wrap">
+    <a href="#top" class="logo">Yuna <span>✿</span></a>
+    <div class="links">
+      <a href="#about">关于我</a>
+      <a href="#now" class="hide-m">近况</a>
+      <a href="#books">书单</a>
+      <a href="#gallery" class="hide-m">光影</a>
+      <a href="#films">电影</a>
+      <a href="#journal">随笔</a>
+      <button id="theme" aria-label="切换深浅色">☾</button>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <main class="container">
+<header class="hero" id="top">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="wrap">
+    <div class="eyebrow">Welcome to my little corner</div>
+    <h1>Hi, I'm <em>Yuna</em></h1>
+    <p class="motto">愿以温柔之心，过安静热烈的生活。</p>
+    <a href="#about" class="cta">慢慢逛 ↓</a>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
 
-    <!-- 首屏 -->
-    <section class="hero" style="border-top:none;">
-      <div class="hero-eyebrow">Welcome to my little corner</div>
-      <h1>Hi, I'm Yuna</h1>
-      <p class="tagline">愿以温柔之心，过安静热烈的生活。</p>
-      <div class="hero-line"></div>
-    </section>
+<main class="wrap">
 
-    <!-- 关于我 -->
-    <section id="about">
-      <div class="section-head">
-        <span class="section-num">01</span>
-        <h2>关于我</h2>
+  <section class="block" id="about">
+    <div class="head rv"><span class="num">01</span><h2>关于我</h2><span class="en">ABOUT</span></div>
+    <div class="about rv">
+      <div>
+        <p>我是 Yuna，一个喜欢慢下来生活的人。热爱阅读、摄影和一切能让心安静下来的小事。</p>
+        <p>相信生活的美好藏在日常的细节里——一杯手冲咖啡、一本好书、一场不期而遇的日落。</p>
+        <p class="dim">这里记录着我的一些小小热爱，希望也能给路过的你，带来一点柔软的温度。</p>
       </div>
-      <div class="about-text">
-        <p>
-          我是 Yuna，一个喜欢慢下来生活的人。热爱阅读、摄影和一切能让心安静下来的小事。
-          相信生活的美好藏在日常的细节里——一杯手冲咖啡、一本好书、一场不期而遇的日落。
-        </p>
-        <p>
-          这里记录着我的一些小小热爱，希望也能给路过的你，带来一点柔软的温度。
-        </p>
+      <div class="loves">
+        <span class="chip">📖 阅读</span><span class="chip">📷 摄影</span><span class="chip">☕ 手冲咖啡</span>
+        <span class="chip">🌅 日落</span><span class="chip">✍️ 随手记</span><span class="chip">🌿 慢生活</span>
       </div>
-    </section>
-
-    <!-- 我的书单 -->
-    <section id="books">
-      <div class="section-head">
-        <span class="section-num">02</span>
-        <h2>我的书单</h2>
-      </div>
-      <div class="books-grid">
-        <div class="book-card">
-          <div class="book-cover c1">📖</div>
-          <div class="book-title">《小王子》</div>
-          <div class="book-author">安托万·德·圣-埃克苏佩里</div>
-          <div class="book-note">每次重读都有新的感悟，关于爱与责任的温柔寓言。</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover c2">📗</div>
-          <div class="book-title">《岛上书店》</div>
-          <div class="book-author">加布瑞埃拉·泽文</div>
-          <div class="book-note">一间小书店里的悲欢离合，读完让人相信书本的治愈力量。</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover c3">📘</div>
-          <div class="book-title">《百年孤独》</div>
-          <div class="book-author">加西亚·马尔克斯</div>
-          <div class="book-note">魔幻与现实交织，一部让人反复回味的家族史诗。</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover c4">📙</div>
-          <div class="book-title">《瓦尔登湖》</div>
-          <div class="book-author">亨利·戴维·梭罗</div>
-          <div class="book-note">关于简朴生活与自然的思考，是我心情浮躁时的安定剂。</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 光影记录 -->
-    <section id="gallery">
-      <div class="section-head">
-        <span class="section-num">03</span>
-        <h2>光影记录</h2>
-      </div>
-      <div class="gallery-grid">
-        <div class="gallery-item g1"><img src="./photo1.jpeg" alt="Photo 01" loading="lazy"></div>
-        <div class="gallery-item g2">Photo 02</div>
-        <div class="gallery-item g3">Photo 03</div>
-        <div class="gallery-item g4">Photo 04</div>
-        <div class="gallery-item g5">Photo 05</div>
-        <div class="gallery-item g6">Photo 06</div>
-        <div class="gallery-item g7">Photo 07</div>
-        <div class="gallery-item g8">Photo 08</div>
-        <div class="gallery-item g9">Photo 09</div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="container">
-      <p class="footer-signature">"Stay soft, stay curious."</p>
-      <div class="social-links">
-        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zm0 5.08a4.76 4.76 0 100 9.52 4.76 4.76 0 000-9.52zm0 7.85a3.09 3.09 0 110-6.18 3.09 3.09 0 010 6.18zm5.8-8.03a1.11 1.11 0 11-2.22 0 1.11 1.11 0 012.22 0z"/></svg>
-        </a>
-        <a href="https://weibo.com" target="_blank" rel="noopener" aria-label="微博">
-          <svg viewBox="0 0 24 24"><path d="M9.31 8.86C5.07 9.32 1.9 12.02 1.9 14.9c0 3.15 3.84 5.62 8.58 5.62 6.14 0 10.62-3.62 10.62-6.78 0-1.9-1.6-3-2.87-2.62-.28.08-.34-.08-.2-.28.75-1.24.06-2.3-1.28-2.3-.47 0-1 .14-1.5.4-.3.16-.42.06-.32-.24.4-1.2-.38-1.86-1.42-1.5-.7.26-1.28.7-1.6 1.06-.15.16-.3.1-.28-.1.06-.86-.6-1.3-1.44-1.06-1.86.54-3.02 2.3-2.9 3.76.02.3-.1.4-.4.42zm2.6 9.2c-3.56 0-6.44-1.72-6.44-3.86 0-2.13 2.88-3.86 6.44-3.86 3.55 0 6.43 1.73 6.43 3.86 0 2.14-2.88 3.86-6.43 3.86zm1.62-3.03c-.5 1.02-1.83 1.55-2.98 1.2-1.1-.33-1.6-1.36-1.13-2.3.46-.93 1.7-1.46 2.83-1.18 1.14.28 1.72 1.3 1.28 2.28zm-1.87-1.15c-.25-.08-.55.03-.67.26-.12.24-.03.5.22.6.26.1.57-.02.68-.25.12-.25.02-.52-.23-.6zm.94-.34c-.1-.03-.22.02-.26.12-.05.1 0 .2.1.24.1.04.22-.02.26-.12.05-.1 0-.2-.1-.24zM18.6 8.1c-.26-.08-.44-.1-.3-.46.3-.76.33-1.4 0-1.87-.62-.9-2.33-.85-4.28-.02 0 0-.6.26-.45-.2.3-.9.25-1.66-.2-2.1-.98-.98-3.6.04-5.83 2.27-1.68 1.66-2.64 3.42-2.64 4.94 0 2.9 3.72 4.68 7.35 4.68 4.77 0 7.94-2.77 7.94-4.96 0-1.33-1.13-2.08-1.6-2.28z"/></svg>
-        </a>
-        <a href="mailto:hello@yuna.com" aria-label="Email">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        </a>
-      </div>
-      <p class="footer-copy">© 2026 Yuna. Made with soft colors & quiet moments.</p>
     </div>
-  </footer>
+  </section>
 
+  <!-- 新增：近况。把 todo 的内容换成你自己的，并更新日期 -->
+  <section class="block" id="now" style="padding-top:0">
+    <div class="head rv"><span class="num">02</span><h2>最近的我</h2><span class="en">NOW</span></div>
+    <div class="now rv">
+      <div class="now-card"><div class="k">在读</div><div class="v todo">写下你正在读的书</div></div>
+      <div class="now-card"><div class="k">在听</div><div class="v todo">最近单曲循环的歌</div></div>
+      <div class="now-card"><div class="k">在想</div><div class="v todo">一件最近常想的小事</div></div>
+    </div>
+    <p class="updated rv">更新于 2026 年 10 月</p>
+  </section>
+
+  <section class="block" id="books">
+    <div class="head rv"><span class="num">03</span><h2>我的书单</h2><span class="en">BOOKSHELF</span></div>
+    <div class="books">
+      <article class="book rv"><div class="cover" style="background:#f3d6cf">小王子</div><div><h3>《小王子》</h3><div class="au">安托万·德·圣-埃克苏佩里</div><p>每次重读都有新的感悟，关于爱与责任的温柔寓言。</p></div></article>
+      <article class="book rv"><div class="cover" style="background:#cfdcc6">岛上书店</div><div><h3>《岛上书店》</h3><div class="au">加布瑞埃拉·泽文</div><p>一间小书店里的悲欢离合，读完让人相信书本的治愈力量。</p></div></article>
+      <article class="book rv"><div class="cover" style="background:#cddbe6">百年孤独</div><div><h3>《百年孤独》</h3><div class="au">加西亚·马尔克斯</div><p>魔幻与现实交织，一部让人反复回味的家族史诗。</p></div></article>
+      <article class="book rv"><div class="cover" style="background:#f2e2b8">瓦尔登湖</div><div><h3>《瓦尔登湖》</h3><div class="au">亨利·戴维·梭罗</div><p>关于简朴生活与自然的思考，是我心情浮躁时的安定剂。</p></div></article>
+    </div>
+  </section>
+
+  <section class="block" id="gallery">
+    <div class="head rv"><span class="num">04</span><h2>光影记录</h2><span class="en">GALLERY</span></div>
+    <div class="gallery rv" id="gal"></div>
+  </section>
+
+  <!-- 新增：电影角。复制一个 <article class="film"> 就能加一部 -->
+  <section class="block" id="films">
+    <div class="head rv"><span class="num">05</span><h2>电影角</h2><span class="en">CINEMA</span></div>
+    <div class="films">
+      <article class="film rv" style="--fc:#cddbe6">
+        <div class="stub"><span class="yr">2023</span><span class="no">No.01</span></div>
+        <div class="fbody">
+          <h3>机器人之梦</h3><div class="fen">Robot Dreams · 巴勃罗·贝格尔</div>
+          <p class="line">“我的每一个梦的结尾，都是敲醒你的家门。”</p>
+        </div>
+      </article>
+      <article class="film rv" style="--fc:#e7cde6">
+        <div class="stub"><span class="yr">2016</span><span class="no">No.02</span></div>
+        <div class="fbody">
+          <h3>爱乐之城</h3><div class="fen">La La Land · 达米恩·查泽雷</div>
+          <p class="line">“洛杉矶的星星，只为还在做梦的人亮着。”</p>
+        </div>
+      </article>
+      <article class="film rv" style="--fc:#f2e2b8">
+        <div class="stub"><span class="yr">2013</span><span class="no">No.03</span></div>
+        <div class="fbody">
+          <h3>时空恋旅人</h3><div class="fen">About Time · 理查德·柯蒂斯</div>
+          <p class="line">“如果可以回到过去，你最想重来的是哪一天？”</p>
+        </div>
+      </article>
+      <article class="film rv" style="--fc:#cfdcc6">
+        <div class="stub"><span class="yr">2020</span><span class="no">No.04</span></div>
+        <div class="fbody">
+          <h3>心灵奇旅</h3><div class="fen">Soul · 彼特·道格特</div>
+          <p class="line">“出发去地球之前，你的火花会是什么？”</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 新增：随笔。复制一个 <details class="post"> 就能加一篇 -->
+  <section class="block" id="journal">
+    <div class="head rv"><span class="num">06</span><h2>随笔</h2><span class="en">JOURNAL</span></div>
+    <div class="posts">
+      <details class="post rv" open>
+        <summary><span class="d">2026.10</span><span class="t">你好，这里是随笔角</span><span class="plus">+</span></summary>
+        <div class="body">
+          <p>这是一个示例文章。以后想写点什么——读完一本书的感受、一次散步、一个没头没尾的念头——都可以放在这里。</p>
+          <p><span class="tag">示例</span><span class="tag">碎碎念</span></p>
+        </div>
+      </details>
+      <details class="post rv">
+        <summary><span class="d">2026.09</span><span class="t">第二篇的标题写在这里</span><span class="plus">+</span></summary>
+        <div class="body"><p>点开标题就能展开正文，不用跳转新页面，适合短短的小文章。</p></div>
+      </details>
+      <details class="post rv">
+        <summary><span class="d">2026.09</span><span class="t">第三篇的标题写在这里</span><span class="plus">+</span></summary>
+        <div class="body"><p>正文写在这里。</p></div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<div class="quote rv">"Stay soft, stay curious."</div>
+
+<footer>
+  <div class="wrap">
+    <div class="social">
+      <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg></a>
+      <a href="https://weibo.com" aria-label="微博" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M10 19c-4 0-7-2-7-4.5S6.5 8 10.5 7c1.5-.4 2 .6 1.5 2 2-1 4-.8 3.5 1 2 .5 3 1.5 3 3 0 3-4 6-8.5 6z"/><path d="M16 4a5 5 0 0 1 5 5"/></svg></a>
+      <a href="mailto:hello@yuna.com" aria-label="邮箱"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+    </div>
+    <p>© 2026 Yuna. Made with soft colors &amp; quiet moments.</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb"><img alt=""></div>
+
+<script>
+// 照片：沿用网站上的 photo1.jpeg ~ photo9.jpeg，缺的会显示成柔和的色块
+const BASE = "";
+const pal = [["#f3d6cf","#f8ebe3"],["#cfdcc6","#eef2e8"],["#cddbe6","#edf2f6"],["#f2e2b8","#faf3e1"]];
+const ratios = ["4/5","1/1","3/4","4/3","4/5","1/1","3/4","4/5","1/1"];
+const gal = document.getElementById("gal");
+for (let i = 1; i <= 9; i++) {
+  const d = document.createElement("div");
+  d.className = "ph";
+  const [c1, c2] = pal[i % 4];
+  d.style.cssText = `--c1:${c1};--c2:${c2};--r:${ratios[i-1]}`;
+  const img = new Image();
+  img.loading = "lazy"; img.alt = "Photo " + String(i).padStart(2,"0");
+  img.src = BASE + "photo" + i + ".jpeg";
+  img.onerror = () => { d.classList.add("empty"); d.insertAdjacentText("beforeend", "Photo " + String(i).padStart(2,"0")); };
+  d.appendChild(img);
+  d.onclick = () => { if (d.classList.contains("empty")) return; lbImg.src = img.src; lb.classList.add("on"); };
+  gal.appendChild(d);
+}
+const lb = document.getElementById("lb"), lbImg = lb.querySelector("img");
+lb.onclick = () => lb.classList.remove("on");
+
+// 滚动渐显
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.12});
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+// 深浅色切换
+const root = document.documentElement, btn = document.getElementById("theme");
+const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+const sync = () => btn.textContent = isDark() ? "☀" : "☾";
+try { const s = localStorage.getItem("theme"); if (s) root.dataset.theme = s; } catch(e) {}
+sync();
+btn.onclick = () => { root.dataset.theme = isDark() ? "light" : "dark"; try { localStorage.setItem("theme", root.dataset.theme); } catch(e) {} sync(); };
+</script>
 </body>
 </html>
