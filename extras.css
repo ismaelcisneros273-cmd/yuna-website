@@ -158,3 +158,9 @@
 @keyframes hop{50%{transform:translateY(-14px)}}
 
 @media(prefers-reduced-motion:reduce){.vinyl,.cloud,.steam path,.dog .tail,.stars i{animation:none}}
+/* 小暖的垂耳：被摸时耳朵扬起来 */
+.dog .ear-l,.dog .ear-r{transition:transform .35s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box}
+.dog .ear-l{transform-origin:85% 8%}
+.dog .ear-r{transform-origin:15% 8%}
+.dog.petted .ear-l{transform:rotate(14deg)}
+.dog.petted .ear-r{transform:rotate(-14deg)}
