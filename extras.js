@@ -24,6 +24,12 @@ const LOTS = [
 ];
 const LUCKY = [["樱花粉", "#f3c6c1"], ["奶油黄", "#f1dca7"], ["抹茶绿", "#b9c8b0"], ["雾霾蓝", "#bcd0de"], ["薰衣草紫", "#d9c8e6"], ["焦糖色", "#e0a95f"]];
 
+// 摸小暖时他会说的话，想加就往里加
+const PET_LINES = [
+  "汪！", "再摸一下嘛", "好舒服～", "尾巴停不下来了", "你的手好暖", "嘿嘿，再来再来",
+  "耳朵也要摸摸", "小暖最喜欢你啦", "汪呜～", "下巴也痒痒的", "今天也要开心哦", "我会乖乖看家的",
+];
+
 const PIXEL_COLORS = ["#fffdf9", "#f3c6c1", "#d9837d", "#f1dca7", "#e0a95f", "#b9c8b0", "#6f9a7a", "#bcd0de", "#8fa8d6", "#3b3230"];
 const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--n4)"];
 
@@ -112,16 +118,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     });
   }
 
-  /* ---------- 唱片机 ---------- */
-  const player = $("#player"), np = $("#np");
-  $$("#tracks button").forEach((b) => {
-    b.addEventListener("click", () => {
-      const was = b.classList.contains("cur");
-      $$("#tracks button").forEach((x) => x.classList.remove("cur"));
-      if (was) { player.classList.remove("playing"); np.textContent = "点一首歌，唱片就转起来"; }
-      else { b.classList.add("cur"); player.classList.add("playing"); np.textContent = b.dataset.title; }
-    });
-  });
+  /* 唱片机和背景音乐在 music.js 里 */
 
   /* ---------- 每日一签 ---------- */
   const lot = $("#lot"), drawBtn = $("#draw-lot");
@@ -151,9 +148,13 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
   /* ---------- 摸摸小狗 ---------- */
   const dog = $("#dog"), bubble = $("#dogBubble");
   let pets = null, local = 0, petTimer;
+  const say = (line) => {
+    bubble.textContent = line;
+    if (pets) { bubble.appendChild(el("small", null, "小暖被摸了 " + pets.toLocaleString() + " 次")); }
+  };
   const showCount = () => {
     if (pets == null) return;
-    bubble.textContent = pets ? "小暖已经被摸了 " + pets.toLocaleString() + " 次 🐾" : "还没人摸过小暖，你来当第一个吧 🐾";
+    say(pets ? "摸摸我 🐾" : "还没人摸过小暖，你来当第一个吧 🐾");
   };
   // 第一次来的访客：让小暖先打个招呼
   if (dog && !store.get("metNuan")) {
@@ -180,11 +181,13 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     const r = dog.getBoundingClientRect();
     heart(e && e.clientX ? e.clientX : r.left + r.width / 2, e && e.clientY ? e.clientY : r.top + 20);
     local++;
+    let line = PET_LINES[Math.floor(Math.random() * PET_LINES.length)];
+    if (local === 1) line = "汪！我是小暖";
     if (pets != null) {
-      pets++; showCount();
-      api("pet", {}).then((d) => { pets = Math.max(pets, d.count); showCount(); }).catch(() => {});
+      pets++; say(line);
+      api("pet", {}).then((d) => { pets = Math.max(pets, d.count); say(line); }).catch(() => {});
     } else {
-      bubble.textContent = ["汪！我是小暖", "再摸一下嘛", "好舒服～", "尾巴停不下来了"][(local - 1) % 4];
+      say(line);
     }
   };
   if (dog) {

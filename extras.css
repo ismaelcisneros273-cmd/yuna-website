@@ -164,3 +164,19 @@
 .dog .ear-r{transform-origin:15% 8%}
 .dog.petted .ear-l{transform:rotate(14deg)}
 .dog.petted .ear-r{transform:rotate(-14deg)}
+
+/* 小暖气泡里的小字计数 */
+.dog .bubble small{display:block;font-size:11px;color:var(--soft);margin-top:1px}
+
+/* ---------- 背景音乐开关 ---------- */
+.music{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 120px);font:inherit;font-size:12.5px;color:var(--ink);background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:999px;padding:8px 14px 8px 12px;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s}
+.music:hover{transform:translateY(-2px)}
+.music .mtxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.music .eq{display:flex;align-items:flex-end;gap:2px;height:12px;flex:none}
+.music .eq i{width:3px;height:4px;border-radius:2px;background:var(--rose-d);transition:height .3s}
+.music.on .eq i{animation:eq 1s ease-in-out infinite}
+.music.on .eq i:nth-child(2){animation-delay:-.4s}
+.music.on .eq i:nth-child(3){animation-delay:-.7s}
+@keyframes eq{0%,100%{height:4px}50%{height:12px}}
+.tracks li button.missing{opacity:.5}
+@media(prefers-reduced-motion:reduce){.music.on .eq i{animation:none;height:8px}}

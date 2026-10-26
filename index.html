@@ -396,14 +396,9 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
         <div class="tracks">
           <div class="now-playing">NOW PLAYING</div>
           <div class="np-title" id="np">点一首歌，唱片就转起来</div>
-          <!-- 把下面四首换成你喜欢的歌 -->
-          <ol id="tracks">
-            <li><button data-title="第一首歌 — 歌手"><span class="n">01</span><span>第一首歌</span><span class="ar">歌手</span></button></li>
-            <li><button data-title="第二首歌 — 歌手"><span class="n">02</span><span>第二首歌</span><span class="ar">歌手</span></button></li>
-            <li><button data-title="第三首歌 — 歌手"><span class="n">03</span><span>第三首歌</span><span class="ar">歌手</span></button></li>
-            <li><button data-title="第四首歌 — 歌手"><span class="n">04</span><span>第四首歌</span><span class="ar">歌手</span></button></li>
-          </ol>
-          <p class="hint">只转不响，旋律请自行在脑内播放 🎧</p>
+          <!-- 歌单在 music.js 顶部的 TRACKS 里改 -->
+          <ol id="tracks"></ol>
+          <p class="hint">点歌名就能切歌，左下角可以随时关掉音乐 🎧</p>
         </div>
       </div>
 
@@ -497,6 +492,11 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
   </div>
 </footer>
 
+<!-- 背景音乐开关 -->
+<button class="music" id="music" type="button" aria-label="背景音乐开关">
+  <span class="eq"><i></i><i></i><i></i></span><span class="mtxt" id="musicTxt">♪ 点一下页面就会放音乐</span>
+</button>
+
 <!-- 摸摸小狗：小暖 -->
 <div class="dog" id="dog" role="button" tabindex="0" aria-label="摸摸小暖">
   <div class="bubble" id="dogBubble">我是小暖，摸摸我 🐾</div>
@@ -562,5 +562,6 @@ sync();
 btn.onclick = () => { root.dataset.theme = isDark() ? "light" : "dark"; try { localStorage.setItem("theme", root.dataset.theme); } catch(e) {} sync(); };
 </script>
 <script src="extras.js" defer></script>
+<script src="music.js" defer></script>
 </body>
 </html>
