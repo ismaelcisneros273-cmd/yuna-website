@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yuna — Hi, I'm Yuna</title>
-<meta name="description" content="Yuna 的小角落：阅读、摄影、随笔，和一切让心安静下来的小事。">
+<meta name="description" content="Yuna 的小角落：阅读、摄影、电影、随笔，和一切让心安静下来的小事。">
+<script>
+  // 先决定深浅色，避免页面闪一下：用户选过就用选过的；没选过且是晚上（19:00-6:00）就自动夜间模式
+  (function(){
+    var r = document.documentElement, s = null, h = new Date().getHours();
+    try { s = localStorage.getItem("theme"); } catch(e) {}
+    if (s) r.dataset.theme = s; else if (h >= 19 || h < 6) r.dataset.theme = "dark";
+  })();
+</script>
 <style>
 :root{
   --bg:#faf6f0; --paper:#fffdf9; --ink:#3b3230; --soft:#8a7d76; --line:#ece3d8;
@@ -21,20 +29,21 @@
   --rose:#b98580; --rose-d:#e3aaa4; --shadow:0 10px 30px rgba(0,0,0,.3);}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.8;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.8;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;overflow-x:hidden}
 a{color:inherit}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px}
 
 /* nav */
 nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
-.logo{font-family:var(--serif);font-size:20px;text-decoration:none;letter-spacing:.5px}
-.logo span{color:var(--rose-d)}
-.links{display:flex;gap:18px;align-items:center;font-size:14px}
+.logo{font-family:var(--serif);font-size:20px;text-decoration:none;letter-spacing:.5px;user-select:none}
+.logo span{color:var(--rose-d);display:inline-block;transition:transform .4s}
+.logo:active span{transform:rotate(90deg)}
+.links{display:flex;gap:16px;align-items:center;font-size:14px}
 .links a{text-decoration:none;color:var(--soft);transition:color .2s}
 .links a:hover{color:var(--rose-d)}
-#theme{background:none;border:1px solid var(--line);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px;color:var(--ink)}
-@media(max-width:620px){.links a.hide-m{display:none}}
+#theme{background:none;border:1px solid var(--line);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px;color:var(--ink);flex:none}
+@media(max-width:700px){.links a.hide-m{display:none}}
 
 /* hero */
 .hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden}
@@ -132,7 +141,7 @@ section.block{padding:96px 0}
 /* quote + footer */
 .quote{text-align:center;padding:110px 20px;font-family:var(--serif);font-style:italic;font-size:clamp(24px,5vw,40px);position:relative}
 .quote::before,.quote::after{content:"✿";display:block;font-style:normal;font-size:16px;color:var(--rose-d);margin:18px 0}
-footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;color:var(--soft);font-size:13px}
+footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;color:var(--soft);font-size:13px}
 .social{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
 .social a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s;background:var(--paper)}
 .social a:hover{background:var(--rose);border-color:var(--rose);transform:translateY(-3px)}
@@ -143,18 +152,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
 .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.blob,.scroll-hint{animation:none}}
 </style>
+<link rel="stylesheet" href="extras.css">
 </head>
 <body>
 
 <nav>
   <div class="wrap">
-    <a href="#top" class="logo">Yuna <span>✿</span></a>
+    <a href="#top" class="logo" id="logo">Yuna <span>✿</span></a>
     <div class="links">
-      <a href="#about">关于我</a>
-      <a href="#now" class="hide-m">近况</a>
-      <a href="#books">书单</a>
-      <a href="#gallery" class="hide-m">光影</a>
-      <a href="#films">电影</a>
+      <a href="#about" class="hide-m">关于我</a>
+      <a href="#room">房间</a>
+      <a href="#films" class="hide-m">电影</a>
+      <a href="#draw" class="hide-m">画画</a>
+      <a href="#guestbook">留言</a>
       <a href="#journal">随笔</a>
       <button id="theme" aria-label="切换深浅色">☾</button>
     </div>
@@ -162,9 +172,10 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
 </nav>
 
 <header class="hero" id="top">
+  <div class="stars" id="stars"></div>
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
   <div class="wrap">
-    <div class="eyebrow">Welcome to my little corner</div>
+    <div class="eyebrow" id="greet">Welcome to my little corner</div>
     <h1>Hi, I'm <em>Yuna</em></h1>
     <p class="motto">愿以温柔之心，过安静热烈的生活。</p>
     <a href="#about" class="cta">慢慢逛 ↓</a>
@@ -189,7 +200,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
     </div>
   </section>
 
-  <!-- 新增：近况。把 todo 的内容换成你自己的，并更新日期 -->
+  <!-- 近况：把 todo 的内容换成你自己的，并更新日期 -->
   <section class="block" id="now" style="padding-top:0">
     <div class="head rv"><span class="num">02</span><h2>最近的我</h2><span class="en">NOW</span></div>
     <div class="now rv">
@@ -200,8 +211,112 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
     <p class="updated rv">更新于 2026 年 10 月</p>
   </section>
 
+  <!-- 我的房间：点房间里的东西会出现介绍，文字在 extras.js 顶部的 ROOM 里改 -->
+  <section class="block" id="room">
+    <div class="head rv"><span class="num">03</span><h2>我的房间</h2><span class="en">MY ROOM</span></div>
+    <p class="sub rv">点点房间里的东西 ✨ 窗外的天色和你那边的时间是同步的</p>
+    <div class="card room rv" id="roomCard">
+      <svg viewBox="0 0 800 440" role="img" aria-label="Yuna 的房间插画">
+        <defs>
+          <linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd8ec"/><stop offset="1" stop-color="#f8dcc6"/></linearGradient>
+          <linearGradient id="skyN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232c4d"/><stop offset="1" stop-color="#4b3b5c"/></linearGradient>
+          <clipPath id="win"><rect x="490" y="40" width="230" height="170" rx="6"/></clipPath>
+        </defs>
+        <rect class="w-wall" width="800" height="440"/>
+        <rect class="w-wall2" y="348" width="800" height="92"/>
+
+        <g class="obj" data-k="window" tabindex="0" role="button" aria-label="窗外">
+          <g clip-path="url(#win)">
+            <g class="sky-day">
+              <rect x="490" y="40" width="230" height="170" fill="url(#skyD)"/>
+              <circle cx="660" cy="160" r="24" fill="#f7b88a"/>
+              <g class="cloud"><ellipse cx="560" cy="92" rx="32" ry="10" fill="#fff" opacity=".9"/><ellipse cx="578" cy="83" rx="18" ry="11" fill="#fff" opacity=".9"/></g>
+            </g>
+            <g class="sky-night">
+              <rect x="490" y="40" width="230" height="170" fill="url(#skyN)"/>
+              <circle cx="655" cy="98" r="19" fill="#fff3cf"/><circle cx="664" cy="91" r="17" fill="#252e4f"/>
+              <circle cx="530" cy="70" r="1.8" fill="#fff"/><circle cx="575" cy="120" r="1.4" fill="#fff"/><circle cx="610" cy="62" r="1.6" fill="#fff"/><circle cx="700" cy="150" r="1.4" fill="#fff"/><circle cx="545" cy="170" r="1.2" fill="#fff"/>
+            </g>
+          </g>
+          <rect x="490" y="40" width="230" height="170" rx="6" class="w-line" style="stroke-width:7"/>
+          <path d="M605 40 V210 M490 125 H720" class="w-line" style="stroke-width:5"/>
+          <rect x="478" y="206" width="254" height="11" rx="4" class="w-wood"/>
+        </g>
+
+        <rect x="60" y="190" width="330" height="10" rx="3" class="w-wood"/>
+        <path d="M95 200 v16 M355 200 v16" class="w-line"/>
+        <g class="obj" data-k="books" tabindex="0" role="button" aria-label="书架">
+          <rect x="76" y="110" width="22" height="80" rx="3" fill="#d9837d"/>
+          <rect x="100" y="98" width="18" height="92" rx="3" fill="#8fa8d6"/>
+          <rect x="120" y="120" width="26" height="70" rx="3" fill="#f1dca7"/>
+          <rect x="148" y="104" width="20" height="86" rx="3" fill="#b9c8b0"/>
+          <rect x="172" y="114" width="20" height="76" rx="3" fill="#e3c3d9" transform="rotate(14 192 190)"/>
+          <path d="M80 124 h14 M104 112 h10 M124 134 h18 M152 118 h12" stroke="#fff" stroke-width="2" opacity=".6"/>
+          <rect x="222" y="176" width="72" height="14" rx="3" fill="#c9a27e"/>
+          <rect x="228" y="163" width="60" height="13" rx="3" fill="#d6e3cc"/>
+        </g>
+        <g class="obj" data-k="plant" tabindex="0" role="button" aria-label="小绿植">
+          <ellipse cx="330" cy="140" rx="9" ry="26" fill="#6f9a7a" transform="rotate(-25 330 162)"/>
+          <ellipse cx="346" cy="132" rx="9" ry="30" fill="#86b08f"/>
+          <ellipse cx="362" cy="142" rx="9" ry="24" fill="#6f9a7a" transform="rotate(28 362 162)"/>
+          <path d="M324 160 h44 l-6 30 h-32 z" fill="#d9837d"/>
+          <rect x="320" y="153" width="52" height="10" rx="3" fill="#c96f69"/>
+        </g>
+
+        <g class="obj" data-k="frame" tabindex="0" role="button" aria-label="相框">
+          <path d="M262 232 L289 214 L316 232" stroke="#a9825f" stroke-width="1.6" fill="none"/>
+          <rect x="250" y="230" width="78" height="62" rx="4" class="w-wood-d"/>
+          <rect x="257" y="237" width="64" height="48" fill="#f6c9a8"/>
+          <circle cx="289" cy="272" r="11" fill="#f19a7b"/>
+          <rect x="257" y="272" width="64" height="13" fill="#c6a0b8"/>
+        </g>
+
+        <rect x="40" y="330" width="720" height="18" rx="5" class="w-wood"/>
+        <rect x="70" y="348" width="16" height="92" class="w-wood-d"/>
+        <rect x="714" y="348" width="16" height="92" class="w-wood-d"/>
+
+        <g class="obj" data-k="lamp" tabindex="0" role="button" aria-label="台灯">
+          <polygon class="lamp-light" points="180,234 228,248 300,330 140,330"/>
+          <ellipse cx="120" cy="327" rx="34" ry="7" fill="#4a3d38"/>
+          <path d="M120 324 L150 250 L198 222" stroke="#4a3d38" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="150" cy="250" r="6" fill="#4a3d38"/>
+          <path d="M186 206 L240 220 L230 248 L176 232 Z" fill="#d9837d"/>
+        </g>
+
+        <g class="obj" data-k="notebook" tabindex="0" role="button" aria-label="本子">
+          <path d="M248 330 L262 306 L325 302 L325 330 Z" fill="#fffdf9" stroke="#e5d8c8"/>
+          <path d="M325 330 L325 302 L388 306 L402 330 Z" fill="#fffdf9" stroke="#e5d8c8"/>
+          <path d="M268 313 h48 M265 319 h52 M262 325 h55 M334 313 h46 M334 319 h50" stroke="#d9cbb9" stroke-width="1.5"/>
+          <rect x="352" y="316" width="62" height="5" rx="2.5" fill="#8fa8d6" transform="rotate(-16 383 318)"/>
+        </g>
+
+        <g class="obj" data-k="coffee" tabindex="0" role="button" aria-label="咖啡">
+          <g class="steam"><path d="M468 268 q-6 -8 0 -16 q6 -8 0 -16"/><path d="M486 268 q-6 -8 0 -16 q6 -8 0 -16"/></g>
+          <ellipse cx="478" cy="331" rx="40" ry="5" fill="#e5d8c8"/>
+          <path d="M500 292 q20 0 20 14 q0 14 -20 14" stroke="#f1dca7" stroke-width="7" fill="none"/>
+          <rect x="452" y="278" width="52" height="52" rx="9" fill="#f1dca7"/>
+          <rect x="452" y="296" width="52" height="8" fill="#e8c983"/>
+        </g>
+
+        <g class="obj" data-k="camera" tabindex="0" role="button" aria-label="相机">
+          <rect x="580" y="275" width="30" height="15" rx="4" fill="#3b3230"/>
+          <rect x="560" y="286" width="104" height="44" rx="9" fill="#4a3d38"/>
+          <rect x="560" y="300" width="104" height="16" fill="#8a6a50"/>
+          <circle cx="612" cy="308" r="17" fill="#2a2422" stroke="#c9a27e" stroke-width="3"/>
+          <circle cx="612" cy="308" r="8" fill="#5d6f86"/>
+          <circle cx="608" cy="304" r="2.5" fill="#fff" opacity=".7"/>
+          <rect x="640" y="291" width="12" height="6" rx="2" fill="#f1dca7"/>
+        </g>
+      </svg>
+    </div>
+    <div class="card room-note rv" id="roomNote" aria-live="polite">
+      <div class="ic">🏠</div>
+      <div><h3>欢迎来我房间坐坐</h3><p>台灯、咖啡、相机……每样东西都有一点小故事。</p></div>
+    </div>
+  </section>
+
   <section class="block" id="books">
-    <div class="head rv"><span class="num">03</span><h2>我的书单</h2><span class="en">BOOKSHELF</span></div>
+    <div class="head rv"><span class="num">04</span><h2>我的书单</h2><span class="en">BOOKSHELF</span></div>
     <div class="books">
       <article class="book rv"><div class="cover" style="background:#f3d6cf">小王子</div><div><h3>《小王子》</h3><div class="au">安托万·德·圣-埃克苏佩里</div><p>每次重读都有新的感悟，关于爱与责任的温柔寓言。</p></div></article>
       <article class="book rv"><div class="cover" style="background:#cfdcc6">岛上书店</div><div><h3>《岛上书店》</h3><div class="au">加布瑞埃拉·泽文</div><p>一间小书店里的悲欢离合，读完让人相信书本的治愈力量。</p></div></article>
@@ -211,19 +326,20 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
   </section>
 
   <section class="block" id="gallery">
-    <div class="head rv"><span class="num">04</span><h2>光影记录</h2><span class="en">GALLERY</span></div>
+    <div class="head rv"><span class="num">05</span><h2>光影记录</h2><span class="en">GALLERY</span></div>
     <div class="gallery rv" id="gal"></div>
   </section>
 
-  <!-- 新增：电影角。复制一个 <article class="film"> 就能加一部 -->
+  <!-- 电影角：复制一个 <article class="film"> 就能加一部；♡ 按钮的 data-film 要同时加进 api/likes.js 的 FILMS 里 -->
   <section class="block" id="films">
-    <div class="head rv"><span class="num">05</span><h2>电影角</h2><span class="en">CINEMA</span></div>
+    <div class="head rv"><span class="num">06</span><h2>电影角</h2><span class="en">CINEMA</span></div>
     <div class="films">
       <article class="film rv" style="--fc:#cddbe6">
         <div class="stub"><span class="yr">2023</span><span class="no">No.01</span></div>
         <div class="fbody">
           <h3>机器人之梦</h3><div class="fen">Robot Dreams · 巴勃罗·贝格尔</div>
           <p class="line">“我的每一个梦的结尾，都是敲醒你的家门。”</p>
+          <button class="like" data-film="robot-dreams" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
       <article class="film rv" style="--fc:#e7cde6">
@@ -231,6 +347,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
         <div class="fbody">
           <h3>爱乐之城</h3><div class="fen">La La Land · 达米恩·查泽雷</div>
           <p class="line">“洛杉矶的星星，只为还在做梦的人亮着。”</p>
+          <button class="like" data-film="la-la-land" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
       <article class="film rv" style="--fc:#f2e2b8">
@@ -238,6 +355,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
         <div class="fbody">
           <h3>时空恋旅人</h3><div class="fen">About Time · 理查德·柯蒂斯</div>
           <p class="line">“如果可以回到过去，你最想重来的是哪一天？”</p>
+          <button class="like" data-film="about-time" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
       <article class="film rv" style="--fc:#cfdcc6">
@@ -245,14 +363,103 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
         <div class="fbody">
           <h3>心灵奇旅</h3><div class="fen">Soul · 彼特·道格特</div>
           <p class="line">“出发去地球之前，你的火花会是什么？”</p>
+          <button class="like" data-film="soul" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
     </div>
   </section>
 
-  <!-- 新增：随笔。复制一个 <details class="post"> 就能加一篇 -->
+  <!-- 唱片机 + 每日一签 -->
+  <section class="block" id="little">
+    <div class="head rv"><span class="num">07</span><h2>小玩意</h2><span class="en">LITTLE THINGS</span></div>
+    <div class="duo">
+      <div class="card player rv" id="player">
+        <div class="tt">
+          <svg viewBox="0 0 170 170" aria-hidden="true">
+            <rect x="2" y="2" width="166" height="166" rx="18" class="w-wood"/>
+            <g class="vinyl">
+              <circle cx="80" cy="82" r="66" fill="#2a2422"/>
+              <circle cx="80" cy="82" r="56" fill="none" stroke="#3d3431" stroke-width="1.5"/>
+              <circle cx="80" cy="82" r="46" fill="none" stroke="#3d3431" stroke-width="1.5"/>
+              <circle cx="80" cy="82" r="36" fill="none" stroke="#3d3431" stroke-width="1.5"/>
+              <circle cx="80" cy="82" r="22" fill="#e8b4b0"/>
+              <path d="M70 76 q10 -8 20 0" stroke="#fffdf9" stroke-width="2" fill="none" opacity=".7"/>
+              <circle cx="80" cy="82" r="3" fill="#2a2422"/>
+            </g>
+            <circle cx="150" cy="22" r="9" fill="#4a3d38"/>
+            <g class="arm"><path d="M150 22 L152 96 L136 118" stroke="#efe6df" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="128" y="112" width="14" height="10" rx="2" fill="#4a3d38" transform="rotate(35 135 117)"/></g>
+          </svg>
+        </div>
+        <div class="tracks">
+          <div class="now-playing">NOW PLAYING</div>
+          <div class="np-title" id="np">点一首歌，唱片就转起来</div>
+          <!-- 把下面四首换成你喜欢的歌 -->
+          <ol id="tracks">
+            <li><button data-title="第一首歌 — 歌手"><span class="n">01</span><span>第一首歌</span><span class="ar">歌手</span></button></li>
+            <li><button data-title="第二首歌 — 歌手"><span class="n">02</span><span>第二首歌</span><span class="ar">歌手</span></button></li>
+            <li><button data-title="第三首歌 — 歌手"><span class="n">03</span><span>第三首歌</span><span class="ar">歌手</span></button></li>
+            <li><button data-title="第四首歌 — 歌手"><span class="n">04</span><span>第四首歌</span><span class="ar">歌手</span></button></li>
+          </ol>
+          <p class="hint">只转不响，旋律请自行在脑内播放 🎧</p>
+        </div>
+      </div>
+
+      <div class="card fortune rv">
+        <div class="lot" id="lot">
+          <div class="face front">今 日 签</div>
+          <div class="face back">
+            <div class="no" id="lotNo">No.01</div>
+            <div class="msg" id="lotMsg"></div>
+            <div class="lucky">今日幸运色 <b id="lotSw"></b> <span id="lotColor"></span></div>
+          </div>
+        </div>
+        <button class="btn" id="draw-lot">抽一支 ✿</button>
+        <div class="again" id="lotAgain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 一起画像素画 -->
+  <section class="block" id="draw">
+    <div class="head rv"><span class="num">08</span><h2>一起画画</h2><span class="en">PIXEL WALL</span></div>
+    <p class="sub rv">每位路过的人都可以涂一格，慢慢拼成一幅大家一起画的画</p>
+    <div class="card rv">
+      <div class="soon">这块画布还在准备中，很快开放 🎨</div>
+      <div class="pix-wrap live">
+        <div class="board" id="board" aria-label="像素画布"></div>
+        <div class="pix-side">
+          <h3>选个颜色</h3>
+          <p>点画布上的格子就能涂上，每 20 秒可以涂一格。</p>
+          <div class="pal" id="pal"></div>
+          <div class="pix-status" id="pixStatus">正在展开画布……</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 便利贴留言墙 -->
+  <section class="block" id="guestbook">
+    <div class="head rv"><span class="num">09</span><h2>留言墙</h2><span class="en">GUESTBOOK</span></div>
+    <p class="sub rv">来都来了，贴一张便利贴再走吧</p>
+    <div class="rv">
+      <div class="card soon">留言墙正在刷漆，很快开放 🚧</div>
+      <div class="live">
+        <form class="card gb-form" id="gbForm">
+          <div class="row">
+            <input id="gbName" maxlength="12" placeholder="你的名字（可以不填）" autocomplete="nickname">
+            <div class="swatches" id="gbSw" aria-label="便利贴颜色"></div>
+          </div>
+          <textarea id="gbText" maxlength="120" placeholder="想对 Yuna 说点什么……" required></textarea>
+          <div class="gb-foot"><span id="gbMsg">0 / 120</span><button class="btn" id="gbBtn" type="submit">贴上去 ✿</button></div>
+        </form>
+        <div class="wall" id="wall"><div class="wall-empty">正在把便利贴一张张贴上……</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 随笔：复制一个 <details class="post"> 就能加一篇 -->
   <section class="block" id="journal">
-    <div class="head rv"><span class="num">06</span><h2>随笔</h2><span class="en">JOURNAL</span></div>
+    <div class="head rv"><span class="num">10</span><h2>随笔</h2><span class="en">JOURNAL</span></div>
     <div class="posts">
       <details class="post rv" open>
         <summary><span class="d">2026.10</span><span class="t">你好，这里是随笔角</span><span class="plus">+</span></summary>
@@ -287,10 +494,39 @@ footer{border-top:1px solid var(--line);padding:40px 0 50px;text-align:center;co
   </div>
 </footer>
 
+<!-- 摸摸小狗 -->
+<div class="dog" id="dog" role="button" tabindex="0" aria-label="摸摸小狗">
+  <div class="bubble" id="dogBubble">摸摸我 🐾</div>
+  <svg viewBox="0 0 120 132" aria-hidden="true">
+    <g class="tail"><path d="M84 106 C104 104 110 84 99 74 C94 70 89 76 93 80 C99 86 96 96 82 98 Z" fill="#e2ab62"/></g>
+    <ellipse cx="60" cy="102" rx="30" ry="26" fill="#e2ab62"/>
+    <ellipse cx="60" cy="106" rx="15" ry="19" fill="#f7e8cc"/>
+    <rect x="44" y="106" width="11" height="22" rx="5.5" fill="#e2ab62"/>
+    <rect x="65" y="106" width="11" height="22" rx="5.5" fill="#e2ab62"/>
+    <ellipse cx="49.5" cy="127" rx="7" ry="4" fill="#f7e8cc"/>
+    <ellipse cx="70.5" cy="127" rx="7" ry="4" fill="#f7e8cc"/>
+    <g class="head">
+      <path d="M35 52 L40 20 Q47 22 57 40 Z" fill="#c98d45"/>
+      <path d="M40 46 L42 28 Q46 31 51 40 Z" fill="#f2c9b4"/>
+      <path d="M85 52 L80 20 Q73 22 63 40 Z" fill="#c98d45"/>
+      <path d="M80 46 L78 28 Q74 31 69 40 Z" fill="#f2c9b4"/>
+      <ellipse cx="60" cy="60" rx="28" ry="25" fill="#e2ab62"/>
+      <ellipse cx="60" cy="71" rx="14" ry="10.5" fill="#f7e8cc"/>
+      <circle cx="49" cy="48" r="2.2" fill="#f7e8cc"/><circle cx="71" cy="48" r="2.2" fill="#f7e8cc"/>
+      <g class="open"><circle cx="49" cy="57" r="3.6" fill="#3b3230"/><circle cx="50.2" cy="55.8" r="1.1" fill="#fff"/><circle cx="71" cy="57" r="3.6" fill="#3b3230"/><circle cx="72.2" cy="55.8" r="1.1" fill="#fff"/></g>
+      <g class="happy" stroke="#3b3230" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M45 58 Q49 53 53 58"/><path d="M67 58 Q71 53 75 58"/></g>
+      <path class="tongue" d="M56 74 Q60 84 64 74 Z" fill="#e88a8a"/>
+      <ellipse cx="60" cy="66" rx="4.6" ry="3.4" fill="#3b3230"/>
+      <path d="M60 69 v3 M60 72 q-4 4 -8 1 M60 72 q4 4 8 1" stroke="#3b3230" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <ellipse cx="42" cy="68" rx="4.5" ry="2.6" fill="#f2a5a0" opacity=".6"/><ellipse cx="78" cy="68" rx="4.5" ry="2.6" fill="#f2a5a0" opacity=".6"/>
+    </g>
+  </svg>
+</div>
+
 <div class="lb" id="lb"><img alt=""></div>
 
 <script>
-// 照片：沿用网站上的 photo1.jpeg ~ photo9.jpeg，缺的会显示成柔和的色块
+// 照片：仓库里的 photo1.jpeg ~ photo9.jpeg，缺的会显示成柔和的色块
 const BASE = "";
 const pal = [["#f3d6cf","#f8ebe3"],["#cfdcc6","#eef2e8"],["#cddbe6","#edf2f6"],["#f2e2b8","#faf3e1"]];
 const ratios = ["4/5","1/1","3/4","4/3","4/5","1/1","3/4","4/5","1/1"];
@@ -319,9 +555,9 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
 const root = document.documentElement, btn = document.getElementById("theme");
 const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
 const sync = () => btn.textContent = isDark() ? "☀" : "☾";
-try { const s = localStorage.getItem("theme"); if (s) root.dataset.theme = s; } catch(e) {}
 sync();
 btn.onclick = () => { root.dataset.theme = isDark() ? "light" : "dark"; try { localStorage.setItem("theme", root.dataset.theme); } catch(e) {} sync(); };
 </script>
+<script src="extras.js" defer></script>
 </body>
 </html>
