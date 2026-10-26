@@ -1,19 +1,8 @@
 /* ===== 新板块的小脚本 =====
    想改文字的话，主要改这几个地方：
-   - ROOM：我的房间里每样东西的介绍
    - LOTS：每日一签的签文
    - LUCKY：幸运色
 */
-const ROOM = {
-  window:   ["🌅", "窗外", "最喜欢的时刻是日落，天空会在几分钟里换好几种颜色。现在窗外的天色，和你那边的时间是同步的哦。"],
-  books:    ["📚", "书架", "书单里的那几本都住在这儿。书页折角的地方，都是当时心里一动的句子。"],
-  plant:    ["🪴", "小绿植", "浇水全凭想起来，但它活得比我想象中顽强。"],
-  frame:    ["🖼️", "相框", "里面放着一场日落，是我拍过最喜欢的一张。"],
-  lamp:     ["💡", "台灯", "晚上看书全靠它。"],
-  notebook: ["📓", "本子", "随手记的碎碎念，有些后来长成了随笔。"],
-  coffee:   ["☕", "手冲咖啡", "每天的小仪式。水绕着圈慢慢倒下去的那几十秒，是一天里最安静的时候。"],
-  camera:   ["📷", "相机", "出门总会带着它，光影记录里的照片大多出自它。"],
-};
 
 const LOTS = [
   "今天适合慢慢来，走路也是。",
@@ -89,26 +78,37 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     }
   }
 
-  /* ---------- 我的房间 ---------- */
-  const room = $("#roomCard"), note = $("#roomNote");
-  if (room && note) {
-    if (night) room.classList.add("night", "lit");
-    const show = (k) => {
-      const [ic, title, text] = ROOM[k];
-      let t = text;
-      if (k === "lamp") {
-        room.classList.toggle("lit");
-        t += room.classList.contains("lit") ? "（帮你把灯打开啦）" : "（灯关掉啦，再点一下打开）";
-      }
-      note.innerHTML = "";
-      const box = el("div");
-      box.append(el("h3", null, title), el("p", null, t));
-      note.append(el("div", "ic", ic), box);
+  /* ---------- 我的房间：窗外跟着时间变，点东西有小动静 ---------- */
+  const room = $("#roomCard"), roomTime = $("#roomTime");
+  if (room) {
+    const phase = () => {
+      const d = new Date(), h = d.getHours();
+      const p = h >= 19 || h < 5 ? "night" : (h >= 17 || h < 7) ? "dusk" : "day";
+      room.classList.toggle("night", p === "night");
+      room.classList.toggle("dusk", p === "dusk");
+      if (p === "night" && !room.dataset.touched) room.classList.add("lit");
+      const words = {
+        night: h < 5 ? "窗外已经满天星星了，早点睡呀" : "窗外月亮出来了",
+        dusk: h < 12 ? "窗外天刚亮，粉粉的" : "窗外正好是日落",
+        day: h < 12 ? "窗外是上午的蓝天" : "窗外是下午的晴天",
+      }[p];
+      const t = d.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit", hour12: false });
+      if (roomTime) roomTime.innerHTML = `你那边现在是 <b>${t}</b>，${words}。点点台灯和相机试试 ✨`;
+    };
+    phase();
+    setInterval(phase, 30000);
+    const flash = $(".flash", room);
+    const react = (o) => {
+      const k = o.dataset.k;
+      if (k === "lamp") { room.dataset.touched = "1"; room.classList.toggle("lit"); return; }
+      if (k === "camera") { flash.classList.remove("go"); void flash.offsetWidth; flash.classList.add("go"); }
+      if (k === "coffee") { room.classList.add("puff"); setTimeout(() => room.classList.remove("puff"), 2000); }
+      o.classList.remove("wiggle"); void o.getBBox(); o.classList.add("wiggle");
     };
     $$(".obj", room).forEach((o) => {
-      const go = () => { $$(".obj", room).forEach((x) => x.classList.remove("on")); o.classList.add("on"); show(o.dataset.k); };
-      o.addEventListener("click", go);
-      o.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+      o.addEventListener("click", () => react(o));
+      o.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); react(o); } });
+      o.addEventListener("animationend", () => o.classList.remove("wiggle"));
     });
   }
 
@@ -151,7 +151,19 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
   /* ---------- 摸摸小狗 ---------- */
   const dog = $("#dog"), bubble = $("#dogBubble");
   let pets = null, local = 0, petTimer;
-  const showCount = () => { if (pets != null) bubble.textContent = "已经被摸了 " + pets.toLocaleString() + " 次 🐾"; };
+  const showCount = () => {
+    if (pets == null) return;
+    bubble.textContent = pets ? "小暖已经被摸了 " + pets.toLocaleString() + " 次 🐾" : "还没人摸过小暖，你来当第一个吧 🐾";
+  };
+  // 第一次来的访客：让小暖先打个招呼
+  if (dog && !store.get("metNuan")) {
+    setTimeout(() => {
+      bubble.textContent = "你好呀，我是小暖 🐾";
+      dog.classList.add("hello");
+      setTimeout(() => { dog.classList.remove("hello"); showCount(); }, 4500);
+    }, 1800);
+    store.set("metNuan", "1");
+  }
   api("pet").then((d) => { pets = d.count; showCount(); }).catch(() => {});
   const heart = (x, y) => {
     const s = el("span", "heart", Math.random() < 0.7 ? "♥" : "🐾");
@@ -172,7 +184,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
       pets++; showCount();
       api("pet", {}).then((d) => { pets = Math.max(pets, d.count); showCount(); }).catch(() => {});
     } else {
-      bubble.textContent = ["汪！", "再摸一下嘛", "好舒服～", "尾巴停不下来了"][(local - 1) % 4];
+      bubble.textContent = ["汪！我是小暖", "再摸一下嘛", "好舒服～", "尾巴停不下来了"][(local - 1) % 4];
     }
   };
   if (dog) {
