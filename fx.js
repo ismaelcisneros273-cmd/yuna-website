@@ -4,7 +4,7 @@
    - 生日当天：全站撒花（把 BIRTHDAY 改成你的生日，格式 "MM-DD"）
    想提前看看效果：网址后面加 ?fx=snow / ?fx=newyear / ?fx=birthday
 */
-const BIRTHDAY = null; // 例如 "05-20"
+const BIRTHDAY = "11-09"; // 生日，格式 "MM-DD"
 const SPRING_FESTIVAL = ["2027-02-06", "2028-01-26", "2029-02-13", "2030-02-03", "2031-01-23", "2032-02-11"];
 
 (() => {
