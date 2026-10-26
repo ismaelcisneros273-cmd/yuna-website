@@ -1,11 +1,16 @@
-// 一起画像素画：GET 读整张画，POST {i, c} 涂一格（每人 20 秒一格）
-const { pipe, allow, handler } = require("./_redis");
+// 一起画像素画：GET 读整张画，POST {i, c} 涂一格（每人 20 秒一格），DELETE 清空画布（需要管理密码）
+const { pipe, allow, handler, isAdmin } = require("./_redis");
 
 const SIZE = 24;        // 24 x 24 的画布
 const COLORS = 10;      // 调色盘颜色数，和前端保持一致
 const COOLDOWN = 20;    // 秒
 
 module.exports = handler(async (req, res) => {
+  if (req.method === "DELETE") {
+    if (!isAdmin(req)) return res.status(403).json({ error: "forbidden" });
+    await pipe([["DEL", "pixels"], ["DEL", "pixels:count"]]);
+    return res.json({ ok: true });
+  }
   if (req.method === "POST") {
     const i = Number((req.body || {}).i);
     const c = Number((req.body || {}).c);

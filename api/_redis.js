@@ -31,6 +31,14 @@ async function allow(req, action, sec) {
   return ok === "OK";
 }
 
+// 管理员：请求头 x-admin-key 要和 Vercel 环境变量 ADMIN_KEY 一致
+function isAdmin(req) {
+  const key = process.env.ADMIN_KEY;
+  const given = req.headers["x-admin-key"];
+  if (!key || !given || String(given).length !== key.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(String(given)), Buffer.from(key));
+}
+
 function handler(fn) {
   return async (req, res) => {
     res.setHeader("Cache-Control", "no-store");
@@ -44,4 +52,4 @@ function handler(fn) {
   };
 }
 
-module.exports = { pipe, allow, who, handler };
+module.exports = { pipe, allow, who, handler, isAdmin };

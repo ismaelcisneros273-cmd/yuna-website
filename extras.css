@@ -180,3 +180,33 @@
 @keyframes eq{0%,100%{height:4px}50%{height:12px}}
 .tracks li button.missing{opacity:.5}
 @media(prefers-reduced-motion:reduce){.music.on .eq i{animation:none;height:8px}}
+
+/* 小暖：眼神跟随 + 夜里打瞌睡 */
+.dog .look{transform-origin:60px 70px;transition:transform .3s ease-out}
+.dog .open{transition:transform .25s ease-out,opacity .2s}
+.dog .sleep{opacity:0;transition:opacity .3s}
+.dog.asleep .open{opacity:0}
+.dog.asleep .sleep{opacity:1}
+.dog.asleep .head{transform:rotate(9deg) translateY(4px)}
+.dog.asleep .tail{animation-duration:4s}
+.dog .zzz{position:absolute;right:2px;top:-6px;pointer-events:none;font-family:var(--serif);font-style:italic;font-weight:600;color:var(--rose-d);opacity:0;transition:opacity .4s}
+.dog.asleep .zzz{opacity:1}
+.dog .zzz i{position:absolute;right:0;font-size:13px;animation:zz 3s ease-in infinite;opacity:0}
+.dog .zzz i:nth-child(2){animation-delay:1s;font-size:15px}
+.dog .zzz i:nth-child(3){animation-delay:2s;font-size:18px}
+@keyframes zz{0%{opacity:0;transform:translate(0,10px)}30%{opacity:.9}100%{opacity:0;transform:translate(14px,-22px)}}
+.dog.asleep:not(:hover) .bubble{opacity:0}
+
+/* 访客编号 */
+.foot-msg a{color:var(--rose-d);text-decoration:none;font-family:var(--serif);font-size:16px}
+.visitor{margin:10px 0 14px;font-size:13px;color:var(--soft);min-height:20px}
+.visitor b{color:var(--rose-d);font-weight:500;font-family:var(--serif);font-size:15px}
+
+/* 便利贴贴纸 */
+.stickers{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.stickers span{font-size:13px;color:var(--soft);margin-right:4px}
+.stickers button{font:inherit;font-size:18px;line-height:1;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--bg);cursor:pointer;transition:transform .2s}
+.stickers button:hover{transform:translateY(-2px) rotate(-6deg)}
+.stickers button.sel{border-color:var(--ink);background:var(--paper)}
+.stickers button.none{font-size:12px;color:var(--soft);width:auto;padding:0 10px}
+.note .stk{position:absolute;right:-8px;bottom:-10px;font-size:32px;filter:drop-shadow(0 3px 4px rgba(80,60,40,.18))}

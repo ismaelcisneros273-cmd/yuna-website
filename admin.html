@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>小角落管理</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#faf6f0;--paper:#fffdf9;--ink:#3b3230;--soft:#8a7d76;--line:#ece3d8;--rose:#c98b86;--bad:#c0544c}
+@media (prefers-color-scheme:dark){:root{--bg:#1f1b1a;--paper:#2a2422;--ink:#efe6df;--soft:#a8998f;--line:#3a322f;--rose:#e3aaa4;--bad:#e3837b}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:32px 16px 60px}
+.wrap{max-width:720px;margin:0 auto}
+h1{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:28px;margin-bottom:4px}
+.sub{color:var(--soft);font-size:14px;margin-bottom:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:16px}
+input{font:inherit;width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);margin:8px 0}
+button{font:inherit;font-size:14px;border:0;border-radius:999px;padding:8px 18px;cursor:pointer;background:var(--ink);color:var(--bg)}
+button.ghost{background:none;color:var(--soft);border:1px solid var(--line)}
+button.del{background:none;color:var(--bad);border:1px solid currentColor;padding:4px 12px;font-size:13px;flex:none}
+.stats{display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--soft)}
+.stats b{display:block;font-size:22px;color:var(--ink);font-weight:500}
+.note{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.note:first-child{border-top:0}
+.note .t{flex:1;min-width:0;word-break:break-word}
+.note .m{font-size:12.5px;color:var(--soft)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#msg{font-size:13.5px;color:var(--soft);min-height:22px;margin-top:6px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>小角落管理 ✿</h1>
+  <p class="sub">只有知道管理密码的人能用。密码是你在 Vercel 环境变量 ADMIN_KEY 里设的那个。</p>
+
+  <div class="card" id="login">
+    <label for="key">管理密码</label>
+    <input id="key" type="password" autocomplete="current-password">
+    <button id="go">进入</button>
+    <div id="msg"></div>
+  </div>
+
+  <div id="panel" class="hidden">
+    <div class="card">
+      <div class="row">
+        <div class="stats">
+          <div><b id="sNotes">-</b>张便利贴</div>
+          <div><b id="sPets">-</b>次摸小暖</div>
+          <div><b id="sVisits">-</b>位访客</div>
+          <div><b id="sPix">-</b>笔像素</div>
+        </div>
+        <button class="ghost" id="out">退出</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row" style="margin-bottom:6px">
+        <strong>便利贴</strong>
+        <button class="ghost" id="reload">刷新</button>
+      </div>
+      <div id="list"></div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div><strong>像素画布</strong><div class="m" style="font-size:13px;color:var(--soft)">画布被画乱了的话可以一键清空，清空后找不回来</div></div>
+        <button class="del" id="wipe">清空画布</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const $ = (s) => document.querySelector(s);
+let KEY = "";
+try { KEY = sessionStorage.getItem("adminKey") || ""; } catch (e) {}
+const call = (path, method = "GET") =>
+  fetch("/api/" + path, { method, headers: { "x-admin-key": KEY } }).then(async (r) => {
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 403) throw new Error("forbidden");
+    if (!r.ok) throw new Error(d.error || "error");
+    return d;
+  });
+const fmt = (t) => new Date(t).toLocaleString("zh-CN", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+
+function render(notes) {
+  $("#sNotes").textContent = notes.length;
+  const list = $("#list"); list.innerHTML = "";
+  if (!notes.length) { list.textContent = "还没有便利贴"; return; }
+  for (const n of notes) {
+    const row = document.createElement("div"); row.className = "note";
+    const t = document.createElement("div"); t.className = "t";
+    const p = document.createElement("div"); p.textContent = n.text;
+    const m = document.createElement("div"); m.className = "m"; m.textContent = `— ${n.name} · ${fmt(n.t)}`;
+    t.append(p, m);
+    const b = document.createElement("button"); b.className = "del"; b.textContent = "删除";
+    b.onclick = async () => {
+      if (!confirm("确定删掉这张便利贴吗？删了就找不回来了。")) return;
+      b.disabled = true;
+      try { await call("notes?id=" + encodeURIComponent(n.id), "DELETE"); row.remove(); $("#sNotes").textContent = Number($("#sNotes").textContent) - 1; }
+      catch (e) { b.disabled = false; alert("没删掉，稍后再试"); }
+    };
+    row.append(t, b); list.appendChild(row);
+  }
+}
+async function load() {
+  const d = await call("notes?all=1");
+  render(d.notes);
+  call("pet").then((x) => ($("#sPets").textContent = x.count)).catch(() => {});
+  call("visit").then((x) => ($("#sVisits").textContent = x.total)).catch(() => {});
+  call("pixels").then((x) => ($("#sPix").textContent = x.count)).catch(() => {});
+}
+async function enter() {
+  $("#msg").textContent = "核对中……";
+  try {
+    await load();
+    try { sessionStorage.setItem("adminKey", KEY); } catch (e) {}
+    $("#login").classList.add("hidden"); $("#panel").classList.remove("hidden");
+  } catch (e) {
+    $("#msg").textContent = e.message === "forbidden" ? "密码不对，或者 Vercel 里还没设置 ADMIN_KEY" : "连不上，稍后再试";
+  }
+}
+$("#go").onclick = () => { KEY = $("#key").value.trim(); enter(); };
+$("#key").onkeydown = (e) => { if (e.key === "Enter") $("#go").click(); };
+$("#out").onclick = () => { try { sessionStorage.removeItem("adminKey"); } catch (e) {} location.reload(); };
+$("#reload").onclick = () => load();
+$("#wipe").onclick = async () => {
+  if (!confirm("确定清空整张像素画布吗？")) return;
+  try { await call("pixels", "DELETE"); $("#sPix").textContent = 0; alert("画布已经清空啦"); } catch (e) { alert("没清掉，稍后再试"); }
+};
+if (KEY) enter();
+</script>
+</body>
+</html>

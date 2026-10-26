@@ -31,6 +31,7 @@ const PET_LINES = [
 ];
 
 const PIXEL_COLORS = ["#fffdf9", "#f3c6c1", "#d9837d", "#f1dca7", "#e0a95f", "#b9c8b0", "#6f9a7a", "#bcd0de", "#8fa8d6", "#3b3230"];
+const STICKERS = ["🐶", "☕", "🌙", "🌸", "⭐", "🎵", "📷", "🍰"];
 const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--n4)"];
 
 (() => {
@@ -153,17 +154,57 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     if (pets) { bubble.appendChild(el("small", null, "小暖被摸了 " + pets.toLocaleString() + " 次")); }
   };
   const showCount = () => {
-    if (pets == null) return;
+    if (pets == null || dog.classList.contains("asleep")) return;
     say(pets ? "摸摸我 🐾" : "还没人摸过小暖，你来当第一个吧 🐾");
   };
+  // 访客编号：第一次来领一个号，之后一直记着
+  const visitor = $("#visitor");
+  const showVisit = (n) => {
+    if (!visitor || !n) return;
+    visitor.innerHTML = "";
+    visitor.append("你是第 ", el("b", null, Number(n).toLocaleString()), " 位来串门的朋友 ✿");
+  };
+  let visitNo = Number(store.get("visitNo")) || null;
+  const visitReady = visitNo ? Promise.resolve(visitNo)
+    : api("visit", {}).then((d) => { visitNo = d.n; store.set("visitNo", String(d.n)); return d.n; }).catch(() => null);
+  visitReady.then(showVisit);
+
+  // 小暖的作息：22:00-7:00 打瞌睡，摸一下会醒，过一会儿又睡着
+  const sleepy = () => { const h = new Date().getHours(); return h >= 22 || h < 7; };
+  let napTimer;
+  const doze = () => {
+    clearTimeout(napTimer);
+    napTimer = setTimeout(() => { if (sleepy()) { dog.classList.add("asleep"); bubble.textContent = "zzz……小暖睡着了"; } }, 9000);
+  };
+  if (dog && sleepy()) { dog.classList.add("asleep"); bubble.textContent = "zzz……小暖睡着了，摸摸他？"; }
+
   // 第一次来的访客：让小暖先打个招呼
-  if (dog && !store.get("metNuan")) {
+  if (dog && !store.get("metNuan") && !sleepy()) {
     setTimeout(() => {
-      bubble.textContent = "你好呀，我是小暖 🐾";
+      bubble.textContent = visitNo ? `你好呀，第 ${visitNo} 位朋友！我是小暖 🐾` : "你好呀，我是小暖 🐾";
       dog.classList.add("hello");
-      setTimeout(() => { dog.classList.remove("hello"); showCount(); }, 4500);
-    }, 1800);
+      setTimeout(() => { dog.classList.remove("hello"); showCount(); }, 5000);
+    }, 2000);
     store.set("metNuan", "1");
+  }
+
+  // 白天：头和眼睛跟着鼠标转
+  const look = dog && $(".look", dog), eyes = dog && $(".open", dog);
+  if (look && matchMedia("(pointer:fine)").matches) {
+    let raf = 0, mx = 0, my = 0;
+    window.addEventListener("pointermove", (e) => {
+      mx = e.clientX; my = e.clientY;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        if (dog.classList.contains("asleep")) { look.style.transform = ""; eyes.style.transform = ""; return; }
+        const r = dog.getBoundingClientRect();
+        const dx = Math.max(-1, Math.min(1, (mx - (r.left + r.width / 2)) / 400));
+        const dy = Math.max(-1, Math.min(1, (my - (r.top + r.height * 0.4)) / 400));
+        look.style.transform = `translate(${dx * 3}px, ${dy * 2}px) rotate(${dx * 7}deg)`;
+        eyes.style.transform = `translate(${dx * 1.6}px, ${dy * 1.4}px)`;
+      });
+    }, { passive: true });
   }
   api("pet").then((d) => { pets = d.count; showCount(); }).catch(() => {});
   const heart = (x, y) => {
@@ -175,6 +216,9 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     setTimeout(() => s.remove(), 1200);
   };
   const pet = (e) => {
+    const wasAsleep = dog.classList.contains("asleep");
+    dog.classList.remove("asleep");
+    if (sleepy()) doze();
     dog.classList.add("petted");
     clearTimeout(petTimer);
     petTimer = setTimeout(() => dog.classList.remove("petted"), 1400);
@@ -183,6 +227,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     local++;
     let line = PET_LINES[Math.floor(Math.random() * PET_LINES.length)];
     if (local === 1) line = "汪！我是小暖";
+    if (wasAsleep) line = ["唔……你来啦", "（揉眼睛）汪？", "被你摸醒了……", "再睡五分钟嘛"][Math.floor(Math.random() * 4)];
     if (pets != null) {
       pets++; say(line);
       api("pet", {}).then((d) => { pets = Math.max(pets, d.count); say(line); }).catch(() => {});
@@ -297,6 +342,15 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
       b.addEventListener("click", () => { color = i; $$("button", swBox).forEach((x) => x.classList.remove("sel")); b.classList.add("sel"); });
       swBox.appendChild(b);
     });
+    let sticker = -1;
+    const stBox = $("#gbSt");
+    [-1, ...STICKERS.keys()].forEach((i) => {
+      const b = el("button", i === -1 ? "sel none" : null, i === -1 ? "不要" : STICKERS[i]);
+      b.type = "button";
+      b.setAttribute("aria-label", i === -1 ? "不要贴纸" : "贴纸 " + STICKERS[i]);
+      b.addEventListener("click", () => { sticker = i; $$("button", stBox).forEach((x) => x.classList.remove("sel")); b.classList.add("sel"); });
+      stBox.appendChild(b);
+    });
     nameIn.value = store.get("gbName") || "";
     const count = () => { msg.textContent = textIn.value.length + " / 120"; };
     textIn.addEventListener("input", count);
@@ -312,6 +366,11 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
         const by = el("div", "by");
         by.append(el("span", null, "— " + n.name), el("span", null, fmt(n.t)));
         d.append(el("p", null, n.text), by);
+        if (n.st >= 0 && STICKERS[n.st]) {
+          const k = el("span", "stk", STICKERS[n.st]);
+          k.style.transform = `rotate(${(n.rot || 0) * -3}deg)`;
+          d.appendChild(k);
+        }
         wall.appendChild(d);
       });
     };
@@ -322,7 +381,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
       if (!text) { textIn.focus(); return; }
       gbBtn.disabled = true;
       store.set("gbName", nameIn.value.trim());
-      api("notes", { name: nameIn.value, text, color })
+      api("notes", { name: nameIn.value, text, color, sticker })
         .then((d) => { render(d.notes); textIn.value = ""; count(); msg.textContent = "贴好啦，谢谢你来过 ✿"; })
         .catch((err) => {
           const m = { no_links: "留言里不能带链接哦", cooldown: "一分钟只能贴一张，喝口水再来～", empty: "写点什么再贴吧" };
