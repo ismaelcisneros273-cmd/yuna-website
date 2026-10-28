@@ -235,3 +235,4 @@
 .spin{transform-origin:80px 60px;animation:spin 9s linear infinite}
 .twinkle{animation:tw 2.6s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.spin,.twinkle{animation:none}}
+.tv p.line .by{display:block;font-style:normal;font-family:var(--sans);font-size:12px;color:var(--soft);margin-top:6px}
