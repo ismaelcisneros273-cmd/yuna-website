@@ -178,6 +178,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
       <a href="#about" class="hide-m">关于我</a>
       <a href="#room">房间</a>
       <a href="#films" class="hide-m">电影</a>
+      <a href="#anime" class="hide-m">动画</a>
       <a href="#draw" class="hide-m">画画</a>
       <a href="#guestbook">留言</a>
       <a href="#journal">随笔</a>
@@ -382,9 +383,41 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
     </div>
   </section>
 
+  <!-- 动画角：每台小电视一部剧；想换成海报的话，把 <div class="screen ..."> 里面换成 <img src="anime/xxx.jpg" alt=""> -->
+  <section class="block" id="anime">
+    <div class="head rv"><span class="num">06</span><h2>动画角</h2><span class="en">ON MY TV</span></div>
+    <p class="sub rv">最近在追的几部，点电视可以换台 📺</p>
+    <div class="tvs">
+      <article class="tv rv" data-show="rick-and-morty">
+        <div class="set"><div class="screen s-portal"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <h3>瑞克和莫蒂</h3><div class="fen">Rick and Morty · 2013–</div>
+        <p class="line">天才外公带着外孙满宇宙乱跑，每一集都比上一集更离谱。</p>
+        <button class="like" data-film="rick-and-morty" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
+      </article>
+      <article class="tv rv" data-show="gravity-falls">
+        <div class="set"><div class="screen s-forest"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <h3>怪诞小镇</h3><div class="fen">Gravity Falls · 2012–2016</div>
+        <p class="line">一个暑假，一座小镇，一对双胞胎，和数不完的秘密。</p>
+        <button class="like" data-film="gravity-falls" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
+      </article>
+      <article class="tv rv" data-show="inside-job">
+        <div class="set"><div class="screen s-secret"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <h3>Inside Job</h3><div class="fen">Netflix · 2021–2022</div>
+        <p class="line">所有阴谋论都是真的，而管着它们的是一群加班的社畜。</p>
+        <button class="like" data-film="inside-job" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
+      </article>
+      <article class="tv rv" data-show="solar-opposites">
+        <div class="set"><div class="screen s-planet"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <h3>Solar Opposites</h3><div class="fen">Hulu · 2020–</div>
+        <p class="line">四个外星人迫降在美国郊区，适应得一塌糊涂。</p>
+        <button class="like" data-film="solar-opposites" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
+      </article>
+    </div>
+  </section>
+
   <!-- 唱片机 + 每日一签 -->
   <section class="block" id="little">
-    <div class="head rv"><span class="num">06</span><h2>小玩意</h2><span class="en">LITTLE THINGS</span></div>
+    <div class="head rv"><span class="num">07</span><h2>小玩意</h2><span class="en">LITTLE THINGS</span></div>
     <div class="duo">
       <div class="card player rv" id="player">
         <div class="tt">
@@ -429,7 +462,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
 
   <!-- 一起画像素画 -->
   <section class="block" id="draw">
-    <div class="head rv"><span class="num">07</span><h2>一起画画</h2><span class="en">PIXEL WALL</span></div>
+    <div class="head rv"><span class="num">08</span><h2>一起画画</h2><span class="en">PIXEL WALL</span></div>
     <p class="sub rv">每位路过的人都可以涂一格，慢慢拼成一幅大家一起画的画</p>
     <div class="card rv">
       <div class="soon">这块画布还在准备中，很快开放 🎨</div>
@@ -447,7 +480,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
 
   <!-- 便利贴留言墙 -->
   <section class="block" id="guestbook">
-    <div class="head rv"><span class="num">08</span><h2>留言墙</h2><span class="en">GUESTBOOK</span></div>
+    <div class="head rv"><span class="num">09</span><h2>留言墙</h2><span class="en">GUESTBOOK</span></div>
     <p class="sub rv">来都来了，贴一张便利贴再走吧</p>
     <div class="rv">
       <div class="card soon">留言墙正在刷漆，很快开放 🚧</div>
@@ -468,7 +501,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
 
   <!-- 随笔：复制一个 <details class="post"> 就能加一篇 -->
   <section class="block" id="journal">
-    <div class="head rv"><span class="num">09</span><h2>随笔</h2><span class="en">JOURNAL</span></div>
+    <div class="head rv"><span class="num">10</span><h2>随笔</h2><span class="en">JOURNAL</span></div>
     <div class="posts">
       <details class="post rv" open>
         <summary><span class="d">2026.10</span><span class="t">你好，这里是随笔角</span><span class="plus">+</span></summary>
