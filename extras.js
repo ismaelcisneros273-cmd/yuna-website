@@ -67,10 +67,10 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
   const greet = $("#greet");
   if (greet) {
     greet.textContent =
-      hour < 6 ? "Still up? welcome to my little corner" :
-      hour < 12 ? "Good morning · welcome to my little corner" :
-      hour < 18 ? "Good afternoon · welcome to my little corner" :
-      "Good evening · welcome to my little corner";
+      hour < 6 ? "这么晚还没睡呀。" :
+      hour < 12 ? "早上好。" :
+      hour < 18 ? "下午好。" :
+      "晚上好。";
   }
   const stars = $("#stars");
   if (stars) {
@@ -131,7 +131,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     for (const c of today + vid) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); }
     h >>>= 0;
     const idx = h % LOTS.length, [cname, chex] = LUCKY[(h >>> 8) % LUCKY.length];
-    $("#lotNo").textContent = "No." + String(idx + 1).padStart(2, "0") + " · " + today.replace(/-/g, ".");
+    $("#lotNo").textContent = "第 " + (idx + 1) + " 签，" + today.replace(/-/g, ".");
     $("#lotMsg").textContent = LOTS[idx];
     $("#lotSw").style.background = chex;
     $("#lotColor").textContent = cname;

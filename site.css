@@ -1,0 +1,370 @@
+/* ===== Yuna 的家 =====
+   整个网站是一个家，往下滑就是从一个角落走到下一个角落。
+   每个角落一整面墙一个颜色；标题用得意黑，正文用系统字体。 */
+
+:root{
+  --ink:#22304A;          /* 深藏青：文字、描边 */
+  --paper:#FFFDF8;        /* 暖白：纸、便条 */
+  --coral:#F06A6A;        /* 珊瑚红：小暖的鼻子、强调 */
+  --mustard:#F2C14E;      /* 芥末黄：书桌那面墙 */
+  --sky:#BFDCEB;          /* 天空蓝：门口、画板 */
+  --mint:#A8D8C8;         /* 薄荷绿：冰箱 */
+  --night:#1B2740;        /* 夜里的床头 */
+  --wood:#C98F5B; --wood-d:#A8703F;
+  --soft:rgba(34,48,74,.7);
+  --display:"Yuna Display",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  /* 房间插画用 */
+  --room-wall:#FFF4DC; --room-wall2:#F4E1BF;
+  /* 便条颜色 */
+  --n0:#F9C4C0; --n1:#F8DE96; --n2:#FFFDF8; --n3:#D7E9F3; --n4:#E4D7F0;
+  --line:rgba(34,48,74,.18);
+  --bg:var(--paper);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:8px;z-index:60}
+.skip:focus{left:8px}
+
+h1,h2,.gn-title{font-family:var(--display);font-weight:400;letter-spacing:.01em;line-height:1}
+h2{font-size:clamp(48px,7.5vw,80px);margin-bottom:14px}
+h3{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.2}
+.lead{font-size:17px;max-width:32em;color:var(--soft);margin-bottom:40px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:999px;padding:12px 26px;font-size:15px;font-weight:600;background:var(--ink);color:var(--paper);text-decoration:none;cursor:pointer;transition:transform .16s ease-out,background-color .2s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:default}
+.soon{display:none;font-family:var(--display);font-size:24px;padding:20px 0}
+.offline .soon{display:block}
+.offline .live{display:none!important}
+
+/* 每面墙的颜色 */
+.spot{position:relative;padding:clamp(80px,11vw,128px) 0}
+.f-mustard{background:var(--mustard)}
+.f-paper{background:var(--paper)}
+.f-ink{background:var(--ink);color:var(--paper)}
+.f-coral{background:var(--coral)}
+.f-sky{background:var(--sky)}
+.f-mint{background:var(--mint)}
+.f-night{background:var(--night);color:var(--paper)}
+.f-ink .lead,.f-night .lead{color:rgba(255,253,248,.72)}
+
+/* ---------- 顶栏 ---------- */
+.bar{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:2.5px solid var(--ink)}
+.bar .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none;user-select:none}
+.brand svg{width:34px;height:34px;transition:transform .3s ease-out}
+.brand:active svg{transform:rotate(-12deg) scale(.94)}
+.brand span{font-family:var(--display);font-size:24px;line-height:1}
+.links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.links::-webkit-scrollbar{display:none}
+.links a{flex:none;text-decoration:none;font-size:15px;padding:6px 10px;border-radius:999px;transition:background-color .2s}
+.links a:hover{background:var(--mustard)}
+@media(min-width:900px){.links{-webkit-mask-image:none}}
+
+/* ---------- 门口 ---------- */
+.hero{background:var(--sky);min-height:calc(100svh - 60px);display:flex;align-items:center;overflow:hidden;padding-bottom:180px;transition:background-color .6s}
+.hero-in{display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,5vw,64px);align-items:center;position:relative;z-index:2;width:100%}
+.logo-e{width:clamp(180px,26vw,300px);height:auto;display:block}
+.logo-e .peek{animation:peek .9s .25s cubic-bezier(.2,.9,.3,1.25) both}
+@keyframes peek{from{transform:translateY(34px)}}
+.hero h1{font-size:clamp(72px,13vw,150px);margin-bottom:22px}
+.hero .lead{font-size:clamp(17px,2vw,20px);color:var(--ink);margin-bottom:30px;max-width:24em}
+.skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:170px;display:block}
+.skyline .win{fill:var(--paper);opacity:.35;transition:fill .6s,opacity .6s}
+.stars{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1s}
+.stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#FFF3CF;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.25;transform:scale(.6)}}
+html.night .hero{background:var(--night);color:var(--paper)}
+html.night .hero .lead{color:rgba(255,253,248,.8)}
+html.night .hero .btn{background:var(--paper);color:var(--ink)}
+html.night .stars{opacity:1}
+html.night .skyline .win{fill:#FFE9A8;opacity:.95}
+html.night .skyline .bm{fill:#B98A2A}
+html:not(.night) .logo-e .moon{fill:#F2C14E}
+@media(max-width:700px){
+  .hero-in{grid-template-columns:1fr;gap:20px}
+  .logo-e{width:150px}
+  .hero{padding-top:56px;align-items:flex-start}
+}
+
+/* ---------- 书桌 ---------- */
+.desk{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,5vw,64px);align-items:start}
+.room{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:28px;padding:10px;overflow:hidden}
+.room svg{width:100%;height:auto;display:block;border-radius:18px}
+.room-time{margin-top:14px;font-size:15px}
+.room-time b{font-weight:700}
+.w-wall{fill:var(--room-wall)} .w-wall2{fill:var(--room-wall2)}
+.w-wood{fill:var(--wood)} .w-wood-d{fill:var(--wood-d)}
+.w-line{stroke:var(--wood-d);stroke-width:3;fill:none;stroke-linecap:round}
+.obj{cursor:pointer;transition:transform .25s ease-out;transform-box:fill-box;transform-origin:center bottom}
+.obj:hover{transform:translateY(-4px)}
+.obj:focus{outline:none}
+.obj:focus-visible{outline:3px solid var(--coral)}
+.obj.wiggle{animation:wig .45s ease-out}
+@keyframes wig{30%{transform:rotate(-3deg)}70%{transform:rotate(2deg)}}
+.lamp-light{fill:#FFE9A8;opacity:0;transition:opacity .4s}
+.room.lit .lamp-light{opacity:.45}
+.steam path{fill:none;stroke:#8a7d76;stroke-width:2;stroke-linecap:round;opacity:.5;animation:steam 3s ease-in-out infinite}
+.steam path:nth-child(2){animation-delay:-1.4s}
+@keyframes steam{0%{transform:translateY(6px);opacity:0}40%{opacity:.55}100%{transform:translateY(-12px);opacity:0}}
+.room.puff .steam path{animation-duration:.9s;stroke-width:3.5}
+.sky-day,.sky-dusk,.sky-night{transition:opacity 1s}
+.room .sky-dusk,.room .sky-night{opacity:0}
+.room.dusk .sky-day,.room.night .sky-day{opacity:0}
+.room.dusk .sky-dusk,.room.night .sky-night{opacity:1}
+.cloud{animation:drift 26s linear infinite alternate}
+@keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:2}
+.flash.go{animation:flash .5s ease-out}
+@keyframes flash{10%{opacity:.85}100%{opacity:0}}
+.desk-text p{font-size:17px;margin-bottom:16px;max-width:30em}
+.xiaonuan b{font-weight:700}
+.memo{margin-top:30px;background:var(--paper);border:3px solid var(--ink);border-radius:6px;padding:20px 24px 16px;transform:rotate(-1.2deg);max-width:420px}
+.memo h3{font-size:22px;margin-bottom:10px}
+.memo dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px}
+.memo dt{font-weight:700}
+.memo dd.todo{color:var(--soft)}
+.memo-date{font-size:13px;color:var(--soft);margin-top:10px}
+@media(max-width:820px){.desk{grid-template-columns:1fr}}
+
+/* ---------- 书架 ---------- */
+.shelf{position:relative;display:flex;align-items:flex-end;gap:10px;padding:0 28px;min-height:300px;border-bottom:18px solid var(--wood);box-shadow:0 3px 0 var(--ink);max-width:760px}
+.spine{width:clamp(62px,9vw,84px);height:var(--h);background:var(--c);border:3px solid var(--ink);border-bottom:0;border-radius:8px 8px 0 0;cursor:pointer;writing-mode:vertical-rl;font-family:var(--display);font-size:clamp(22px,3vw,28px);letter-spacing:.12em;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s cubic-bezier(.2,.9,.3,1.2)}
+.spine::before,.spine::after{content:"";position:absolute;left:10px;right:10px;height:3px;background:var(--ink);opacity:.8}
+.spine::before{top:18px}.spine::after{bottom:22px}
+.spine:hover{transform:translateY(-6px)}
+.spine.on{transform:translateY(-28px)}
+.spine:active{transform:translateY(-22px) scale(.98)}
+.shelf-deco{margin-left:auto;align-self:flex-end;padding-bottom:0}
+.pot{display:block;width:56px;height:46px;background:var(--coral);border:3px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0;position:relative}
+.pot::before{content:"";position:absolute;left:4px;bottom:100%;width:42px;height:58px;background:radial-gradient(ellipse 9px 26px at 30% 60%,#3E8E9A 98%,transparent),radial-gradient(ellipse 9px 30px at 55% 45%,#5BAA8F 98%,transparent),radial-gradient(ellipse 9px 24px at 80% 62%,#3E8E9A 98%,transparent)}
+.book-note{margin-top:36px;max-width:560px}
+.book-note h3{font-size:34px}
+.bn-author{color:var(--soft);margin:4px 0 10px}
+@media(max-width:560px){.shelf{padding:0 12px;gap:6px}.shelf-deco{display:none}}
+
+/* ---------- 电视柜：电影票 ---------- */
+.films{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:84px}
+.film{display:flex;background:var(--fc);color:var(--ink);border-radius:10px;position:relative;transform:rotate(-1.6deg)}
+.film:nth-child(even){transform:rotate(1.4deg);margin-top:18px}
+.film::before{content:"";position:absolute;top:-9px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--coral);border:2.5px solid var(--ink);z-index:2}
+.stub{flex:none;width:48px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:14px 0;border-right:2.5px dashed rgba(34,48,74,.45)}
+.stub .yr{font-family:var(--display);font-size:20px;writing-mode:vertical-rl}
+.stub .no{font-size:11px;writing-mode:vertical-rl;opacity:.75}
+.fbody{padding:18px 16px 16px;min-width:0}
+.film h3{font-size:26px}
+.fen{font-size:13px;opacity:.75;margin:4px 0 12px;line-height:1.5}
+.film p.line{font-size:15px;line-height:1.6}
+@media(max-width:960px){.films{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.films{grid-template-columns:1fr}.film:nth-child(even){margin-top:0}}
+
+/* ♡ 也喜欢 / 也在看 */
+.like{all:unset;cursor:pointer;margin-top:12px;font-size:13px;display:inline-flex;gap:6px;align-items:center;padding:5px 12px;border-radius:999px;border:2px solid currentColor;transition:background-color .2s,transform .16s ease-out}
+.like:active{transform:scale(.95)}
+.like[hidden]{display:none}
+.like.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.f-ink .tv .like.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.like:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+
+/* ---------- 电视柜：小电视 ---------- */
+.tvs{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:end}
+.tv{color:var(--paper)}
+.set{position:relative;background:#E9C9A8;border:3px solid var(--paper);border-radius:22px;padding:12px 12px 8px;margin:22px 0 18px;cursor:pointer}
+.tv:nth-child(2) .set{background:var(--mint)}.tv:nth-child(3) .set{background:var(--sky)}.tv:nth-child(4) .set{background:var(--mustard)}
+.set::before,.set::after{content:"";position:absolute;top:-22px;width:3px;height:24px;background:var(--paper);border-radius:2px}
+.set::before{left:42%;transform:rotate(-28deg)}.set::after{left:56%;transform:rotate(28deg)}
+.set:active{transform:scale(.98)}
+.screen{position:relative;aspect-ratio:4/3;border-radius:16px/22px;overflow:hidden;background:#111;border:2.5px solid var(--ink)}
+.screen svg,.screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);z-index:2}
+.screen i{position:absolute;inset:0;z-index:3;opacity:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");background-size:120px}
+.tv.zap .screen i{opacity:1;animation:noise .12s steps(3) infinite}
+@keyframes noise{33%{background-position:40px 70px}66%{background-position:-60px 20px}100%{background-position:15px -45px}}
+.knobs{display:flex;justify-content:flex-end;gap:8px;margin-top:7px}
+.knobs b{width:12px;height:12px;border-radius:50%;background:var(--ink);position:relative;transition:transform .4s ease-out}
+.knobs b::after{content:"";position:absolute;left:5px;top:1px;width:2px;height:5px;background:var(--paper)}
+.tv.zap .knobs b:first-child{transform:rotate(120deg)}
+.tv h3{font-size:24px}
+.tv .fen{opacity:.7}
+.tv p.line{font-size:15px;line-height:1.6}
+.tv p.line .by{display:block;font-size:12.5px;opacity:.7;margin-top:6px}
+.spin{transform-origin:80px 60px;animation:spin 9s linear infinite}
+.twinkle{animation:tw 2.6s ease-in-out infinite}
+.cabinet{height:26px;background:var(--wood);border:3px solid var(--paper);border-radius:6px;margin-top:-6px;position:relative;z-index:-0}
+@media(max-width:960px){.tvs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.tvs{grid-template-columns:1fr}.tv{max-width:300px}}
+
+/* ---------- 唱片机旁 ---------- */
+.duo{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(28px,5vw,56px);align-items:start}
+.player-in{display:flex;gap:28px;align-items:center;margin-top:28px}
+.tt{flex:none;width:clamp(200px,24vw,260px)}
+.tt svg{width:100%;display:block;border:3px solid var(--ink);border-radius:20px}
+.vinyl{transform-origin:80px 82px;animation:spin 3.2s linear infinite;animation-play-state:paused}
+.player.playing .vinyl{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+.arm{transform-origin:150px 22px;transition:transform .8s ease-out}
+.player.playing .arm{transform:rotate(22deg)}
+.tracks{flex:1;min-width:0}
+.np-title{font-family:var(--display);font-size:26px;line-height:1.25;margin-bottom:14px;min-height:34px}
+.tracks ol{list-style:none;display:flex;flex-direction:column;gap:6px}
+.tracks li button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;gap:12px;align-items:baseline;padding:9px 14px;border-radius:12px;background:rgba(255,253,248,.35);font-size:15px;transition:background-color .2s}
+.tracks li button:hover{background:rgba(255,253,248,.6)}
+.tracks li button.cur{background:var(--paper)}
+.tracks li button:focus-visible{outline:3px solid var(--ink)}
+.tracks .n{font-weight:700;width:20px}
+.tracks .ar{margin-left:auto;opacity:.7;font-size:13px;white-space:nowrap}
+.tracks li button.missing{opacity:.5}
+.hint{font-size:14px;margin-top:14px;opacity:.8}
+.fortune{background:var(--paper);border:3px solid var(--ink);border-radius:24px;padding:26px;text-align:center;display:flex;flex-direction:column;align-items:center;perspective:900px}
+.fortune h3{font-size:34px}
+.fortune > p{font-size:14px;color:var(--soft);margin:4px 0 18px}
+.lot{width:100%;max-width:260px;height:180px;position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,1.3,.5,1)}
+.lot.open{transform:rotateY(180deg)}
+.lot .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;border:3px solid var(--ink)}
+.lot .front{background:var(--mustard);font-family:var(--display);font-size:34px}
+.lot .back{transform:rotateY(180deg);background:var(--paper)}
+.lot .no{font-size:13px;color:var(--soft)}
+.lot .msg{font-size:17px;line-height:1.6;margin:8px 0 12px;font-weight:600}
+.lot .lucky{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:6px}
+.lot .lucky b{width:14px;height:14px;border-radius:50%;display:inline-block;border:2px solid var(--ink)}
+.fortune .btn{margin-top:20px}
+.again{font-size:13px;color:var(--soft);margin-top:10px;min-height:20px}
+@media(max-width:900px){.duo{grid-template-columns:1fr}}
+@media(max-width:560px){.player-in{flex-direction:column;align-items:stretch}.tt{margin:0 auto}}
+
+/* ---------- 画板 ---------- */
+.easel-wrap{display:grid;grid-template-columns:1fr minmax(0,520px);gap:clamp(28px,5vw,64px);align-items:start}
+.easel{position:relative;padding-bottom:70px}
+.easel::before,.easel::after{content:"";position:absolute;bottom:0;width:14px;height:110px;background:var(--wood);border:3px solid var(--ink);border-radius:4px;z-index:0}
+.easel::before{left:18%;transform:rotate(10deg)}.easel::after{right:18%;transform:rotate(-10deg)}
+.board{position:relative;z-index:1;display:grid;grid-template-columns:repeat(24,1fr);aspect-ratio:1;width:100%;background:var(--paper);border:12px solid var(--wood);outline:3px solid var(--ink);border-radius:6px;touch-action:manipulation}
+.board i{display:block;box-shadow:inset 0 0 0 .5px rgba(34,48,74,.08);cursor:crosshair}
+.board i:hover{box-shadow:inset 0 0 0 2px var(--ink)}
+.board i.pop{animation:pop .35s ease-out}
+@keyframes pop{50%{transform:scale(1.5)}}
+.pal{display:grid;grid-template-columns:repeat(5,44px);gap:12px;margin-bottom:18px}
+.pal button{width:44px;height:44px;border-radius:50% 46% 52% 48%;border:3px solid var(--ink);cursor:pointer;transition:transform .16s ease-out}
+.pal button:active{transform:scale(.92)}
+.pal button.sel{transform:translateY(-4px);box-shadow:0 4px 0 var(--ink)}
+.pix-status{font-size:15px;max-width:22em}
+@media(max-width:820px){.easel-wrap{grid-template-columns:1fr}}
+
+/* ---------- 冰箱门 ---------- */
+.fridge{position:relative}
+.fridge::before{content:"";position:absolute;left:0;top:10px;width:14px;height:180px;background:var(--paper);border:3px solid var(--ink);border-radius:999px}
+.fridge-head{padding-left:40px}
+.fridge > .soon{padding-left:40px}
+.fridge-in{display:grid;grid-template-columns:320px 1fr;gap:clamp(24px,4vw,48px);align-items:start;padding-left:40px}
+.pad{background:var(--paper);border:3px solid var(--ink);border-radius:8px;padding:30px 22px 22px;display:grid;gap:8px;position:relative;transform:rotate(-1deg)}
+.pad::before{content:"";position:absolute;top:-12px;left:50%;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--coral);border:3px solid var(--ink)}
+.pad label,.pad-label{font-size:14px;font-weight:700}
+.pad input,.pad textarea{font:inherit;font-size:15px;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:10px;padding:9px 12px;outline:none}
+.pad input:focus,.pad textarea:focus{border-color:var(--coral)}
+.pad textarea{resize:vertical;min-height:96px}
+.pad-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.pad-label{margin-right:4px}
+.swatches{display:flex;gap:8px}
+.swatches button{width:28px;height:28px;border-radius:6px;border:2px solid var(--ink);cursor:pointer}
+.swatches button.sel{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+.stickers button{font-size:18px;line-height:1;width:34px;height:34px;border-radius:10px;border:2px solid transparent;background:none;cursor:pointer;transition:transform .16s ease-out}
+.stickers button:active{transform:scale(.9)}
+.stickers button.sel{border-color:var(--ink);background:#fff}
+.stickers button.none{font-size:13px;width:auto;padding:0 8px}
+.pad-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;margin-top:8px}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:26px 20px;padding-top:12px}
+.note{position:relative;padding:24px 16px 14px;min-height:140px;color:var(--ink);border:2.5px solid var(--ink);border-radius:4px;animation:land .45s ease-out both}
+.note::before{content:"";position:absolute;top:-11px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--ink);box-shadow:inset -4px -4px 0 rgba(255,255,255,.18)}
+.note:nth-child(3n+2)::before{background:var(--coral)}
+.note:nth-child(3n)::before{background:var(--mustard)}
+.note p{font-size:15px;line-height:1.65;word-break:break-word}
+.note .by{margin-top:12px;font-size:12px;opacity:.75;display:flex;justify-content:space-between;gap:8px}
+.note .stk{position:absolute;right:-10px;bottom:-12px;font-size:30px}
+@keyframes land{from{opacity:0;transform:translateY(-10px) rotate(-6deg)}}
+.wall-empty{grid-column:1/-1;font-family:var(--display);font-size:22px;padding:20px 0}
+@media(max-width:860px){.fridge-in{grid-template-columns:1fr}}
+@media(max-width:520px){.fridge::before{display:none}.fridge-head,.fridge-in,.fridge > .soon{padding-left:0}}
+
+/* ---------- 床头 ---------- */
+.f-night{background-color:var(--night);background-image:radial-gradient(1.5px 1.5px at 12% 18%,#fff8 99%,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff8 99%,transparent),radial-gradient(2px 2px at 64% 36%,#fff6 99%,transparent),radial-gradient(1.5px 1.5px at 32% 62%,#fff5 99%,transparent),radial-gradient(1.5px 1.5px at 90% 70%,#fff6 99%,transparent)}
+.posts{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.post{border:2.5px solid rgba(255,253,248,.4);border-radius:16px}
+.post[open]{border-color:var(--paper)}
+.post summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;align-items:baseline;gap:16px}
+.post summary::-webkit-details-marker{display:none}
+.post .d{font-size:14px;opacity:.7;flex:none;width:70px}
+.post .t{font-family:var(--display);font-size:24px;line-height:1.2;flex:1}
+.post .plus{font-size:24px;transition:transform .25s ease-out}
+.post[open] .plus{transform:rotate(45deg)}
+.post .body{padding:0 22px 20px 108px}
+.post .body p{margin-bottom:10px;font-size:16px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;background:rgba(255,253,248,.15);margin-right:6px}
+@media(max-width:620px){.post summary{flex-wrap:wrap;gap:4px 12px}.post .d{width:auto}.post .body{padding:0 22px 18px}}
+.goodnight{margin-top:110px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;padding-bottom:40px}
+.sleepy{width:180px;height:auto;margin-bottom:10px}
+.gn-title{font-size:clamp(44px,7vw,68px);margin-bottom:10px}
+.goodnight a{color:var(--mustard)}
+.visitor{margin-top:20px;font-size:15px;min-height:24px}
+.visitor b{font-family:var(--display);font-size:22px;font-weight:400;color:var(--mustard)}
+.copy{font-size:13px;opacity:.5;margin-top:16px}
+
+/* ---------- 背景音乐开关 ---------- */
+.music{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 120px);font-size:13px;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:7px 14px 7px 12px;cursor:pointer;transition:transform .16s ease-out}
+.music:active{transform:scale(.96)}
+.music .mtxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.music .eq{display:flex;align-items:flex-end;gap:2px;height:12px;flex:none}
+.music .eq i{width:3px;height:4px;border-radius:2px;background:var(--coral)}
+.music.on .eq i{animation:eq 1s ease-in-out infinite}
+.music.on .eq i:nth-child(2){animation-delay:-.4s}
+.music.on .eq i:nth-child(3){animation-delay:-.7s}
+@keyframes eq{0%,100%{height:4px}50%{height:12px}}
+
+/* ---------- 小暖 ---------- */
+.dog{position:fixed;right:14px;bottom:14px;z-index:30;width:86px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.dog svg{width:100%;display:block;overflow:visible}
+.dog .head{transform-origin:60px 70px;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.dog.petted .head{transform:rotate(-12deg)}
+.dog .tail{transform-origin:84px 100px;animation:wag 1.6s ease-in-out infinite}
+.dog.petted .tail{animation-duration:.22s}
+@keyframes wag{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(14deg)}}
+.dog .happy,.dog .tongue{opacity:0;transition:opacity .2s}
+.dog.petted .happy,.dog.petted .tongue{opacity:1}
+.dog.petted .open{opacity:0}
+.dog .ear-l,.dog .ear-r{transition:transform .35s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box}
+.dog .ear-l{transform-origin:85% 8%}.dog .ear-r{transform-origin:15% 8%}
+.dog.petted .ear-l{transform:rotate(14deg)}.dog.petted .ear-r{transform:rotate(-14deg)}
+.dog .look{transform-origin:60px 70px;transition:transform .3s ease-out}
+.dog .open{transition:transform .25s ease-out,opacity .2s}
+.dog .sleep{opacity:0;transition:opacity .3s}
+.dog.asleep .open{opacity:0}
+.dog.asleep .sleep{opacity:1}
+.dog.asleep .head{transform:rotate(9deg) translateY(4px)}
+.dog.asleep .tail{animation-duration:4s}
+.dog .zzz{position:absolute;right:2px;top:-6px;pointer-events:none;font-family:var(--display);color:var(--coral);opacity:0;transition:opacity .4s}
+.dog.asleep .zzz{opacity:1}
+.dog .zzz i{position:absolute;right:0;font-style:normal;font-size:14px;animation:zz 3s ease-in infinite;opacity:0}
+.dog .zzz i:nth-child(2){animation-delay:1s;font-size:17px}
+.dog .zzz i:nth-child(3){animation-delay:2s;font-size:21px}
+@keyframes zz{0%{opacity:0;transform:translate(0,10px)}30%{opacity:.95}100%{opacity:0;transform:translate(14px,-22px)}}
+.dog .bubble{position:absolute;right:4px;bottom:100%;margin-bottom:6px;white-space:nowrap;font-size:13px;background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:14px 14px 4px 14px;padding:6px 12px;opacity:0;transform:translateY(6px);transition:opacity .25s ease-out,transform .25s ease-out;pointer-events:none}
+.dog .bubble small{display:block;font-size:11px;opacity:.65;margin-top:1px}
+.dog:hover .bubble,.dog.petted .bubble,.dog.hello .bubble{opacity:1;transform:none}
+.dog.asleep:not(:hover) .bubble{opacity:0}
+.heart{position:fixed;z-index:31;pointer-events:none;font-size:18px;animation:up 1.1s ease-out forwards}
+@keyframes up{to{transform:translate(var(--dx),-70px) scale(1.3);opacity:0}}
+.runner{position:fixed;bottom:18px;left:-120px;width:90px;z-index:40;pointer-events:none;animation:run 3.6s linear forwards}
+.runner svg{width:100%;animation:hop .32s ease-in-out infinite}
+@keyframes run{to{left:calc(100% + 120px)}}
+@keyframes hop{50%{transform:translateY(-14px)}}
+@media(max-width:620px){.dog{width:68px;right:10px;bottom:10px}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .logo-e .peek,.vinyl,.cloud,.steam path,.dog .tail,.stars i,.spin,.twinkle,.music.on .eq i,.note{animation:none}
+}

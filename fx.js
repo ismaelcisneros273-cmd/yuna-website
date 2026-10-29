@@ -37,8 +37,7 @@ const SPRING_FESTIVAL = ["2027-02-06", "2028-01-26", "2029-02-13", "2030-02-03",
     fit(); addEventListener("resize", fit);
   };
   const dark = () => {
-    const t = document.documentElement.dataset.theme;
-    return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    return document.documentElement.classList.contains("night");
   };
   const loop = () => {
     if (!parts.length) { running = false; ctx.clearRect(0, 0, innerWidth, innerHeight); return; }
@@ -87,21 +86,21 @@ const SPRING_FESTIVAL = ["2027-02-06", "2028-01-26", "2029-02-13", "2030-02-03",
     kick();
   };
   if (fx.birthday) {
-    if (greet) greet.textContent = "Today is Yuna's birthday 🎂";
+    if (greet) greet.textContent = "今天是 Yuna 的生日！";
     const h1 = document.querySelector(".hero h1");
     if (!calm) {
       setTimeout(() => { confetti(innerWidth * 0.25, innerHeight * 0.75); confetti(innerWidth * 0.75, innerHeight * 0.75); }, 600);
       if (h1) { h1.style.cursor = "pointer"; h1.title = "再撒一次"; h1.addEventListener("click", (e) => confetti(e.clientX, e.clientY, 90)); }
     }
-    const motto = document.querySelector(".motto");
-    if (motto) motto.textContent = "今天是我的生日，谢谢你来陪我过 ✿ 点我的名字还能再撒一次花";
+    const motto = document.querySelector(".hero .lead");
+    if (motto) motto.textContent = "今天是我的生日，谢谢你来陪我过。点上面那几个大字还能再撒一次花。";
     const b = document.getElementById("dogBubble");
     if (b) setTimeout(() => { b.textContent = "今天是 Yuna 的生日！汪！"; }, 2500);
   }
 
   /* ---------- 春节灯笼 ---------- */
   if (fx.newyear) {
-    if (greet) greet.textContent = "新年快乐 · Happy Lunar New Year 🧧";
+    if (greet) greet.textContent = "新年快乐！";
     const style = document.createElement("style");
     style.textContent = `.lantern{position:absolute;top:0;z-index:2;width:58px;transform-origin:50% 0;animation:swing 3.6s ease-in-out infinite}
       .lantern.l{left:6%}.lantern.r{right:6%;animation-delay:-1.8s}

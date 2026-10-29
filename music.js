@@ -86,7 +86,7 @@ const TRACKS = [
     buttons.forEach((b, i) => b.classList.toggle("cur", playing && i === cur));
     if (np) np.textContent = playing ? `${t.title} — ${t.artist}` : "唱片停下来了，点一首歌继续";
     btn.classList.toggle("on", playing);
-    txt.textContent = playing ? `♪ ${t.title} · 点我暂停` : "♪ 音乐已暂停，点我继续";
+    txt.textContent = playing ? `${t.title}，点我暂停` : "音乐停了，点我继续";
   };
   const stopAll = () => { audio.pause(); if (box) box.stop(); };
   function play(i) {
@@ -118,7 +118,7 @@ const TRACKS = [
 
   // 浏览器不允许一打开就出声：访客第一次点页面时开始播放（之前关掉过的就不自动放）
   const off = store.get("music") === "off";
-  txt.textContent = off ? "♪ 音乐关着，点我打开" : "♪ 点一下页面就会放音乐";
+  txt.textContent = off ? "音乐关着，点我打开" : "点一下页面就会放音乐";
   if (!off) {
     const first = (e) => {
       window.removeEventListener("pointerdown", first, true);

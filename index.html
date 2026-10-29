@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yuna — Hi, I'm Yuna</title>
+<title>Yuna 的家</title>
 <meta name="description" content="Yuna 的小角落：阅读、摄影、电影、随笔，和一切让心安静下来的小事。">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -21,219 +21,64 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <script>
-  // 先决定深浅色，避免页面闪一下：用户选过就用选过的；没选过且是晚上（19:00-6:00）就自动夜间模式
-  (function(){
-    var r = document.documentElement, s = null, h = new Date().getHours();
-    try { s = localStorage.getItem("theme"); } catch(e) {}
-    if (s) r.dataset.theme = s; else if (h >= 19 || h < 6) r.dataset.theme = "dark";
-  })();
+  // 19:00-6:00 是夜晚：门口变星空，窗外有月亮
+  (function(){ var h = new Date().getHours(); if (h >= 19 || h < 6) document.documentElement.classList.add("night"); })();
 </script>
-<style>
-:root{
-  --bg:#faf6f0; --paper:#fffdf9; --ink:#3b3230; --soft:#8a7d76; --line:#ece3d8;
-  --rose:#e8b4b0; --rose-d:#c98b86; --sage:#b9c8b0; --sky:#bcd0de; --butter:#f1dca7;
-  --shadow:0 10px 30px rgba(120,90,70,.08);
-  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC",Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#1f1b1a; --paper:#2a2422; --ink:#efe6df; --soft:#a8998f; --line:#3a322f;
-  --rose:#b98580; --rose-d:#e3aaa4; --shadow:0 10px 30px rgba(0,0,0,.3);}}
-:root[data-theme="dark"]{
-  --bg:#1f1b1a; --paper:#2a2422; --ink:#efe6df; --soft:#a8998f; --line:#3a322f;
-  --rose:#b98580; --rose-d:#e3aaa4; --shadow:0 10px 30px rgba(0,0,0,.3);}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.8;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;overflow-x:hidden}
-a{color:inherit}
-.wrap{max-width:960px;margin:0 auto;padding:0 20px}
-
-/* nav */
-nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
-.logo{font-family:var(--serif);font-size:20px;text-decoration:none;letter-spacing:.5px;user-select:none}
-.logo span{color:var(--rose-d);display:inline-block;transition:transform .4s}
-.logo:active span{transform:rotate(90deg)}
-.links{display:flex;gap:16px;align-items:center;font-size:14px}
-.links a{text-decoration:none;color:var(--soft);transition:color .2s}
-.links a:hover{color:var(--rose-d)}
-#theme{background:none;border:1px solid var(--line);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px;color:var(--ink);flex:none}
-@media(max-width:700px){.links a.hide-m{display:none}}
-
-/* hero */
-.hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:float 14s ease-in-out infinite}
-.b1{width:340px;height:340px;background:var(--rose);top:8%;right:-60px}
-.b2{width:280px;height:280px;background:var(--sage);bottom:6%;left:-80px;animation-delay:-5s}
-.b3{width:200px;height:200px;background:var(--butter);top:45%;right:28%;animation-delay:-9s}
-@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px) scale(1.06)}}
-.hero .wrap{position:relative;z-index:1}
-.eyebrow{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--soft)}
-.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,9vw,88px);line-height:1.15;margin:14px 0 22px}
-.hero h1 em{font-style:italic;color:var(--rose-d)}
-.motto{font-family:var(--serif);font-size:clamp(17px,2.6vw,21px);color:var(--soft);max-width:520px}
-.cta{display:inline-flex;gap:8px;align-items:center;margin-top:36px;padding:12px 26px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:14px;transition:transform .2s}
-.cta:hover{transform:translateY(-2px)}
-.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--soft);letter-spacing:2px;animation:bob 2.4s infinite}
-@keyframes bob{50%{transform:translate(-50%,6px)}}
-
-/* sections */
-section.block{padding:96px 0}
-.head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px}
-.num{font-family:var(--serif);font-style:italic;color:var(--rose-d);font-size:15px}
-.head h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,5vw,38px)}
-.head .en{color:var(--soft);font-size:13px;letter-spacing:2px;margin-left:auto}
-
-/* about */
-.about{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
-.about p{font-size:16.5px;margin-bottom:18px}
-.about p.dim{color:var(--soft)}
-.loves{display:flex;flex-wrap:wrap;gap:10px}
-.chip{padding:8px 16px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:14px;box-shadow:var(--shadow)}
-@media(max-width:720px){.about{grid-template-columns:1fr;gap:28px}}
-
-/* now */
-.now{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.now-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
-.now-card .k{font-size:12px;letter-spacing:2px;color:var(--soft)}
-.now-card .v{font-family:var(--serif);font-size:18px;margin-top:8px}
-.now-card .v.todo{color:var(--soft);font-style:italic;font-size:15px}
-.updated{margin-top:14px;font-size:13px;color:var(--soft)}
-@media(max-width:720px){.now{grid-template-columns:1fr}}
-
-/* books */
-.books{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.book{display:flex;gap:20px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);transition:transform .3s}
-.book:hover{transform:translateY(-4px) rotate(-.3deg)}
-.cover{flex:none;width:72px;height:104px;border-radius:4px 8px 8px 4px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:var(--serif);font-size:14px;letter-spacing:3px;color:#4a3d38;position:relative;box-shadow:3px 4px 10px rgba(0,0,0,.12)}
-.cover::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:2px;background:rgba(0,0,0,.08)}
-.book h3{font-family:var(--serif);font-weight:400;font-size:19px}
-.book .au{font-size:13px;color:var(--soft);margin:2px 0 8px}
-.book p{font-size:14.5px}
-@media(max-width:720px){.books{grid-template-columns:1fr}}
-
-/* gallery */
-.gallery{columns:3 220px;column-gap:14px}
-.ph{break-inside:avoid;margin-bottom:14px;border-radius:14px;overflow:hidden;cursor:zoom-in;position:relative;background:var(--line)}
-.ph img{width:100%;display:block;transition:transform .6s}
-.ph:hover img{transform:scale(1.04)}
-.ph.empty{cursor:default;aspect-ratio:var(--r,4/5);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;color:var(--soft);background:linear-gradient(135deg,var(--c1),var(--c2))}
-.ph.empty img{display:none}
-.lb{position:fixed;inset:0;z-index:50;background:rgba(20,15,14,.88);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
-.lb.on{display:flex}
-.lb img{max-width:100%;max-height:90vh;border-radius:10px}
-
-/* films: 电影票样式 */
-.films{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.film{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;position:relative;transition:transform .3s}
-.film:hover{transform:translateY(-4px) rotate(.3deg)}
-.stub{flex:none;width:76px;background:var(--fc);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:16px 0;color:#4a3d38;position:relative;border-right:2px dashed var(--paper)}
-.stub::before,.stub::after{content:"";position:absolute;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--bg)}
-.stub::before{top:-8px}.stub::after{bottom:-8px}
-.stub .yr{font-family:var(--serif);font-size:18px;writing-mode:vertical-rl;letter-spacing:2px}
-.stub .no{font-size:11px;letter-spacing:1px;opacity:.7}
-.fbody{padding:20px 22px}
-.film h3{font-family:var(--serif);font-weight:400;font-size:20px}
-.fen{font-size:12.5px;color:var(--soft);margin:2px 0 10px;letter-spacing:.5px}
-.film p{font-size:14.5px}
-.film p.line{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink);border-left:2px solid var(--fc);padding-left:12px;margin-top:4px}
-@media(max-width:720px){.films{grid-template-columns:1fr}}
-
-/* journal */
-.posts{display:flex;flex-direction:column;gap:14px}
-.post{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
-.post summary{list-style:none;cursor:pointer;padding:22px 24px;display:flex;align-items:baseline;gap:16px}
-.post summary::-webkit-details-marker{display:none}
-.post .d{font-size:13px;color:var(--soft);flex:none;width:78px}
-.post .t{font-family:var(--serif);font-size:19px;flex:1}
-.post .plus{color:var(--rose-d);transition:transform .3s;font-size:20px}
-.post[open] .plus{transform:rotate(45deg)}
-.post .body{padding:0 24px 24px 118px;color:var(--ink)}
-.post .body p{margin-bottom:12px;font-size:15.5px}
-.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;background:color-mix(in srgb,var(--rose) 30%,transparent);color:var(--rose-d);margin-right:6px}
-@media(max-width:620px){.post summary{flex-wrap:wrap;gap:4px 12px}.post .d{width:auto}.post .body{padding:0 24px 22px}}
-
-/* quote + footer */
-.quote{text-align:center;padding:110px 20px;font-family:var(--serif);font-style:italic;font-size:clamp(24px,5vw,40px);position:relative}
-.quote::before,.quote::after{content:"✿";display:block;font-style:normal;font-size:16px;color:var(--rose-d);margin:18px 0}
-footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;color:var(--soft);font-size:13px}
-.social{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
-.social a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .25s;background:var(--paper)}
-.social a:hover{background:var(--rose);border-color:var(--rose);transform:translateY(-3px)}
-.social svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.6}
-
-/* reveal */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
-.rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.blob,.scroll-hint{animation:none}}
-</style>
-<link rel="stylesheet" href="extras.css">
+<link rel="stylesheet" href="fonts/display.css">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
 
-<nav>
+<a class="skip" href="#about">跳到正文</a>
+
+<nav class="bar">
   <div class="wrap">
-    <a href="#top" class="logo" id="logo">Yuna <span>✿</span></a>
+    <a href="#top" class="brand" id="logo" aria-label="回到门口"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="#F06A6A"/>
+<ellipse cx="50" cy="57" rx="25" ry="22" fill="#FFFDF8" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><path d="M36 40 C22 38 15 56 20 70 C23 78 32 77 34 67 C35 58 36 49 41 43 Z" fill="#FFFDF8" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><path d="M64 40 C78 38 85 56 80 70 C77 78 68 77 66 67 C65 58 64 49 59 43 Z" fill="#FFFDF8" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="42" cy="57" r="3.4" fill="#22304A"/><circle cx="58" cy="57" r="3.4" fill="#22304A"/>
+<ellipse cx="50" cy="65" rx="4.6" ry="3.4" fill="#F06A6A"/>
+<path d="M50 68 v3 M50 71 q-4 4 -7 1 M50 71 q4 4 7 1" stroke="#22304A" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Yuna 的家</span></a>
     <div class="links">
-      <a href="#about" class="hide-m">关于我</a>
-      <a href="#room">房间</a>
-      <a href="#films" class="hide-m">电影</a>
-      <a href="#anime" class="hide-m">动画</a>
-      <a href="#draw" class="hide-m">画画</a>
-      <a href="#guestbook">留言</a>
-      <a href="#journal">随笔</a>
-      <button id="theme" aria-label="切换深浅色">☾</button>
+      <a href="#about">书桌</a><a href="#books">书架</a><a href="#films">电视柜</a><a href="#little">唱片机</a><a href="#draw">画板</a><a href="#guestbook">冰箱门</a><a href="#journal">床头</a>
     </div>
   </div>
 </nav>
 
-<header class="hero" id="top">
+<header class="spot hero" id="top">
   <div class="stars" id="stars"></div>
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-  <div class="wrap">
-    <div class="eyebrow" id="greet">Welcome to my little corner</div>
-    <h1>Hi, I'm <em>Yuna</em></h1>
-    <p class="motto">愿以温柔之心，过安静热烈的生活。</p>
-    <a href="#about" class="cta">慢慢逛 ↓</a>
+  <div class="wrap hero-in">
+    <div class="hero-logo">
+        <svg class="logo-e" viewBox="0 0 100 100" role="img" aria-label="小暖从窗口探出头">
+          <defs><clipPath id="winClip"><rect x="18" y="18" width="64" height="64" rx="18"/></clipPath></defs>
+          <rect x="8" y="8" width="84" height="84" rx="26" fill="#F06A6A"/>
+          <rect x="18" y="18" width="64" height="64" rx="18" fill="#22304A"/>
+          <circle class="moon" cx="70" cy="32" r="6" fill="#FFFDF8"/>
+          <g clip-path="url(#winClip)"><g class="peek">
+            <ellipse cx="50" cy="70" rx="22" ry="19" fill="#FFFDF8"/>
+            <path d="M36 58 C24 56 20 72 25 82 L37 82 C38 74 38 66 41 61 Z" fill="#FFFDF8" stroke="#22304A" stroke-width="2.6"/>
+            <path d="M64 58 C76 56 80 72 75 82 L63 82 C62 74 62 66 59 61 Z" fill="#FFFDF8" stroke="#22304A" stroke-width="2.6"/>
+            <circle cx="43" cy="68" r="3.2" fill="#22304A"/><circle cx="57" cy="68" r="3.2" fill="#22304A"/>
+            <ellipse cx="50" cy="75" rx="4.2" ry="3.2" fill="#F06A6A"/>
+          </g></g>
+          <rect x="18" y="80" width="64" height="6" fill="#F06A6A"/>
+        </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Yuna 的家</h1>
+      <p class="lead"><span id="greet">你好呀。</span>进来坐坐，往下滑，小暖会带你一个角落一个角落地逛。</p>
+      <a href="#about" class="btn">跟小暖进门</a>
+    </div>
   </div>
-  <div class="scroll-hint">SCROLL</div>
+  <svg class="skyline" viewBox="0 0 1200 160" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect x="0" y="70" width="110" height="90" fill="#22304A"/><rect class="win" x="12" y="84" width="8" height="10" rx="1"/><rect class="win" x="32" y="84" width="8" height="10" rx="1"/><rect class="win" x="52" y="84" width="8" height="10" rx="1"/><rect class="win" x="72" y="84" width="8" height="10" rx="1"/><rect class="win" x="92" y="84" width="8" height="10" rx="1"/><rect class="win" x="12" y="106" width="8" height="10" rx="1"/><rect class="win" x="32" y="106" width="8" height="10" rx="1"/><rect class="win" x="52" y="106" width="8" height="10" rx="1"/><rect class="win" x="72" y="106" width="8" height="10" rx="1"/><rect class="win" x="92" y="106" width="8" height="10" rx="1"/><rect class="win" x="12" y="128" width="8" height="10" rx="1"/><rect class="win" x="32" y="128" width="8" height="10" rx="1"/><rect class="win" x="52" y="128" width="8" height="10" rx="1"/><rect class="win" x="72" y="128" width="8" height="10" rx="1"/><rect class="win" x="92" y="128" width="8" height="10" rx="1"/><rect x="116" y="100" width="70" height="60" fill="#2E4166"/><rect class="win" x="128" y="114" width="8" height="10" rx="1"/><rect class="win" x="148" y="114" width="8" height="10" rx="1"/><rect class="win" x="168" y="114" width="8" height="10" rx="1"/><rect class="win" x="128" y="136" width="8" height="10" rx="1"/><rect class="win" x="148" y="136" width="8" height="10" rx="1"/><rect class="win" x="168" y="136" width="8" height="10" rx="1"/><rect x="196" y="40" width="70" height="120" fill="#F06A6A"/><rect class="win" x="208" y="54" width="8" height="10" rx="1"/><rect class="win" x="228" y="54" width="8" height="10" rx="1"/><rect class="win" x="248" y="54" width="8" height="10" rx="1"/><rect class="win" x="208" y="76" width="8" height="10" rx="1"/><rect class="win" x="228" y="76" width="8" height="10" rx="1"/><rect class="win" x="248" y="76" width="8" height="10" rx="1"/><rect class="win" x="208" y="98" width="8" height="10" rx="1"/><rect class="win" x="228" y="98" width="8" height="10" rx="1"/><rect class="win" x="248" y="98" width="8" height="10" rx="1"/><rect class="win" x="208" y="120" width="8" height="10" rx="1"/><rect class="win" x="228" y="120" width="8" height="10" rx="1"/><rect class="win" x="248" y="120" width="8" height="10" rx="1"/><rect class="win" x="208" y="142" width="8" height="10" rx="1"/><rect class="win" x="228" y="142" width="8" height="10" rx="1"/><rect class="win" x="248" y="142" width="8" height="10" rx="1"/><rect x="276" y="60" width="70" height="100" class="bm" fill="#F2C14E"/><rect class="win" x="288" y="74" width="8" height="10" rx="1"/><rect class="win" x="308" y="74" width="8" height="10" rx="1"/><rect class="win" x="328" y="74" width="8" height="10" rx="1"/><rect class="win" x="288" y="96" width="8" height="10" rx="1"/><rect class="win" x="308" y="96" width="8" height="10" rx="1"/><rect class="win" x="328" y="96" width="8" height="10" rx="1"/><rect class="win" x="288" y="118" width="8" height="10" rx="1"/><rect class="win" x="308" y="118" width="8" height="10" rx="1"/><rect class="win" x="328" y="118" width="8" height="10" rx="1"/><rect class="win" x="288" y="140" width="8" height="10" rx="1"/><rect class="win" x="308" y="140" width="8" height="10" rx="1"/><rect class="win" x="328" y="140" width="8" height="10" rx="1"/><g fill="#22304A"><rect x="297" y="34" width="28" height="22" rx="4"/><path d="M295 34 l16 -12 l16 12z"/><rect x="301" y="56" width="3" height="4"/><rect x="318" y="56" width="3" height="4"/></g><rect x="346" y="100" width="70" height="60" fill="#3E8E9A"/><rect class="win" x="358" y="114" width="8" height="10" rx="1"/><rect class="win" x="378" y="114" width="8" height="10" rx="1"/><rect class="win" x="398" y="114" width="8" height="10" rx="1"/><rect class="win" x="358" y="136" width="8" height="10" rx="1"/><rect class="win" x="378" y="136" width="8" height="10" rx="1"/><rect class="win" x="398" y="136" width="8" height="10" rx="1"/><rect x="422" y="100" width="60" height="60" fill="#22304A"/><rect class="win" x="434" y="114" width="8" height="10" rx="1"/><rect class="win" x="454" y="114" width="8" height="10" rx="1"/><rect class="win" x="434" y="136" width="8" height="10" rx="1"/><rect class="win" x="454" y="136" width="8" height="10" rx="1"/><rect x="482" y="60" width="70" height="100" fill="#D9565A"/><rect class="win" x="494" y="74" width="8" height="10" rx="1"/><rect class="win" x="514" y="74" width="8" height="10" rx="1"/><rect class="win" x="534" y="74" width="8" height="10" rx="1"/><rect class="win" x="494" y="96" width="8" height="10" rx="1"/><rect class="win" x="514" y="96" width="8" height="10" rx="1"/><rect class="win" x="534" y="96" width="8" height="10" rx="1"/><rect class="win" x="494" y="118" width="8" height="10" rx="1"/><rect class="win" x="514" y="118" width="8" height="10" rx="1"/><rect class="win" x="534" y="118" width="8" height="10" rx="1"/><rect class="win" x="494" y="140" width="8" height="10" rx="1"/><rect class="win" x="514" y="140" width="8" height="10" rx="1"/><rect class="win" x="534" y="140" width="8" height="10" rx="1"/><rect x="558" y="60" width="70" height="100" fill="#22304A"/><rect class="win" x="570" y="74" width="8" height="10" rx="1"/><rect class="win" x="590" y="74" width="8" height="10" rx="1"/><rect class="win" x="610" y="74" width="8" height="10" rx="1"/><rect class="win" x="570" y="96" width="8" height="10" rx="1"/><rect class="win" x="590" y="96" width="8" height="10" rx="1"/><rect class="win" x="610" y="96" width="8" height="10" rx="1"/><rect class="win" x="570" y="118" width="8" height="10" rx="1"/><rect class="win" x="590" y="118" width="8" height="10" rx="1"/><rect class="win" x="610" y="118" width="8" height="10" rx="1"/><rect class="win" x="570" y="140" width="8" height="10" rx="1"/><rect class="win" x="590" y="140" width="8" height="10" rx="1"/><rect class="win" x="610" y="140" width="8" height="10" rx="1"/><rect x="628" y="85" width="90" height="75" fill="#2E4166"/><rect class="win" x="640" y="99" width="8" height="10" rx="1"/><rect class="win" x="660" y="99" width="8" height="10" rx="1"/><rect class="win" x="680" y="99" width="8" height="10" rx="1"/><rect class="win" x="700" y="99" width="8" height="10" rx="1"/><rect class="win" x="640" y="121" width="8" height="10" rx="1"/><rect class="win" x="660" y="121" width="8" height="10" rx="1"/><rect class="win" x="680" y="121" width="8" height="10" rx="1"/><rect class="win" x="700" y="121" width="8" height="10" rx="1"/><rect class="win" x="640" y="143" width="8" height="10" rx="1"/><rect class="win" x="660" y="143" width="8" height="10" rx="1"/><rect class="win" x="680" y="143" width="8" height="10" rx="1"/><rect class="win" x="700" y="143" width="8" height="10" rx="1"/><rect x="728" y="100" width="130" height="60" fill="#F06A6A"/><rect class="win" x="740" y="114" width="8" height="10" rx="1"/><rect class="win" x="760" y="114" width="8" height="10" rx="1"/><rect class="win" x="780" y="114" width="8" height="10" rx="1"/><rect class="win" x="800" y="114" width="8" height="10" rx="1"/><rect class="win" x="820" y="114" width="8" height="10" rx="1"/><rect class="win" x="840" y="114" width="8" height="10" rx="1"/><rect class="win" x="740" y="136" width="8" height="10" rx="1"/><rect class="win" x="760" y="136" width="8" height="10" rx="1"/><rect class="win" x="780" y="136" width="8" height="10" rx="1"/><rect class="win" x="800" y="136" width="8" height="10" rx="1"/><rect class="win" x="820" y="136" width="8" height="10" rx="1"/><rect class="win" x="840" y="136" width="8" height="10" rx="1"/><rect x="868" y="20" width="130" height="140" class="bm" fill="#F2C14E"/><rect class="win" x="880" y="34" width="8" height="10" rx="1"/><rect class="win" x="900" y="34" width="8" height="10" rx="1"/><rect class="win" x="920" y="34" width="8" height="10" rx="1"/><rect class="win" x="940" y="34" width="8" height="10" rx="1"/><rect class="win" x="960" y="34" width="8" height="10" rx="1"/><rect class="win" x="980" y="34" width="8" height="10" rx="1"/><rect class="win" x="880" y="56" width="8" height="10" rx="1"/><rect class="win" x="900" y="56" width="8" height="10" rx="1"/><rect class="win" x="920" y="56" width="8" height="10" rx="1"/><rect class="win" x="940" y="56" width="8" height="10" rx="1"/><rect class="win" x="960" y="56" width="8" height="10" rx="1"/><rect class="win" x="980" y="56" width="8" height="10" rx="1"/><rect class="win" x="880" y="78" width="8" height="10" rx="1"/><rect class="win" x="900" y="78" width="8" height="10" rx="1"/><rect class="win" x="920" y="78" width="8" height="10" rx="1"/><rect class="win" x="940" y="78" width="8" height="10" rx="1"/><rect class="win" x="960" y="78" width="8" height="10" rx="1"/><rect class="win" x="980" y="78" width="8" height="10" rx="1"/><rect class="win" x="880" y="100" width="8" height="10" rx="1"/><rect class="win" x="900" y="100" width="8" height="10" rx="1"/><rect class="win" x="920" y="100" width="8" height="10" rx="1"/><rect class="win" x="940" y="100" width="8" height="10" rx="1"/><rect class="win" x="960" y="100" width="8" height="10" rx="1"/><rect class="win" x="980" y="100" width="8" height="10" rx="1"/><rect class="win" x="880" y="122" width="8" height="10" rx="1"/><rect class="win" x="900" y="122" width="8" height="10" rx="1"/><rect class="win" x="920" y="122" width="8" height="10" rx="1"/><rect class="win" x="940" y="122" width="8" height="10" rx="1"/><rect class="win" x="960" y="122" width="8" height="10" rx="1"/><rect class="win" x="980" y="122" width="8" height="10" rx="1"/><rect class="win" x="880" y="144" width="8" height="10" rx="1"/><rect class="win" x="900" y="144" width="8" height="10" rx="1"/><rect class="win" x="920" y="144" width="8" height="10" rx="1"/><rect class="win" x="940" y="144" width="8" height="10" rx="1"/><rect class="win" x="960" y="144" width="8" height="10" rx="1"/><rect class="win" x="980" y="144" width="8" height="10" rx="1"/><rect x="998" y="100" width="90" height="60" fill="#3E8E9A"/><rect class="win" x="1010" y="114" width="8" height="10" rx="1"/><rect class="win" x="1030" y="114" width="8" height="10" rx="1"/><rect class="win" x="1050" y="114" width="8" height="10" rx="1"/><rect class="win" x="1070" y="114" width="8" height="10" rx="1"/><rect class="win" x="1010" y="136" width="8" height="10" rx="1"/><rect class="win" x="1030" y="136" width="8" height="10" rx="1"/><rect class="win" x="1050" y="136" width="8" height="10" rx="1"/><rect class="win" x="1070" y="136" width="8" height="10" rx="1"/><rect x="1098" y="40" width="90" height="120" fill="#22304A"/><rect class="win" x="1110" y="54" width="8" height="10" rx="1"/><rect class="win" x="1130" y="54" width="8" height="10" rx="1"/><rect class="win" x="1150" y="54" width="8" height="10" rx="1"/><rect class="win" x="1170" y="54" width="8" height="10" rx="1"/><rect class="win" x="1110" y="76" width="8" height="10" rx="1"/><rect class="win" x="1130" y="76" width="8" height="10" rx="1"/><rect class="win" x="1150" y="76" width="8" height="10" rx="1"/><rect class="win" x="1170" y="76" width="8" height="10" rx="1"/><rect class="win" x="1110" y="98" width="8" height="10" rx="1"/><rect class="win" x="1130" y="98" width="8" height="10" rx="1"/><rect class="win" x="1150" y="98" width="8" height="10" rx="1"/><rect class="win" x="1170" y="98" width="8" height="10" rx="1"/><rect class="win" x="1110" y="120" width="8" height="10" rx="1"/><rect class="win" x="1130" y="120" width="8" height="10" rx="1"/><rect class="win" x="1150" y="120" width="8" height="10" rx="1"/><rect class="win" x="1170" y="120" width="8" height="10" rx="1"/><rect class="win" x="1110" y="142" width="8" height="10" rx="1"/><rect class="win" x="1130" y="142" width="8" height="10" rx="1"/><rect class="win" x="1150" y="142" width="8" height="10" rx="1"/><rect class="win" x="1170" y="142" width="8" height="10" rx="1"/><rect x="1194" y="60" width="90" height="100" fill="#D9565A"/><rect class="win" x="1206" y="74" width="8" height="10" rx="1"/><rect class="win" x="1226" y="74" width="8" height="10" rx="1"/><rect class="win" x="1246" y="74" width="8" height="10" rx="1"/><rect class="win" x="1266" y="74" width="8" height="10" rx="1"/><rect class="win" x="1206" y="96" width="8" height="10" rx="1"/><rect class="win" x="1226" y="96" width="8" height="10" rx="1"/><rect class="win" x="1246" y="96" width="8" height="10" rx="1"/><rect class="win" x="1266" y="96" width="8" height="10" rx="1"/><rect class="win" x="1206" y="118" width="8" height="10" rx="1"/><rect class="win" x="1226" y="118" width="8" height="10" rx="1"/><rect class="win" x="1246" y="118" width="8" height="10" rx="1"/><rect class="win" x="1266" y="118" width="8" height="10" rx="1"/><rect class="win" x="1206" y="140" width="8" height="10" rx="1"/><rect class="win" x="1226" y="140" width="8" height="10" rx="1"/><rect class="win" x="1246" y="140" width="8" height="10" rx="1"/><rect class="win" x="1266" y="140" width="8" height="10" rx="1"/></svg>
 </header>
 
-<main class="wrap">
+<main>
 
-  <section class="block" id="about">
-    <div class="head rv"><span class="num">01</span><h2>关于我</h2><span class="en">ABOUT</span></div>
-    <div class="about rv">
-      <div>
-        <p>我是 Yuna，一个喜欢慢下来生活的人。热爱阅读、摄影和一切能让心安静下来的小事。</p>
-        <p>相信生活的美好藏在日常的细节里——一杯手冲咖啡、一本好书、一场不期而遇的日落。</p>
-        <p class="dim">这里记录着我的一些小小热爱，希望也能给路过的你，带来一点柔软的温度。</p>
-        <p class="xiaonuan">🐾 右下角那只小白狗叫<b>小暖</b>，是我以前养过的小狗。现在他在这里替我招呼每一位来串门的你，路过可以摸摸他。</p>
-      </div>
-      <div class="loves">
-        <span class="chip">📖 阅读</span><span class="chip">📷 摄影</span><span class="chip">☕ 手冲咖啡</span>
-        <span class="chip">🌅 日落</span><span class="chip">✍️ 随手记</span><span class="chip">🌿 慢生活</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 近况：把 todo 的内容换成你自己的，并更新日期 -->
-  <section class="block" id="now" style="padding-top:0">
-    <div class="head rv"><span class="num">02</span><h2>最近的我</h2><span class="en">NOW</span></div>
-    <div class="now rv">
-      <div class="now-card"><div class="k">在读</div><div class="v todo">写下你正在读的书</div></div>
-      <div class="now-card"><div class="k">在听</div><div class="v todo">最近单曲循环的歌</div></div>
-      <div class="now-card"><div class="k">在想</div><div class="v todo">一件最近常想的小事</div></div>
-    </div>
-    <p class="updated rv">更新于 2026 年 10 月</p>
-  </section>
-
-  <!-- 我的房间：点房间里的东西会出现介绍，文字在 extras.js 顶部的 ROOM 里改 -->
-  <section class="block" id="room">
-    <div class="head rv"><span class="num">03</span><h2>我的房间</h2><span class="en">MY ROOM</span></div>
-    <p class="sub rv" id="roomTime">窗外的天色和你那边的时间是同步的 ✨</p>
-    <div class="card room rv" id="roomCard"><div class="flash"></div>
-      <svg viewBox="0 0 800 440" role="img" aria-label="Yuna 的房间插画">
+  <!-- 书桌：关于我 + 房间插画 -->
+  <section class="spot f-mustard" id="about">
+    <div class="wrap desk">
+      <div class="desk-pic">
+        <div class="room" id="roomCard"><div class="flash"></div>
+        <svg viewBox="0 0 800 440" role="img" aria-label="Yuna 的房间插画">
         <defs>
           <linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd8ec"/><stop offset="1" stop-color="#f8dcc6"/></linearGradient>
           <linearGradient id="skyK" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f86b8"/><stop offset=".55" stop-color="#f2a3a0"/><stop offset="1" stop-color="#f9c98d"/></linearGradient>
@@ -331,96 +176,123 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
           <rect x="640" y="291" width="12" height="6" rx="2" fill="#f1dca7"/>
         </g>
       </svg>
+        </div>
+        <p class="room-time" id="roomTime">窗外的天色和你那边的时间是同步的。</p>
+      </div>
+      <div class="desk-text">
+        <h2>书桌</h2>
+        <p>我是 Yuna，一个喜欢慢下来生活的人。热爱阅读、摄影和一切能让心安静下来的小事。</p>
+        <p>相信生活的美好藏在日常的细节里——一杯手冲咖啡、一本好书、一场不期而遇的日落。</p>
+        <p class="xiaonuan">右下角那只小白狗叫<b>小暖</b>，是我以前养过的小狗。现在他在这里替我招呼每一位来串门的你，路过可以摸摸他。</p>
+        <!-- 近况：把 todo 的内容换成你自己的 -->
+        <div class="memo">
+          <h3>贴在台灯上的便条</h3>
+          <dl>
+            <dt>在读</dt><dd class="todo">写下你正在读的书</dd>
+            <dt>在听</dt><dd class="todo">最近单曲循环的歌</dd>
+            <dt>在想</dt><dd class="todo">一件最近常想的小事</dd>
+          </dl>
+          <p class="memo-date">2026 年 10 月写的</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="block" id="books">
-    <div class="head rv"><span class="num">04</span><h2>我的书单</h2><span class="en">BOOKSHELF</span></div>
-    <div class="books">
-      <article class="book rv"><div class="cover" style="background:#f3d6cf">小王子</div><div><h3>《小王子》</h3><div class="au">安托万·德·圣-埃克苏佩里</div><p>每次重读都有新的感悟，关于爱与责任的温柔寓言。</p></div></article>
-      <article class="book rv"><div class="cover" style="background:#cfdcc6">岛上书店</div><div><h3>《岛上书店》</h3><div class="au">加布瑞埃拉·泽文</div><p>一间小书店里的悲欢离合，读完让人相信书本的治愈力量。</p></div></article>
-      <article class="book rv"><div class="cover" style="background:#cddbe6">百年孤独</div><div><h3>《百年孤独》</h3><div class="au">加西亚·马尔克斯</div><p>魔幻与现实交织，一部让人反复回味的家族史诗。</p></div></article>
-      <article class="book rv"><div class="cover" style="background:#f2e2b8">瓦尔登湖</div><div><h3>《瓦尔登湖》</h3><div class="au">亨利·戴维·梭罗</div><p>关于简朴生活与自然的思考，是我心情浮躁时的安定剂。</p></div></article>
+  <!-- 书架：点书脊抽出来看 -->
+  <section class="spot f-paper" id="books">
+    <div class="wrap">
+      <h2>书架</h2>
+      <p class="lead">点一本书，把它抽出来看看。</p>
+      <div class="shelf">
+          <button class="spine" type="button" style="--c:#F06A6A;--h:250px" data-title="小王子" data-author="安托万·德·圣-埃克苏佩里" data-note="每次重读都有新的感悟，关于爱与责任的温柔寓言。" aria-label="《小王子》">小王子</button>
+          <button class="spine" type="button" style="--c:#A8D8C8;--h:226px" data-title="岛上书店" data-author="加布瑞埃拉·泽文" data-note="一间小书店里的悲欢离合，读完让人相信书本的治愈力量。" aria-label="《岛上书店》">岛上书店</button>
+          <button class="spine" type="button" style="--c:#BFDCEB;--h:262px" data-title="百年孤独" data-author="加西亚·马尔克斯" data-note="魔幻与现实交织，一部让人反复回味的家族史诗。" aria-label="《百年孤独》">百年孤独</button>
+          <button class="spine" type="button" style="--c:#F2C14E;--h:236px" data-title="瓦尔登湖" data-author="亨利·戴维·梭罗" data-note="关于简朴生活与自然的思考，是我心情浮躁时的安定剂。" aria-label="《瓦尔登湖》">瓦尔登湖</button>
+        <div class="shelf-deco" aria-hidden="true"><span class="pot"></span></div>
+      </div>
+      <div class="book-note" id="bookNote" aria-live="polite">
+        <h3 id="bnTitle">《小王子》</h3>
+        <p class="bn-author" id="bnAuthor">安托万·德·圣-埃克苏佩里</p>
+        <p id="bnNote">每次重读都有新的感悟，关于爱与责任的温柔寓言。</p>
+      </div>
     </div>
   </section>
 
-  <!-- 电影角：复制一个 <article class="film"> 就能加一部；♡ 按钮的 data-film 要同时加进 api/likes.js 的 FILMS 里 -->
-  <section class="block" id="films">
-    <div class="head rv"><span class="num">05</span><h2>电影角</h2><span class="en">CINEMA</span></div>
-    <div class="films">
-      <article class="film rv" style="--fc:#cddbe6">
-        <div class="stub"><span class="yr">2023</span><span class="no">No.01</span></div>
+  <!-- 电视柜：墙上贴电影票，柜子上摆小电视。新增电影/剧时，♡ 的 data-film 要同时加进 api/likes.js 的 FILMS -->
+  <section class="spot f-ink" id="films">
+    <div class="wrap">
+      <h2>电视柜</h2>
+      <p class="lead">墙上贴着看过最喜欢的电影票，柜子上的小电视在放最近追的剧。</p>
+      <div class="films">
+      <article class="film" style="--fc:#BFDCEB">
+        <div class="stub"><span class="yr">2023</span><span class="no">第 1 张</span></div>
         <div class="fbody">
-          <h3>机器人之梦</h3><div class="fen">Robot Dreams · 巴勃罗·贝格尔</div>
+          <h3>机器人之梦</h3><div class="fen">Robot Dreams<br>导演 巴勃罗·贝格尔</div>
           <p class="line">“我的每一个梦的结尾，都是敲醒你的家门。”</p>
           <button class="like" data-film="robot-dreams" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
-      <article class="film rv" style="--fc:#e7cde6">
-        <div class="stub"><span class="yr">2016</span><span class="no">No.02</span></div>
+      <article class="film" style="--fc:#F9C4C0">
+        <div class="stub"><span class="yr">2016</span><span class="no">第 2 张</span></div>
         <div class="fbody">
-          <h3>爱乐之城</h3><div class="fen">La La Land · 达米恩·查泽雷</div>
+          <h3>爱乐之城</h3><div class="fen">La La Land<br>导演 达米恩·查泽雷</div>
           <p class="line">“洛杉矶的星星，只为还在做梦的人亮着。”</p>
           <button class="like" data-film="la-la-land" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
-      <article class="film rv" style="--fc:#f2e2b8">
-        <div class="stub"><span class="yr">2013</span><span class="no">No.03</span></div>
+      <article class="film" style="--fc:#F2C14E">
+        <div class="stub"><span class="yr">2013</span><span class="no">第 3 张</span></div>
         <div class="fbody">
-          <h3>时空恋旅人</h3><div class="fen">About Time · 理查德·柯蒂斯</div>
+          <h3>时空恋旅人</h3><div class="fen">About Time<br>导演 理查德·柯蒂斯</div>
           <p class="line">“如果可以回到过去，你最想重来的是哪一天？”</p>
           <button class="like" data-film="about-time" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
-      <article class="film rv" style="--fc:#cfdcc6">
-        <div class="stub"><span class="yr">2020</span><span class="no">No.04</span></div>
+      <article class="film" style="--fc:#A8D8C8">
+        <div class="stub"><span class="yr">2020</span><span class="no">第 4 张</span></div>
         <div class="fbody">
-          <h3>心灵奇旅</h3><div class="fen">Soul · 彼特·道格特</div>
+          <h3>心灵奇旅</h3><div class="fen">Soul<br>导演 彼特·道格特</div>
           <p class="line">“出发去地球之前，你的火花会是什么？”</p>
           <button class="like" data-film="soul" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
     </div>
-  </section>
-
-  <!-- 动画角：每台小电视一部剧；想换成海报的话，把 <div class="screen ..."> 里面换成 <img src="anime/xxx.jpg" alt=""> -->
-  <section class="block" id="anime">
-    <div class="head rv"><span class="num">06</span><h2>动画角</h2><span class="en">ON MY TV</span></div>
-    <p class="sub rv">最近在追的几部，点电视可以换台 📺</p>
-    <div class="tvs">
-      <article class="tv rv" data-show="rick-and-morty">
+      <div class="tvs" id="anime">
+      <article class="tv" data-show="rick-and-morty">
         <div class="set"><div class="screen s-portal"><i></i></div><div class="knobs"><b></b><b></b></div></div>
-        <h3>瑞克和莫蒂</h3><div class="fen">Rick and Morty · 2013–</div>
+        <h3>瑞克和莫蒂</h3><div class="fen">Rick and Morty，2013–</div>
         <p class="line">“没有人是故意存在的，没有人属于任何地方，我们都会死。来看电视吧。”<span class="by">— 莫蒂</span></p>
         <button class="like" data-film="rick-and-morty" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
-      <article class="tv rv" data-show="gravity-falls">
+      <article class="tv" data-show="gravity-falls">
         <div class="set"><div class="screen s-forest"><i></i></div><div class="knobs"><b></b><b></b></div></div>
-        <h3>怪诞小镇</h3><div class="fen">Gravity Falls · 2012–2016</div>
+        <h3>怪诞小镇</h3><div class="fen">Gravity Falls，2012–2016</div>
         <p class="line">“谁都别相信。”<span class="by">— 日志 3 号扉页</span></p>
         <button class="like" data-film="gravity-falls" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
-      <article class="tv rv" data-show="inside-job">
+      <article class="tv" data-show="inside-job">
         <div class="set"><div class="screen s-secret"><i></i></div><div class="knobs"><b></b><b></b></div></div>
-        <h3>阴谋职场</h3><div class="fen">Inside Job · 2021–2022</div>
+        <h3>阴谋职场</h3><div class="fen">Inside Job，2021–2022</div>
         <p class="line">“聪明，节奏飞快，把现实开涮得明明白白。”<span class="by">— 外媒影评</span></p>
         <button class="like" data-film="inside-job" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
-      <article class="tv rv" data-show="solar-opposites">
+      <article class="tv" data-show="solar-opposites">
         <div class="set"><div class="screen s-planet"><i></i></div><div class="knobs"><b></b><b></b></div></div>
-        <h3>外星也难民</h3><div class="fen">Solar Opposites · 2020–</div>
+        <h3>外星也难民</h3><div class="fen">Solar Opposites，2020–</div>
         <p class="line">“迷人、爆笑，还意外地真诚。”<span class="by">— 烂番茄影评综述</span></p>
         <button class="like" data-film="solar-opposites" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
     </div>
+    </div>
   </section>
 
-  <!-- 唱片机 + 每日一签 -->
-  <section class="block" id="little">
-    <div class="head rv"><span class="num">07</span><h2>小玩意</h2><span class="en">LITTLE THINGS</span></div>
-    <div class="duo">
-      <div class="card player rv" id="player">
-        <div class="tt">
+  <!-- 唱片机旁：背景音乐 + 每日一签 -->
+  <section class="spot f-coral" id="little">
+    <div class="wrap duo">
+      <div class="player" id="player">
+        <h2>唱片机旁</h2>
+        <div class="player-in">
+          <div class="tt">
           <svg viewBox="0 0 170 170" aria-hidden="true">
             <rect x="2" y="2" width="166" height="166" rx="18" class="w-wood"/>
             <g class="vinyl">
@@ -435,108 +307,118 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
             <circle cx="150" cy="22" r="9" fill="#4a3d38"/>
             <g class="arm"><path d="M150 22 L152 96 L136 118" stroke="#efe6df" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="128" y="112" width="14" height="10" rx="2" fill="#4a3d38" transform="rotate(35 135 117)"/></g>
           </svg>
-        </div>
-        <div class="tracks">
-          <div class="now-playing">NOW PLAYING</div>
-          <div class="np-title" id="np">点一首歌，唱片就转起来</div>
-          <!-- 歌单在 music.js 顶部的 TRACKS 里改 -->
-          <ol id="tracks"></ol>
-          <p class="hint">点歌名就能切歌，左下角可以随时关掉音乐 🎧</p>
+          </div>
+          <div class="tracks">
+            <p class="np-title" id="np">点一首歌，唱片就转起来</p>
+            <!-- 歌单在 music.js 顶部的 TRACKS 里改 -->
+            <ol id="tracks"></ol>
+            <p class="hint">左下角的按钮可以随时关掉音乐。</p>
+          </div>
         </div>
       </div>
-
-      <div class="card fortune rv">
+      <div class="fortune">
+        <h3>签筒</h3>
+        <p>每天能抽一支，明天再来就换新的。</p>
         <div class="lot" id="lot">
-          <div class="face front">今 日 签</div>
+          <div class="face front">今日签</div>
           <div class="face back">
-            <div class="no" id="lotNo">No.01</div>
+            <div class="no" id="lotNo">第 1 签</div>
             <div class="msg" id="lotMsg"></div>
             <div class="lucky">今日幸运色 <b id="lotSw"></b> <span id="lotColor"></span></div>
           </div>
         </div>
-        <button class="btn" id="draw-lot">抽一支 ✿</button>
+        <button class="btn" id="draw-lot" type="button">抽一支</button>
         <div class="again" id="lotAgain"></div>
       </div>
     </div>
   </section>
 
-  <!-- 一起画像素画 -->
-  <section class="block" id="draw">
-    <div class="head rv"><span class="num">08</span><h2>一起画画</h2><span class="en">PIXEL WALL</span></div>
-    <p class="sub rv">每位路过的人都可以涂一格，慢慢拼成一幅大家一起画的画</p>
-    <div class="card rv">
-      <div class="soon">这块画布还在准备中，很快开放 🎨</div>
-      <div class="pix-wrap live">
-        <div class="board" id="board" aria-label="像素画布"></div>
-        <div class="pix-side">
-          <h3>选个颜色</h3>
-          <p>点画布上的格子就能涂上，每 20 秒可以涂一格。</p>
-          <div class="pal" id="pal"></div>
-          <div class="pix-status" id="pixStatus">正在展开画布……</div>
+  <!-- 画板：一起画像素画 -->
+  <section class="spot f-sky" id="draw">
+    <div class="wrap easel-wrap">
+      <div class="easel-text">
+        <h2>画板</h2>
+        <p class="lead">每位来过的人都可以涂一格，慢慢拼成一幅大家一起画的画。</p>
+        <div class="soon">画板还在准备中，很快开放。</div>
+        <div class="live">
+          <div class="pal" id="pal" aria-label="选颜色"></div>
+          <p class="pix-status" id="pixStatus">正在把画板支起来……</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- 便利贴留言墙 -->
-  <section class="block" id="guestbook">
-    <div class="head rv"><span class="num">09</span><h2>留言墙</h2><span class="en">GUESTBOOK</span></div>
-    <p class="sub rv">来都来了，贴一张便利贴再走吧</p>
-    <div class="rv">
-      <div class="card soon">留言墙正在刷漆，很快开放 🚧</div>
-      <div class="live">
-        <form class="card gb-form" id="gbForm">
-          <div class="row">
-            <input id="gbName" maxlength="12" placeholder="你的名字（可以不填）" autocomplete="nickname">
-            <div class="swatches" id="gbSw" aria-label="便利贴颜色"></div>
-          </div>
-          <div class="stickers" id="gbSt" aria-label="选一个贴纸"><span>贴纸</span></div>
-          <textarea id="gbText" maxlength="120" placeholder="想对 Yuna 说点什么……" required></textarea>
-          <div class="gb-foot"><span id="gbMsg">0 / 120</span><button class="btn" id="gbBtn" type="submit">贴上去 ✿</button></div>
-        </form>
-        <div class="wall" id="wall"><div class="wall-empty">正在把便利贴一张张贴上……</div></div>
+      <div class="easel live">
+        <div class="board" id="board" aria-label="像素画布"></div>
       </div>
     </div>
   </section>
 
-  <!-- 随笔：复制一个 <details class="post"> 就能加一篇 -->
-  <section class="block" id="journal">
-    <div class="head rv"><span class="num">10</span><h2>随笔</h2><span class="en">JOURNAL</span></div>
-    <div class="posts">
-      <details class="post rv" open>
+  <!-- 冰箱门：便利贴留言 -->
+  <section class="spot f-mint" id="guestbook">
+    <div class="wrap fridge">
+      <div class="fridge-head">
+        <h2>冰箱门</h2>
+        <p class="lead">来都来了，在冰箱上给我贴张便条吧。</p>
+      </div>
+      <div class="soon">冰箱门还在擦，很快就能贴了。</div>
+      <div class="live fridge-in">
+        <form class="pad" id="gbForm">
+          <label for="gbName">名字</label>
+          <input id="gbName" maxlength="12" placeholder="可以不填" autocomplete="nickname">
+          <label for="gbText">想说的话</label>
+          <textarea id="gbText" maxlength="120" placeholder="想对 Yuna 说点什么……" required></textarea>
+          <div class="pad-row"><span class="pad-label">便条颜色</span><div class="swatches" id="gbSw"></div></div>
+          <div class="pad-row stickers" id="gbSt"><span class="pad-label">贴纸</span></div>
+          <div class="pad-foot"><span id="gbMsg">0 / 120</span><button class="btn" id="gbBtn" type="submit">贴上去</button></div>
+        </form>
+        <div class="wall" id="wall"><div class="wall-empty">正在把便条一张张贴上……</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 床头：随笔，复制一个 <details class="post"> 就能加一篇 -->
+  <section class="spot f-night" id="journal">
+    <div class="wrap bed">
+      <h2>床头</h2>
+      <p class="lead">睡前写的一些小东西。</p>
+      <div class="posts">
+      <details class="post" open>
         <summary><span class="d">2026.10</span><span class="t">你好，这里是随笔角</span><span class="plus">+</span></summary>
         <div class="body">
           <p>这是一个示例文章。以后想写点什么——读完一本书的感受、一次散步、一个没头没尾的念头——都可以放在这里。</p>
           <p><span class="tag">示例</span><span class="tag">碎碎念</span></p>
         </div>
       </details>
-      <details class="post rv">
+      <details class="post">
         <summary><span class="d">2026.09</span><span class="t">第二篇的标题写在这里</span><span class="plus">+</span></summary>
         <div class="body"><p>点开标题就能展开正文，不用跳转新页面，适合短短的小文章。</p></div>
       </details>
-      <details class="post rv">
+      <details class="post">
         <summary><span class="d">2026.09</span><span class="t">第三篇的标题写在这里</span><span class="plus">+</span></summary>
         <div class="body"><p>正文写在这里。</p></div>
       </details>
+    </div>
+      <div class="goodnight">
+        <svg class="sleepy" viewBox="0 0 120 80" aria-hidden="true">
+          <ellipse cx="60" cy="62" rx="44" ry="14" fill="#2E4166"/>
+          <ellipse cx="62" cy="50" rx="34" ry="18" fill="#FFFDF8" stroke="#22304A" stroke-width="2.4"/>
+          <ellipse cx="34" cy="44" rx="17" ry="15" fill="#FFFDF8" stroke="#22304A" stroke-width="2.4"/>
+          <path d="M24 34 C14 34 12 48 16 56 C19 60 25 58 26 52 C27 46 27 40 30 36 Z" fill="#FFFDF8" stroke="#22304A" stroke-width="2.4"/>
+          <path d="M28 44 q3 2.5 6 0 M38 44 q3 2.5 6 0" stroke="#22304A" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="35" cy="50" rx="3.4" ry="2.5" fill="#F06A6A"/>
+          <text x="58" y="22" fill="#F2C14E" font-size="12" font-family="sans-serif" font-weight="700">z</text><text x="68" y="12" fill="#F2C14E" font-size="16" font-family="sans-serif" font-weight="700">Z</text>
+        </svg>
+        <p class="gn-title">逛完啦，晚安。</p>
+        <p>小暖已经睡着了。想说点什么的话，<a href="#guestbook">冰箱门</a>上还有位置。</p>
+        <p class="visitor" id="visitor"></p>
+        <p class="copy">© 2026 Yuna</p>
+      </div>
     </div>
   </section>
 
 </main>
 
-<div class="quote rv">"Stay soft, stay curious."</div>
-
-<footer>
-  <div class="wrap">
-    <!-- 联系方式：想加的话在这里放链接 -->
-    <p class="foot-msg"><a href="#guestbook">想说话就去留言墙 ✿</a></p>
-    <p class="visitor" id="visitor"></p>
-    <p>© 2026 Yuna. Made with soft colors &amp; quiet moments.</p>
-  </div>
-</footer>
-
 <!-- 背景音乐开关 -->
 <button class="music" id="music" type="button" aria-label="背景音乐开关">
-  <span class="eq"><i></i><i></i><i></i></span><span class="mtxt" id="musicTxt">♪ 点一下页面就会放音乐</span>
+  <span class="eq"><i></i><i></i><i></i></span><span class="mtxt" id="musicTxt">点一下页面就会放音乐</span>
 </button>
 
 <!-- 摸摸小狗：小暖 -->
@@ -570,19 +452,18 @@ footer{border-top:1px solid var(--line);padding:40px 0 110px;text-align:center;c
   </svg>
 </div>
 
-
 <script>
-
-// 滚动渐显
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.12});
-document.querySelectorAll(".rv").forEach(el => io.observe(el));
-
-// 深浅色切换
-const root = document.documentElement, btn = document.getElementById("theme");
-const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-const sync = () => btn.textContent = isDark() ? "☀" : "☾";
-sync();
-btn.onclick = () => { root.dataset.theme = isDark() ? "light" : "dark"; try { localStorage.setItem("theme", root.dataset.theme); } catch(e) {} sync(); };
+// 书架：点书脊把书抽出来
+(function () {
+  var spines = document.querySelectorAll(".spine");
+  var t = document.getElementById("bnTitle"), a = document.getElementById("bnAuthor"), n = document.getElementById("bnNote");
+  function pick(b) {
+    spines.forEach(function (x) { x.classList.toggle("on", x === b); x.setAttribute("aria-pressed", x === b); });
+    t.textContent = "《" + b.dataset.title + "》"; a.textContent = b.dataset.author; n.textContent = b.dataset.note;
+  }
+  spines.forEach(function (b) { b.addEventListener("click", function () { pick(b); }); });
+  if (spines[0]) pick(spines[0]);
+})();
 </script>
 <script src="extras.js" defer></script>
 <script src="music.js" defer></script>
