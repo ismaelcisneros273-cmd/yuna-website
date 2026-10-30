@@ -222,6 +222,8 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 .tracks .ar{margin-left:auto;opacity:.7;font-size:13px;white-space:nowrap}
 .playlist{font-size:18px;margin-bottom:6px;opacity:.85}
 .hint{font-size:14px;margin-top:14px;opacity:.8}
+.full{display:inline-block;font-size:14px;margin-top:6px;font-weight:600}
+.full[hidden]{display:none}
 .fortune{background:var(--paper);border:3px solid var(--ink);border-radius:24px;padding:26px;text-align:center;display:flex;flex-direction:column;align-items:center;perspective:900px}
 .fortune h3{font-size:34px}
 .fortune > p{font-size:14px;color:var(--soft);margin:4px 0 18px}

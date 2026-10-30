@@ -1,14 +1,15 @@
 /* ===== 背景音乐 + 唱片机 =====
-   歌单在下面的 TRACKS 里改。
-   音频文件放进仓库的 music 文件夹，文件名要和 src 一模一样。
-   某首歌的文件还没放进来时：唱片照样会转，只是没声音，左下角的音乐按钮也会先藏起来。
+   歌单在下面的 TRACKS 里改。每首歌放的是苹果音乐官方提供的 30 秒试听片段，
+   appleId 是这首歌在苹果音乐里的编号（想换歌的话告诉 Claude 歌名就行）。
+   如果以后有自己的音频文件，也可以写 src: "music/xxx.mp3"，会优先用 src。
+   试听片段一时加载不到时：唱片照样会转，只是没声音，左下角的音乐按钮也会先藏起来。
 */
 const PLAYLIST = "Yuna 的歌单";
 const TRACKS = [
-  { title: "Dilemma", artist: "Nelly, Kelly Rowland", src: "music/dilemma.mp3" },
-  { title: "Luv(sic.) pt3", artist: "Nujabes, Shing02", src: "music/luv-sic-pt3.mp3" },
-  { title: "BB88", artist: "方大同", src: "music/bb88.mp3" },
-  { title: "Almost", artist: "Tamia", src: "music/almost.mp3" },
+  { title: "Dilemma", artist: "Nelly, Kelly Rowland", appleId: 1440735612 },
+  { title: "Luv(sic.) pt3", artist: "Nujabes, Shing02", appleId: 1078914488 },
+  { title: "BB88", artist: "方大同", appleId: 577983302 },
+  { title: "Almost", artist: "Tamia", appleId: 599214101 },
 ];
 
 (() => {
@@ -18,7 +19,7 @@ const TRACKS = [
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
   };
   const player = $("#player"), np = $("#np"), list = $("#tracks"), btn = $("#music"), txt = $("#musicTxt");
-  const label = $("#playlistName");
+  const label = $("#playlistName"), full = $("#fullLink");
   if (label) label.textContent = PLAYLIST;
 
   const audio = new Audio();
@@ -51,6 +52,10 @@ const TRACKS = [
       ? `${t.title} — ${t.artist}${ready[cur] ? "" : "（音频还在路上，先看唱片转）"}`
       : "点一首歌，唱片就转起来";
     btn.classList.toggle("on", playing && ready[cur]);
+    if (full) {
+      full.hidden = !t.view;
+      if (t.view) { full.href = t.view; full.textContent = `这是 30 秒试听，完整版《${t.title}》去 Apple Music 听`; }
+    }
     txt.textContent = playing && ready[cur] ? `${t.title}，点我暂停` : "音乐停了，点我继续";
   };
 
@@ -72,9 +77,22 @@ const TRACKS = [
   // 先看看哪些歌的文件已经在了；一首都没有就把左下角按钮藏起来
   const refreshButton = () => { btn.hidden = !anyReady(); };
   btn.hidden = true;
-  Promise.all(TRACKS.map((t, i) =>
-    fetch(t.src, { method: "HEAD" }).then((r) => { ready[i] = r.ok && /audio|mpeg|octet/.test(r.headers.get("content-type") || "audio"); }).catch(() => {})
-  )).then(() => {
+  // 先向苹果音乐要试听片段的地址；有自己的 src 文件就先看文件在不在
+  const ids = TRACKS.filter((t) => t.appleId).map((t) => t.appleId).join(",");
+  const lookup = ids
+    ? fetch("https://itunes.apple.com/lookup?country=US&id=" + ids).then((r) => r.json()).catch(() => ({ results: [] }))
+    : Promise.resolve({ results: [] });
+  lookup.then((d) => {
+    const byId = {};
+    (d.results || []).forEach((x) => { byId[x.trackId] = x; });
+    return Promise.all(TRACKS.map((t, i) => {
+      const a = byId[t.appleId];
+      if (a) { t.view = a.trackViewUrl; if (!t.src && a.previewUrl) { t.src = a.previewUrl; ready[i] = true; } }
+      if (t.src && !ready[i]) {
+        return fetch(t.src, { method: "HEAD" }).then((r) => { ready[i] = r.ok; }).catch(() => {});
+      }
+    }));
+  }).then(() => {
     refreshButton(); ui();
     if (!anyReady()) return;
     if (!ready[cur]) cur = nextReady(cur);
