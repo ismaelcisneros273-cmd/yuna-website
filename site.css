@@ -328,7 +328,8 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 
 /* ---------- 小暖 ---------- */
 .dog{position:fixed;right:14px;bottom:14px;z-index:30;transform:translateZ(0);-webkit-transform:translateZ(0);isolation:isolate;width:86px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
-.dog svg{width:100%;display:block;overflow:visible}
+.dog svg{width:100%;display:block;overflow:visible;pointer-events:none}
+.dog svg *{pointer-events:none}
 .dog .head{transform-origin:60px 70px;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
 .dog.petted .head{transform:rotate(-12deg)}
 .dog .tail{transform-origin:84px 100px;animation:wag 1.6s ease-in-out infinite}
