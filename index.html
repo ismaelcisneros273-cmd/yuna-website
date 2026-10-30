@@ -38,7 +38,7 @@
 <ellipse cx="50" cy="65" rx="4.6" ry="3.4" fill="#F06A6A"/>
 <path d="M50 68 v3 M50 71 q-4 4 -7 1 M50 71 q4 4 7 1" stroke="#22304A" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Yuna 的家</span></a>
     <div class="links">
-      <a href="#about">书桌</a><a href="#books">书架</a><a href="#films">电视柜</a><a href="#little">唱片机</a><a href="#draw">画板</a><a href="#guestbook">冰箱门</a><a href="#journal">床头</a>
+      <a href="#about">书桌</a><a href="#books">书架</a><a href="#films">毛毡板</a><a href="#little">唱片机</a><a href="#draw">画板</a><a href="#guestbook">冰箱门</a><a href="#journal">床头</a>
     </div>
   </div>
 </nav>
@@ -219,11 +219,14 @@
   </section>
 
   <!-- 电视柜：墙上贴电影票，柜子上摆小电视。新增电影/剧时，♡ 的 data-film 要同时加进 api/likes.js 的 FILMS -->
-  <section class="spot f-ink" id="films">
+  <!-- 毛毡板：钉着喜欢的电影票和在追的剧。新增时，♡ 的 data-film 要同时加进 api/likes.js 的 FILMS -->
+  <section class="spot f-peach" id="films">
     <div class="wrap">
-      <h2>电视柜</h2>
-      <p class="lead">墙上贴着看过最喜欢的电影票，柜子上的小电视在放最近追的剧。</p>
-      <div class="films">
+      <h2>毛毡板</h2>
+      <p class="lead">客厅墙上的毛毡板，钉着看过最喜欢的电影票，和最近在追的剧。点剧的照片可以换个台。</p>
+      <div class="felt">
+        <span class="tape">电影</span>
+        <div class="films">
       <article class="film" style="--fc:#BFDCEB">
         <div class="stub"><span class="yr">2023</span><span class="no">第 1 张</span></div>
         <div class="fbody">
@@ -256,33 +259,35 @@
           <button class="like" data-film="soul" hidden><span class="h">♡</span><span class="c">0</span> 人也喜欢</button>
         </div>
       </article>
-    </div>
-      <div class="tvs" id="anime">
+        </div>
+        <span class="tape tape-2">在追的剧</span>
+        <div class="tvs" id="anime">
       <article class="tv" data-show="rick-and-morty">
-        <div class="set"><div class="screen s-portal"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <div class="set"><div class="screen s-portal"><i></i></div></div>
         <h3>瑞克和莫蒂</h3><div class="fen">Rick and Morty，2013–</div>
         <p class="line">“没有人是故意存在的，没有人属于任何地方，我们都会死。来看电视吧。”<span class="by">— 莫蒂</span></p>
         <button class="like" data-film="rick-and-morty" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
       <article class="tv" data-show="gravity-falls">
-        <div class="set"><div class="screen s-forest"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <div class="set"><div class="screen s-forest"><i></i></div></div>
         <h3>怪诞小镇</h3><div class="fen">Gravity Falls，2012–2016</div>
         <p class="line">“谁都别相信。”<span class="by">— 日志 3 号扉页</span></p>
         <button class="like" data-film="gravity-falls" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
       <article class="tv" data-show="inside-job">
-        <div class="set"><div class="screen s-secret"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <div class="set"><div class="screen s-secret"><i></i></div></div>
         <h3>阴谋职场</h3><div class="fen">Inside Job，2021–2022</div>
         <p class="line">“聪明，节奏飞快，把现实开涮得明明白白。”<span class="by">— 外媒影评</span></p>
         <button class="like" data-film="inside-job" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
       <article class="tv" data-show="solar-opposites">
-        <div class="set"><div class="screen s-planet"><i></i></div><div class="knobs"><b></b><b></b></div></div>
+        <div class="set"><div class="screen s-planet"><i></i></div></div>
         <h3>外星也难民</h3><div class="fen">Solar Opposites，2020–</div>
         <p class="line">“迷人、爆笑，还意外地真诚。”<span class="by">— 烂番茄影评综述</span></p>
         <button class="like" data-film="solar-opposites" hidden><span class="h">♡</span><span class="c">0</span> 人也在看</button>
       </article>
-    </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -336,7 +341,7 @@
   </section>
 
   <!-- 画板：一起画像素画 -->
-  <section class="spot f-sky" id="draw">
+  <section class="spot f-rose" id="draw">
     <div class="wrap easel-wrap">
       <div class="easel-text">
         <h2>画板</h2>
@@ -354,11 +359,12 @@
   </section>
 
   <!-- 冰箱门：便利贴留言 -->
-  <section class="spot f-mint" id="guestbook">
+  <section class="spot f-lilac" id="guestbook">
     <div class="wrap fridge">
       <div class="fridge-head">
         <h2>冰箱门</h2>
         <p class="lead">来都来了，在冰箱上给我贴张便条吧。</p>
+        <div class="robot-sticker" aria-hidden="true"><span>GO GET</span><b>ROBOT</b></div>
       </div>
       <div class="soon">冰箱门还在擦，很快就能贴了。</div>
       <div class="live fridge-in">

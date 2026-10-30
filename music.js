@@ -10,6 +10,7 @@ const TRACKS = [
   { title: "Luv(sic.) pt3", artist: "Nujabes, Shing02", appleId: 1078914488 },
   { title: "BB88", artist: "方大同", appleId: 577983302 },
   { title: "Almost", artist: "Tamia", appleId: 599214101 },
+  { title: "September", artist: "Earth, Wind & Fire", appleId: 1456623340 },
 ];
 
 (() => {
