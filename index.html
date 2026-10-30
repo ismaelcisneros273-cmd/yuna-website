@@ -32,6 +32,13 @@
     function add(m){ log.push(m); var b = document.getElementById("dbg"); if (b) b.textContent = log.slice(-14).join("\n"); }
     window.addEventListener("error", function(e){ add("出错: " + e.message + " @" + (e.filename||"").split("/").pop() + ":" + e.lineno); });
     window.addEventListener("unhandledrejection", function(e){ add("出错(异步): " + (e.reason && e.reason.message || e.reason)); });
+    var over = null, flips = 0;
+    window.addEventListener("pointermove", function(e){
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      var now = !!(el && el.closest && el.closest("#dog"));
+      if (over !== null && now !== over) { flips++; if (flips < 12) add((now ? "进入" : "离开") + "小暖 (第" + flips + "次切换) 底下是 " + (el ? (el.id || (el.className && (el.className.baseVal || el.className)) || el.tagName) : "无")); }
+      over = now;
+    }, true);
     ["pointerdown","pointerup","click"].forEach(function(t){
       window.addEventListener(t, function(e){
         var el = e.target, d = el && el.closest && el.closest("#dog");
@@ -47,12 +54,13 @@
       add(navigator.userAgent.replace(/.*(Version\/[\d.]+).*/, "Safari $1"));
       add("小暖位置 " + Math.round(r.left) + "," + Math.round(r.top) + "  " + Math.round(r.width) + "x" + Math.round(r.height) + "  屏幕 " + innerWidth + "x" + innerHeight);
       add("小暖中间最上面的是: " + (top ? (top.closest("#dog") ? "小暖本身" : (top.id || (top.className && (top.className.baseVal || top.className)) || top.tagName)) : "无"));
+      var sv = d.querySelector("svg"); add("小暖图层设置: " + getComputedStyle(sv).pointerEvents + "  版本 " + ((document.querySelector('link[href*="site.css"]')||{}).href||"").split("v=")[1]);
       add("脚本: " + [].slice.call(document.scripts).map(function(s){return s.src.split("/").pop().split("?")[0]}).filter(Boolean).join(","));
     });
   })();
 </script>
-<link rel="stylesheet" href="fonts/display.css?v=20261030d">
-<link rel="stylesheet" href="site.css?v=20261030d">
+<link rel="stylesheet" href="fonts/display.css?v=20261030e">
+<link rel="stylesheet" href="site.css?v=20261030e">
 </head>
 <body>
 
@@ -500,8 +508,8 @@
   if (spines[0]) pick(spines[0]);
 })();
 </script>
-<script src="extras.js?v=20261030d" defer></script>
-<script src="music.js?v=20261030d" defer></script>
-<script src="fx.js?v=20261030d" defer></script>
+<script src="extras.js?v=20261030e" defer></script>
+<script src="music.js?v=20261030e" defer></script>
+<script src="fx.js?v=20261030e" defer></script>
 </body>
 </html>
