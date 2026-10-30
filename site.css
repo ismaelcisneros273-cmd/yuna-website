@@ -315,7 +315,7 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 .copy{font-size:13px;opacity:.5;margin-top:16px}
 
 /* ---------- 背景音乐开关 ---------- */
-.music{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 120px);font-size:13px;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:7px 14px 7px 12px;cursor:pointer;transition:transform .16s ease-out}
+.music{position:fixed;left:14px;bottom:14px;z-index:30;-webkit-transform:translateZ(0);display:flex;align-items:center;gap:8px;max-width:calc(100vw - 120px);font-size:13px;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:7px 14px 7px 12px;cursor:pointer;transition:transform .16s ease-out}
 .music:active{transform:scale(.96)}
 .music[hidden]{display:none}
 .music .mtxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -327,7 +327,7 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 @keyframes eq{0%,100%{height:4px}50%{height:12px}}
 
 /* ---------- 小暖 ---------- */
-.dog{position:fixed;right:14px;bottom:14px;z-index:30;width:86px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.dog{position:fixed;right:14px;bottom:14px;z-index:30;transform:translateZ(0);-webkit-transform:translateZ(0);isolation:isolate;width:86px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
 .dog svg{width:100%;display:block;overflow:visible}
 .dog .head{transform-origin:60px 70px;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
 .dog.petted .head{transform:rotate(-12deg)}

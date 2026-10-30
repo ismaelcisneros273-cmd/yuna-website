@@ -236,8 +236,12 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
     }
   };
   if (dog) {
-    dog.addEventListener("click", pet);
-    dog.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pet(); } });
+    // Mac Safari 有时不把 click 交给固定在角落的元素，所以同时听 pointerup，并避免一次点击算两次
+    let lastPet = 0;
+    const petOnce = (e) => { const now = Date.now(); if (now - lastPet < 350) return; lastPet = now; pet(e); };
+    dog.addEventListener("pointerup", petOnce);
+    dog.addEventListener("click", petOnce);
+    dog.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); petOnce(); } });
   }
 
   /* ---------- 彩蛋：连点 logo 五下，小狗跑过屏幕 ---------- */

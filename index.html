@@ -32,7 +32,7 @@
     function add(m){ log.push(m); var b = document.getElementById("dbg"); if (b) b.textContent = log.slice(-14).join("\n"); }
     window.addEventListener("error", function(e){ add("出错: " + e.message + " @" + (e.filename||"").split("/").pop() + ":" + e.lineno); });
     window.addEventListener("unhandledrejection", function(e){ add("出错(异步): " + (e.reason && e.reason.message || e.reason)); });
-    ["pointerdown","mousedown","click"].forEach(function(t){
+    ["pointerdown","pointerup","click"].forEach(function(t){
       window.addEventListener(t, function(e){
         var el = e.target, d = el && el.closest && el.closest("#dog");
         add(t + " → " + (d ? "小暖" : (el.id || (el.className && (el.className.baseVal || el.className)) || el.tagName)));
@@ -51,8 +51,8 @@
     });
   })();
 </script>
-<link rel="stylesheet" href="fonts/display.css?v=20261030b">
-<link rel="stylesheet" href="site.css?v=20261030b">
+<link rel="stylesheet" href="fonts/display.css?v=20261030c">
+<link rel="stylesheet" href="site.css?v=20261030c">
 </head>
 <body>
 
@@ -500,8 +500,8 @@
   if (spines[0]) pick(spines[0]);
 })();
 </script>
-<script src="extras.js?v=20261030b" defer></script>
-<script src="music.js?v=20261030b" defer></script>
-<script src="fx.js?v=20261030b" defer></script>
+<script src="extras.js?v=20261030c" defer></script>
+<script src="music.js?v=20261030c" defer></script>
+<script src="fx.js?v=20261030c" defer></script>
 </body>
 </html>
