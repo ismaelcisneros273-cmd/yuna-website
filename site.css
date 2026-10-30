@@ -220,7 +220,7 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 .tracks li button:focus-visible{outline:3px solid var(--ink)}
 .tracks .n{font-weight:700;width:20px}
 .tracks .ar{margin-left:auto;opacity:.7;font-size:13px;white-space:nowrap}
-.tracks li button.missing{opacity:.5}
+.playlist{font-size:18px;margin-bottom:6px;opacity:.85}
 .hint{font-size:14px;margin-top:14px;opacity:.8}
 .fortune{background:var(--paper);border:3px solid var(--ink);border-radius:24px;padding:26px;text-align:center;display:flex;flex-direction:column;align-items:center;perspective:900px}
 .fortune h3{font-size:34px}
@@ -317,6 +317,7 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 /* ---------- 背景音乐开关 ---------- */
 .music{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 120px);font-size:13px;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:7px 14px 7px 12px;cursor:pointer;transition:transform .16s ease-out}
 .music:active{transform:scale(.96)}
+.music[hidden]{display:none}
 .music .mtxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .music .eq{display:flex;align-items:flex-end;gap:2px;height:12px;flex:none}
 .music .eq i{width:3px;height:4px;border-radius:2px;background:var(--coral)}
