@@ -24,6 +24,33 @@
   // 19:00-6:00 是夜晚：门口变星空，窗外有月亮
   (function(){ var h = new Date().getHours(); if (h >= 19 || h < 6) document.documentElement.classList.add("night"); })();
 </script>
+<script>
+  // 诊断模式：网址后面加 ?debug=1 才会出现，记录报错和点小暖时发生了什么
+  (function(){
+    if (location.search.indexOf("debug=1") < 0) return;
+    var log = [];
+    function add(m){ log.push(m); var b = document.getElementById("dbg"); if (b) b.textContent = log.slice(-14).join("\n"); }
+    window.addEventListener("error", function(e){ add("出错: " + e.message + " @" + (e.filename||"").split("/").pop() + ":" + e.lineno); });
+    window.addEventListener("unhandledrejection", function(e){ add("出错(异步): " + (e.reason && e.reason.message || e.reason)); });
+    ["pointerdown","mousedown","click"].forEach(function(t){
+      window.addEventListener(t, function(e){
+        var el = e.target, d = el && el.closest && el.closest("#dog");
+        add(t + " → " + (d ? "小暖" : (el.id || (el.className && (el.className.baseVal || el.className)) || el.tagName)));
+      }, true);
+    });
+    window.addEventListener("load", function(){
+      var box = document.createElement("pre"); box.id = "dbg";
+      box.style.cssText = "position:fixed;left:10px;top:70px;z-index:99;max-width:340px;background:#fff;color:#000;border:2px solid #000;padding:8px;font:12px/1.4 monospace;white-space:pre-wrap;pointer-events:none";
+      document.body.appendChild(box);
+      var d = document.getElementById("dog"), r = d.getBoundingClientRect();
+      var top = document.elementFromPoint(r.left + r.width/2, r.top + r.height*0.6);
+      add(navigator.userAgent.replace(/.*(Version\/[\d.]+).*/, "Safari $1"));
+      add("小暖位置 " + Math.round(r.left) + "," + Math.round(r.top) + "  " + Math.round(r.width) + "x" + Math.round(r.height) + "  屏幕 " + innerWidth + "x" + innerHeight);
+      add("小暖中间最上面的是: " + (top ? (top.closest("#dog") ? "小暖本身" : (top.id || (top.className && (top.className.baseVal || top.className)) || top.tagName)) : "无"));
+      add("脚本: " + [].slice.call(document.scripts).map(function(s){return s.src.split("/").pop().split("?")[0]}).filter(Boolean).join(","));
+    });
+  })();
+</script>
 <link rel="stylesheet" href="fonts/display.css?v=20261030b">
 <link rel="stylesheet" href="site.css?v=20261030b">
 </head>
