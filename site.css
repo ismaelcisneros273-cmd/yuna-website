@@ -3,26 +3,28 @@
    每个角落一整面墙一个颜色；标题用得意黑，正文用系统字体。 */
 
 :root{
-  --ink:#22304A;          /* 深藏青：文字、描边 */
-  --paper:#FFFDF8;        /* 暖白：纸、便条 */
-  --coral:#F06A6A;        /* 珊瑚红：小暖的鼻子、强调 */
-  --mustard:#F2C14E;      /* 芥末黄：书桌那面墙 */
-  --sky:#BFDCEB;          /* 天空蓝：门口、画板 */
-  --mint:#A8D8C8;
-  --peach:#F8C9A4;        /* 蜜桃：客厅毛毡板 */
-  --rose:#E59AA8;         /* 傍晚的玫瑰粉：画板 */
-  --lilac:#A99AD6;        /* 入夜前的淡紫：冰箱 */
-  --felt:#2F5D62;         /* 毛毡板 */
-  --night:#1B2740;        /* 夜里的床头 */
-  --wood:#C98F5B; --wood-d:#A8703F;
-  --soft:rgba(34,48,74,.7);
+  /* 莫兰迪色：灰一点、柔一点，相邻两面墙的深浅接近，往下滑不会跳色 */
+  --ink:#3E4352;          /* 文字、描边 */
+  --paper:#F6F2EC;        /* 纸、便条 */
+  --coral:#B98480;        /* 灰玫瑰：小暖的鼻子、强调 */
+  --mustard:#D8C39B;      /* 燕麦黄 */
+  --sky:#C8D0D2;          /* 雾蓝灰：门口 */
+  --linen:#E7E0D5;        /* 亚麻：书桌 */
+  --sage:#BCC5B5;         /* 鼠尾草绿：电视墙 */
+  --oat:#DDD3C4;          /* 燕麦：毛毡板那面墙 */
+  --rose:#D2B5AF;         /* 灰粉：唱片机 */
+  --mist:#BFC9CF;         /* 雾蓝：画板 */
+  --lilac:#C7BFCC;        /* 灰紫：冰箱 */
+  --night:#3E4555;        /* 夜里的床头 */
+  --mint:#B9C9BF; --peach:#DDD3C4;
+  --wood:#A88B6E; --wood-d:#8A6F57;
+  --felt:#8B6E5A;         /* 棕色毛毡 */
+  --soft:rgba(62,67,82,.68);
   --display:"Yuna Display",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
   --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  /* 房间插画用 */
-  --room-wall:#FFF4DC; --room-wall2:#F4E1BF;
-  /* 便条颜色 */
-  --n0:#F9C4C0; --n1:#F8DE96; --n2:#FFFDF8; --n3:#D7E9F3; --n4:#E4D7F0;
-  --line:rgba(34,48,74,.18);
+  --room-wall:#F7F1E6; --room-wall2:#EADFCF;
+  --n0:#E9D3CF; --n1:#EDE3CB; --n2:#F6F2EC; --n3:#D9E0E3; --n4:#E1DAE6;
+  --line:rgba(62,67,82,.18);
   --bg:var(--paper);
 }
 
@@ -56,6 +58,10 @@ h3{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.2}
 .f-coral{background:var(--coral)}
 .f-sky{background:var(--sky)}
 .f-mint{background:var(--mint)}
+.f-linen{background:var(--linen)}
+.f-sage{background:var(--sage)}
+.f-oat{background:var(--oat)}
+.f-mist{background:var(--mist)}
 .f-peach{background:var(--peach)}
 .f-rose{background:var(--rose)}
 .f-lilac{background:var(--lilac)}
@@ -88,12 +94,12 @@ h3{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.2}
 .stars{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1s}
 .stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#FFF3CF;animation:tw 3s ease-in-out infinite}
 @keyframes tw{50%{opacity:.25;transform:scale(.6)}}
-html.night .hero{background:var(--night);color:var(--paper)}
+html.night .hero{background:#353B4A;color:var(--paper)}
 html.night .hero .lead{color:rgba(255,253,248,.8)}
 html.night .hero .btn{background:var(--paper);color:var(--ink)}
 html.night .stars{opacity:1}
-html.night .skyline .win{fill:#FFE9A8;opacity:.95}
-html.night .skyline .bm{fill:#B98A2A}
+html.night .skyline .win{fill:#F1E2B8;opacity:.9}
+html.night .skyline .bm{fill:#8F8066}
 html:not(.night) .logo-e .moon{fill:#F2C14E}
 @media(max-width:700px){
   .hero-in{grid-template-columns:1fr;gap:20px}
@@ -150,16 +156,16 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
 .spine.on{transform:translateY(-28px)}
 .spine:active{transform:translateY(-22px) scale(.98)}
 .shelf-deco{margin-left:auto;align-self:flex-end;padding-bottom:0}
-.pot{display:block;width:56px;height:46px;background:var(--coral);border:3px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0;position:relative}
-.pot::before{content:"";position:absolute;left:4px;bottom:100%;width:42px;height:58px;background:radial-gradient(ellipse 9px 26px at 30% 60%,#3E8E9A 98%,transparent),radial-gradient(ellipse 9px 30px at 55% 45%,#5BAA8F 98%,transparent),radial-gradient(ellipse 9px 24px at 80% 62%,#3E8E9A 98%,transparent)}
+.pot{display:block;width:56px;height:46px;background:#C9A19B;border:3px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0;position:relative}
+.pot::before{content:"";position:absolute;left:4px;bottom:100%;width:42px;height:58px;background:radial-gradient(ellipse 9px 26px at 30% 60%,#7F9284 98%,transparent),radial-gradient(ellipse 9px 30px at 55% 45%,#9AAB9C 98%,transparent),radial-gradient(ellipse 9px 24px at 80% 62%,#7F9284 98%,transparent)}
 .book-note{margin-top:36px;max-width:560px}
 .book-note h3{font-size:34px}
 .bn-author{color:var(--soft);margin:4px 0 10px}
 @media(max-width:560px){.shelf{padding:0 12px;gap:6px}.shelf-deco{display:none}}
 
 /* ---------- 毛毡板 ---------- */
-.felt{position:relative;background-color:var(--felt);background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.2px),radial-gradient(rgba(0,0,0,.12) 1px,transparent 1.2px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px;border:14px solid var(--wood);outline:3px solid var(--ink);border-radius:10px;padding:40px clamp(16px,3vw,36px) 46px;color:var(--ink)}
-.tape{display:inline-block;font-family:var(--display);font-size:22px;background:rgba(255,253,248,.88);padding:2px 16px;transform:rotate(-2deg);margin-bottom:22px}
+.felt{position:relative;background-color:var(--felt);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .9  0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23f)'/%3E%3C/svg%3E"),radial-gradient(ellipse at 30% 20%,rgba(255,240,225,.12),transparent 60%);box-shadow:inset 0 0 40px rgba(40,25,15,.35);border:14px solid var(--wood);outline:3px solid var(--ink);border-radius:10px;padding:40px clamp(16px,3vw,36px) 46px;color:var(--ink)}
+.tape{display:inline-block;font-family:var(--display);font-size:22px;background:rgba(246,242,236,.9);color:var(--ink);padding:2px 16px;transform:rotate(-2deg);margin-bottom:22px}
 .tape-2{margin-top:44px;transform:rotate(1.5deg)}
 .films,.tvs{display:grid;grid-template-columns:repeat(4,1fr);gap:26px 22px;align-items:start}
 .film,.tv{position:relative;background:var(--paper);border-radius:4px;transform:rotate(-1.5deg)}
@@ -370,3 +376,60 @@ html:not(.night) .logo-e .moon{fill:#F2C14E}
   html{scroll-behavior:auto}
   .logo-e .peek,.vinyl,.cloud,.steam path,.dog .tail,.stars i,.spin,.twinkle,.music.on .eq i,.note{animation:none}
 }
+
+/* ---------- 书桌上的便条 ---------- */
+.memo{margin-top:30px;background:#EFE6CF;border:0;border-radius:2px;padding:22px 26px 20px;transform:rotate(-1.5deg);max-width:380px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.memo p{font-size:17px;margin:0 0 6px;max-width:none}
+.memo p:last-child{margin-bottom:0}
+.memo b{display:inline-block;width:2em;font-family:var(--display);font-weight:400;font-size:20px;color:var(--coral)}
+
+/* ---------- 电视墙 ---------- */
+.tvwall{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:clamp(28px,5vw,64px);align-items:center}
+.bigtv-set{background:#6E6458;border:3px solid var(--ink);border-radius:26px;padding:18px 18px 14px;max-width:620px}
+.bigtv-screen{position:relative;aspect-ratio:16/10;background:#2D313B;border:3px solid var(--ink);border-radius:18px/22px;overflow:hidden;color:var(--paper)}
+.bigtv-screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.35));z-index:2}
+.channel{position:absolute;inset:0;padding:clamp(18px,4vw,36px);display:none;flex-direction:column;justify-content:center}
+.channel.on{display:flex}
+.ch-no{font-size:13px;opacity:.6;margin-bottom:6px}
+.channel h3{font-size:clamp(34px,5vw,52px);line-height:1.05}
+.ch-meta{font-size:13.5px;opacity:.7;margin:8px 0 14px}
+.ch-line{font-size:clamp(15px,1.8vw,18px);line-height:1.6;max-width:28em}
+.channel .like{margin-top:16px;align-self:flex-start;border-color:rgba(246,242,236,.7);color:var(--paper)}
+.channel .like.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.channel:nth-child(1){background:#4C5A66}.channel:nth-child(2){background:#6A5866}.channel:nth-child(3){background:#6E654F}.channel:nth-child(4){background:#4F6159}
+.static{position:absolute;inset:0;z-index:3;opacity:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");background-size:120px}
+.bigtv-screen.zap .static{opacity:1;animation:noise .12s steps(3) infinite}
+.bigtv-panel{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px}
+.speaker{width:90px;height:14px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.35) 0 3px,transparent 3px 7px);border-radius:4px}
+.knob-row{display:flex;gap:8px}
+.knob-btn{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--ink);background:var(--paper);font-family:var(--display);font-size:18px;cursor:pointer;transition:transform .16s ease-out,background-color .2s}
+.knob-btn:active{transform:scale(.92)}
+.knob-btn.on{background:var(--coral);color:var(--paper)}
+.tv-cabinet{display:flex;justify-content:space-between;height:34px;margin:0 -10px;max-width:640px;background:var(--wood);border:3px solid var(--ink);border-radius:8px;position:relative;top:-2px}
+.tv-cabinet span{width:14px;height:22px;background:var(--wood-d);border:3px solid var(--ink);border-top:0;margin:30px 34px 0}
+@media(max-width:860px){.tvwall{grid-template-columns:1fr}}
+
+/* ---------- 床头：一整片星空 ---------- */
+#journal{overflow:hidden;padding-bottom:60px}
+.f-night{background-image:none;background:linear-gradient(180deg,#2F3544 0%,#3E4555 60%,#4A4F5E 100%)}
+.sky-field{position:absolute;inset:0;pointer-events:none}
+.sky-field::before{content:"";position:absolute;top:9%;right:11%;width:76px;height:76px;border-radius:50%;background:#EFE6CF;box-shadow:0 0 40px 10px rgba(239,230,207,.25)}
+.sky-field::after{content:"";position:absolute;top:calc(9% - 8px);right:calc(11% - 14px);width:72px;height:72px;border-radius:50%;background:#353B4A}
+.sky-field i{position:absolute;border-radius:50%;background:#F3EAD6;opacity:.75;animation:tw 4s ease-in-out infinite}
+.sky-field i.big{box-shadow:0 0 6px 1px rgba(243,234,214,.6)}
+.shoot{position:absolute;top:14%;left:70%;width:120px;height:2px;background:linear-gradient(90deg,rgba(243,234,214,.9),transparent);border-radius:2px;transform:rotate(-20deg);opacity:0;animation:shoot 9s ease-in 3s infinite}
+@keyframes shoot{0%{opacity:0;transform:translate(0,0) rotate(-20deg)}3%{opacity:1}10%{opacity:0;transform:translate(-320px,120px) rotate(-20deg)}100%{opacity:0}}
+.bed{position:relative;z-index:1}
+.bed .lead{margin-bottom:60px}
+.bedscene{position:relative;max-width:900px;margin:0 auto}
+.bedscene svg{width:100%;height:auto;display:block}
+.pillow{cursor:pointer;transform-box:fill-box;transform-origin:center bottom;transition:transform .2s ease-out}
+.pillow:hover{transform:translateY(-3px)}
+.pillow.squish{animation:squish .45s ease-out}
+@keyframes squish{30%{transform:scale(1.06,.86)}65%{transform:scale(.97,1.04)}}
+.sleeper .zz{animation:zzf 3s ease-in-out infinite}
+.sleeper .zz2{animation-delay:1.2s}
+@keyframes zzf{0%,100%{opacity:.2;transform:translateY(4px)}50%{opacity:1;transform:translateY(-2px)}}
+.pillow-say{text-align:center;min-height:28px;margin-top:10px;font-family:var(--display);font-size:22px;color:#E9DFC6}
+.goodnight{margin-top:70px}
+@media(prefers-reduced-motion:reduce){.shoot,.sky-field i,.sleeper .zz{animation:none}}

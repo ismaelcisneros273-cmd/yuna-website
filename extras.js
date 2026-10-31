@@ -30,7 +30,7 @@ const PET_LINES = [
   "耳朵也要摸摸", "小暖最喜欢你啦", "汪呜～", "下巴也痒痒的", "今天也要开心哦", "我会乖乖看家的",
 ];
 
-const PIXEL_COLORS = ["#fffdf9", "#f3c6c1", "#d9837d", "#f1dca7", "#e0a95f", "#b9c8b0", "#6f9a7a", "#bcd0de", "#8fa8d6", "#3b3230"];
+const PIXEL_COLORS = ["#F6F2EC", "#E3C7C2", "#B98480", "#E3D3AE", "#C9A27A", "#BCC5B5", "#7F9284", "#C3CED4", "#8E9DB0", "#3E4352"];
 const STICKERS = ["🐶", "☕", "🌙", "🌸", "⭐", "🎵", "📷", "🍰"];
 const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--n4)"];
 
@@ -100,7 +100,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
         day: h < 12 ? "窗外是上午的蓝天" : "窗外是下午的晴天",
       }[p];
       const t = d.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit", hour12: false });
-      if (roomTime) roomTime.innerHTML = `你那边现在是 <b>${t}</b>，${words}。点点台灯和相机试试 ✨`;
+      if (roomTime) roomTime.innerHTML = `你那边现在是 <b>${t}</b>，${words}。台灯和相机都能点。`;
     };
     phase();
     setInterval(phase, 30000);
@@ -162,7 +162,7 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
   const showVisit = (n) => {
     if (!visitor || !n) return;
     visitor.innerHTML = "";
-    visitor.append("你是第 ", el("b", null, Number(n).toLocaleString()), " 位来串门的朋友 ✿");
+    visitor.append("你是第 ", el("b", null, Number(n).toLocaleString()), " 位来串门的。");
   };
   let visitNo = Number(store.get("visitNo")) || null;
   const visitReady = visitNo ? Promise.resolve(visitNo)
