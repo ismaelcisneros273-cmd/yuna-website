@@ -143,7 +143,13 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
       store.set("lot", today);
     };
     if (store.get("lot") === today) open();
-    drawBtn.addEventListener("click", open);
+    // 先摇两下签筒，再翻开
+    drawBtn.addEventListener("click", () => {
+      if (lot.classList.contains("open") || lot.classList.contains("shake")) return;
+      drawBtn.disabled = true;
+      lot.classList.add("shake");
+      setTimeout(() => { lot.classList.remove("shake"); open(); }, 620);
+    });
   }
 
   /* ---------- 摸摸小狗 ---------- */
@@ -419,14 +425,19 @@ const NOTE_COLORS = ["var(--n0)", "var(--n1)", "var(--n2)", "var(--n3)", "var(--
       const text = textIn.value.trim();
       if (!text) { textIn.focus(); return; }
       gbBtn.disabled = true;
+      gbBtn.classList.add("busy"); gbBtn.textContent = "贴";
       store.set("gbName", nameIn.value.trim());
       api("notes", { name: nameIn.value, text, color, sticker })
-        .then((d) => { render(d.notes); textIn.value = ""; count(); msg.textContent = "贴好啦，谢谢你来过 ✿"; })
+        .then((d) => {
+          render(d.notes); textIn.value = ""; count(); msg.textContent = "谢谢你来过";
+          gbBtn.classList.remove("busy"); gbBtn.classList.add("done"); gbBtn.textContent = "贴好了";
+          setTimeout(() => { gbBtn.classList.remove("done"); gbBtn.textContent = "贴上去"; }, 1600);
+        })
         .catch((err) => {
           const m = { no_links: "留言里不能带链接哦", cooldown: "一分钟只能贴一张，喝口水再来～", empty: "写点什么再贴吧" };
           msg.textContent = (err.data && m[err.data.error]) || "没贴上，稍后再试试";
         })
-        .finally(() => { gbBtn.disabled = false; });
+        .finally(() => { gbBtn.disabled = false; if (gbBtn.classList.contains("busy")) { gbBtn.classList.remove("busy"); gbBtn.textContent = "贴上去"; } });
     });
   }
 })();
